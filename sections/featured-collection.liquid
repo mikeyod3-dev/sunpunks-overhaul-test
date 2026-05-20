@@ -18,7 +18,8 @@
           {% render 'product-card', product: product %}
         {%- endfor -%}
       {%- else -%}
-        <p class="muted" style="grid-column: 1 / -1;">Pick a collection in the theme editor to populate this grid.</p>
+        {%- comment -%} No collection picked yet → show the demo lineup so the page still looks right. {%- endcomment -%}
+        {% render 'demo-products', set: section.settings.demo_set %}
       {%- endif -%}
     </div>
   </div>
@@ -34,7 +35,13 @@
     { "type": "collection", "id": "collection",      "label": "Collection" },
     { "type": "range",      "id": "products_to_show","label": "Products to show", "min": 4, "max": 16, "step": 1, "default": 8 },
     { "type": "url",        "id": "view_all_url",    "label": "View-all link" },
-    { "type": "text",       "id": "view_all_text",   "label": "View-all text", "default": "Shop all" }
+    { "type": "text",       "id": "view_all_text",   "label": "View-all text", "default": "Shop all" },
+    { "type": "select",     "id": "demo_set",        "label": "Demo product set (shown when no collection is set)",
+      "options": [
+        { "value": "featured", "label": "Featured (8 cards)" },
+        { "value": "recs",     "label": "Recommendations (4 cards)" }
+      ],
+      "default": "featured" }
   ],
   "presets": [ { "name": "Featured collection" } ]
 }

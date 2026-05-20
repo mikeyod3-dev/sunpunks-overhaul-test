@@ -27,13 +27,16 @@
     </div>
 
     <div class="grid grid--products" data-anim-stagger>
-      {%- paginate collection.products by 16 -%}
-        {%- for product in collection.products -%}
-          {% render 'product-card', product: product %}
-        {%- else -%}
-          <p class="muted" style="grid-column: 1 / -1;">No products in this collection yet.</p>
-        {%- endfor -%}
-      {%- endpaginate -%}
+      {%- if collection.products.size > 0 -%}
+        {%- paginate collection.products by 16 -%}
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        {%- endpaginate -%}
+      {%- else -%}
+        {%- comment -%} No products in this collection yet → show full demo catalog. {%- endcomment -%}
+        {% render 'demo-products', set: 'full-catalog' %}
+      {%- endif -%}
     </div>
 
     {%- if paginate.pages > 1 -%}

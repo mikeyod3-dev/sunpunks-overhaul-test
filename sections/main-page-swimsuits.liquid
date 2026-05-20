@@ -35,7 +35,9 @@
               {% render 'product-card', product: product %}
             {%- endfor -%}
           {%- else -%}
-            <p class="muted" style="grid-column: 1 / -1;">Pick a collection in the theme editor.</p>
+            {%- comment -%} No collection picked → fall back to matching demo set by block id. {%- endcomment -%}
+            {%- assign demo_set = block.settings.id | default: 'boardshorts-5' -%}
+            {% render 'demo-products', set: demo_set %}
           {%- endif -%}
         </div>
         {%- if block.settings.accordion_title != blank -%}
