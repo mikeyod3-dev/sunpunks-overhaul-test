@@ -1,44 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "hero": { "type": "hero-sun-punks-on-film" },
+    "hero": {
+      "type": "hero-sun-punks-on-film",
+      "settings": {
+        "hero_video": "shopify://files/videos/hero-loop-30-75.mp4",
+        "hero_video_url": "",
+        "clip_ids": "",
+        "aria_label": "Sun Punks on Film",
+        "eyebrow": "Sun Punks on Film",
+        "title": "Sun <em>Punks</em>",
+        "location_label": "Sun Punks on Film",
+        "feed_label": "FEED · SUN PUNKS ON FILM · 30A",
+        "cta_primary_text": "Shop the drop",
+        "cta_primary_url": "",
+        "cta_secondary_text": "See what’s new",
+        "cta_secondary_url": ""
+      }
+    },
     "values": {
       "type": "value-props",
       "blocks": {
-        "v1": { "type": "item", "settings": { "icon": "★", "text": "Printed on demand" } },
-        "v2": { "type": "item", "settings": { "icon": "☀", "text": "Made for the sun" } },
-        "v3": { "type": "item", "settings": { "icon": "⚑", "text": "Ships from the USA" } }
+        "v1": {
+          "type": "item",
+          "settings": {
+            "icon": "★",
+            "text": "Printed on demand"
+          }
+        },
+        "v2": {
+          "type": "item",
+          "settings": {
+            "icon": "☀",
+            "text": "Made for the sun"
+          }
+        },
+        "v3": {
+          "type": "item",
+          "settings": {
+            "icon": "⚑",
+            "text": "Ships from the USA"
+          }
+        }
       },
-      "block_order": ["v1", "v2", "v3"]
+      "block_order": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "settings": {}
     },
-    "dropcard": { "type": "coming-soon-dropcard" },
+    "dropcard": {
+      "type": "coming-soon-dropcard",
+      "settings": {
+        "aria_label": "Hacky sacks coming soon",
+        "stamp_text": "Coming Soon",
+        "eyebrow": "Next drop · Summer ’26",
+        "heading": "Hacky <em>Sacks.</em><br>Punks circle up.",
+        "lede": "Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is limited — pack your crew.",
+        "meta_items": "8 panel & 32 panel | Dropping summer ’26",
+        "cta_primary_text": "Get on the list →",
+        "cta_primary_url": "",
+        "cta_secondary_text": "Shop the current drop",
+        "cta_secondary_url": "",
+        "sticker_text": "Soon"
+      }
+    },
     "featured": {
       "type": "featured-collection",
       "settings": {
         "eyebrow": "Best sellers",
         "heading": "The <span class=\"mark-acid\">heat</span> rack",
+        "collection": "",
+        "products_to_show": 8,
+        "view_all_url": "",
         "view_all_text": "Shop all",
-        "products_to_show": 8
+        "demo_set": "featured"
       }
     },
-    "ugc": { "type": "ugc-circle" },
+    "ugc": {
+      "type": "ugc-circle",
+      "settings": {
+        "eyebrow": "Spotted in the wild",
+        "heading": "The <span class=\"mark-acid\">Sun Punks</span> Circle.",
+        "lede": "Tag @sunpunksclothing in your fit pic. The best ones get featured here on rotation — and earn $5 off your next order.",
+        "location": "Grayton Beach",
+        "cta_text": "Tag @sunpunksclothing on Instagram to land here next. $5 off your next order if you make the cut."
+      }
+    },
     "tiles": {
       "type": "collection-tiles",
-      "settings": { "eyebrow": "Shop by category", "heading": "Pick your weapon" },
       "blocks": {
         "t1": {
           "type": "tile",
-          "settings": { "label": "TEES", "title": "Tees", "gradient_from": "#e8552c", "gradient_to": "#c8441f", "text_color": "#fbf6e9" }
+          "settings": {
+            "label": "TEES",
+            "title": "Tees",
+            "subtitle": "",
+            "badge": "",
+            "url": "",
+            "gradient_from": "#e8552c",
+            "gradient_to": "#c8441f",
+            "text_color": "#fbf6e9"
+          }
         },
         "t2": {
           "type": "tile",
-          "settings": { "label": "KOOZIES", "title": "Koozies", "gradient_from": "#1f8a8f", "gradient_to": "#166b6f", "text_color": "#f7d24c" }
+          "settings": {
+            "label": "KOOZIES",
+            "title": "Koozies",
+            "subtitle": "",
+            "badge": "",
+            "url": "",
+            "gradient_from": "#1f8a8f",
+            "gradient_to": "#166b6f",
+            "text_color": "#f7d24c"
+          }
         },
         "t3": {
           "type": "tile",
-          "settings": { "label": "BAGS", "title": "Bags & Totes", "gradient_from": "#f7d24c", "gradient_to": "#e8552c", "text_color": "#1b2a3a" }
+          "settings": {
+            "label": "BAGS",
+            "title": "Bags & Totes",
+            "subtitle": "",
+            "badge": "",
+            "url": "",
+            "gradient_from": "#f7d24c",
+            "gradient_to": "#e8552c",
+            "text_color": "#1b2a3a"
+          }
         }
       },
-      "block_order": ["t1", "t2", "t3"]
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "eyebrow": "Shop by category",
+        "heading": "Pick your weapon"
+      }
     },
     "custom_html": {
       "type": "custom-html",
@@ -46,11 +155,31 @@
         "eyebrow": "Drop anything here",
         "heading": "Custom HTML block",
         "html": "<p style=\"text-align:center; max-width:640px; margin:0 auto;\">Edit this section in the theme editor — drop in an iframe, video embed, mailing list signup, banner, anything that takes HTML.</p>",
-        "tight": true
+        "full_width": false,
+        "tight": true,
+        "bg_color": "",
+        "text_color": "",
+        "eyebrow_color": ""
       }
     },
-    "newsletter": { "type": "newsletter" }
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Sign up",
+        "heading": "Get the next drop early.",
+        "subtext": "No spam. Just sunsets and 10% off your first order.",
+        "button_text": "Sign me up"
+      }
+    }
   },
-  "order": ["hero", "values", "dropcard", "featured", "ugc", "tiles", "custom_html", "newsletter"]
+  "order": [
+    "hero",
+    "values",
+    "dropcard",
+    "featured",
+    "ugc",
+    "tiles",
+    "custom_html",
+    "newsletter"
+  ]
 }
-
