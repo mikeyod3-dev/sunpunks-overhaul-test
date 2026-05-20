@@ -17,7 +17,16 @@
       "type": "collection-tiles",
       "settings": { "eyebrow": "Shop by category", "heading": "Pick your weapon" }
     },
+    "custom-html": {
+      "type": "custom-html",
+      "settings": {
+        "eyebrow": "Drop anything here",
+        "heading": "Custom HTML block",
+        "html": "<p style=\"text-align:center; max-width:640px; margin:0 auto;\">Edit this section in the theme editor → drop in an iframe, video embed, mailing list signup, banner, anything that takes HTML.</p>",
+        "tight": true
+      }
+    },
     "newsletter": { "type": "newsletter" }
   },
-  "order": ["hero", "values", "dropcard", "featured", "ugc", "tiles", "newsletter"]
+  "order": ["hero", "values", "dropcard", "featured", "ugc", "tiles", "custom-html", "newsletter"]
 }

@@ -1,0 +1,61 @@
+<section class="section {% if section.settings.tight %}section--tight{% endif %} custom-html-section"
+         id="shopify-section-{{ section.id }}"
+         {% if section.settings.bg_color != blank %}style="background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color | default: 'inherit' }};"{% endif %}>
+  <div class="{% if section.settings.full_width %}custom-html-section__bleed{% else %}container{% endif %}">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow"{% if section.settings.eyebrow_color != blank %} style="color: {{ section.settings.eyebrow_color }};"{% endif %}>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="h2" data-anim>{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.html != blank -%}
+      <div class="custom-html-section__body" data-anim>
+        {{ section.settings.html }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .custom-html-section__bleed { width: 100%; }
+  #shopify-section-{{ section.id }} .custom-html-section__body { margin-top: 1rem; }
+  #shopify-section-{{ section.id }} .custom-html-section__body :is(iframe, video, img) {
+    max-width: 100%; display: block; margin-inline: auto;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom HTML",
+  "tag": "section",
+  "settings": [
+    { "type": "header",  "content": "Copy" },
+    { "type": "text",    "id": "eyebrow",       "label": "Eyebrow (optional)" },
+    { "type": "text",    "id": "heading",       "label": "Heading (optional)" },
+
+    { "type": "header",  "content": "HTML body" },
+    { "type": "paragraph", "content": "Drop any markup here: iframes, embeds, banners, custom HTML, scripts. Renders raw — no Shopify escaping." },
+    { "type": "html",    "id": "html",          "label": "HTML",
+      "default": "<p style=\"text-align:center; padding:2rem 0;\">Drop any HTML, embed, iframe, or banner here.</p>" },
+
+    { "type": "header",  "content": "Layout" },
+    { "type": "checkbox","id": "full_width",    "label": "Full-bleed (no container padding)", "default": false },
+    { "type": "checkbox","id": "tight",         "label": "Reduce vertical padding",            "default": false },
+
+    { "type": "header",  "content": "Colors (optional)" },
+    { "type": "color",   "id": "bg_color",      "label": "Background" },
+    { "type": "color",   "id": "text_color",    "label": "Text color" },
+    { "type": "color",   "id": "eyebrow_color", "label": "Eyebrow color" }
+  ],
+  "presets": [
+    {
+      "name": "Custom HTML",
+      "settings": {
+        "eyebrow": "Custom block",
+        "heading": "Drop anything here",
+        "html": "<p style=\"text-align:center;\">Edit this section in the theme editor to add iframes, embeds, banners, or any HTML.</p>"
+      }
+    }
+  ]
+}
+{% endschema %}
