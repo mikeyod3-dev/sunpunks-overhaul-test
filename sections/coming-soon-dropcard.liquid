@@ -1,0 +1,53 @@
+<section class="dropcard" id="shopify-section-{{ section.id }}" aria-label="{{ section.settings.aria_label }}">
+  <div class="container">
+    <div class="dropcard__inner">
+      <div class="dropcard__copy" data-anim="left">
+        <span class="coming-stamp">{{ section.settings.stamp_text }}</span>
+        <p class="eyebrow" style="color: var(--acid);">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lede">{{ section.settings.lede }}</p>
+        {%- if section.settings.meta_items != blank -%}
+          <div class="dropcard__meta" aria-label="Drop details">
+            {%- assign items = section.settings.meta_items | split: '|' -%}
+            {%- for raw in items -%}<span>{{ raw | strip }}</span>{%- endfor -%}
+          </div>
+        {%- endif -%}
+        <div class="dropcard__ctas">
+          {%- if section.settings.cta_primary_text != blank -%}
+            <a class="btn btn--primary" href="{{ section.settings.cta_primary_url }}">{{ section.settings.cta_primary_text }}</a>
+          {%- endif -%}
+          {%- if section.settings.cta_secondary_text != blank -%}
+            <a class="btn btn--ghost" href="{{ section.settings.cta_secondary_url }}" style="border-color: var(--cream); color: var(--cream);">{{ section.settings.cta_secondary_text }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="dropcard__visual" aria-hidden="true" data-anim="scale">
+        <div class="hacky-sack"></div>
+        <div class="dropcard__sticker">{{ section.settings.sticker_text }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Coming-soon dropcard",
+  "tag": "section",
+  "settings": [
+    { "type": "text",     "id": "aria_label",         "label": "Aria label", "default": "Hacky sacks coming soon" },
+    { "type": "text",     "id": "stamp_text",         "label": "Stamp text", "default": "Coming Soon" },
+    { "type": "text",     "id": "eyebrow",            "label": "Eyebrow",    "default": "Next drop · Summer ’26" },
+    { "type": "html",     "id": "heading",            "label": "Heading (allows <em>)", "default": "Hacky <em>Sacks.</em><br/>Punks circle up." },
+    { "type": "textarea", "id": "lede",               "label": "Lede",
+      "default": "Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is limited — pack your crew." },
+    { "type": "text",     "id": "meta_items",         "label": "Meta items (separator: |)",
+      "default": "8 panel & 32 panel | Dropping summer ’26" },
+    { "type": "text",     "id": "cta_primary_text",   "label": "Primary CTA",   "default": "Get on the list →" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA link" },
+    { "type": "text",     "id": "cta_secondary_text", "label": "Secondary CTA", "default": "Shop the current drop" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA link" },
+    { "type": "text",     "id": "sticker_text",       "label": "Sticker text",  "default": "Soon" }
+  ],
+  "presets": [ { "name": "Coming-soon dropcard" } ]
+}
+{% endschema %}

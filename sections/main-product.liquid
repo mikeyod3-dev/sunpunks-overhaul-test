@@ -1,0 +1,112 @@
+<nav class="container" aria-label="Breadcrumb" style="padding-block: 1rem; font-size: var(--fs-sm);">
+  <a href="{{ routes.root_url }}">Home</a> /
+  <a href="{{ routes.all_products_collection_url }}">Collection</a> /
+  <span>{{ product.title }}</span>
+</nav>
+
+<section class="container product" id="shopify-section-{{ section.id }}">
+  <div class="product__gallery">
+    <div class="product__thumbs" role="tablist" aria-label="Gallery thumbnails">
+      {%- for image in product.images limit: 6 -%}
+        <button {% if forloop.first %}aria-current="true"{% endif %}>
+          <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" loading="lazy" width="80" height="80">
+        </button>
+      {%- endfor -%}
+    </div>
+    <div class="product__hero">
+      {%- if product.featured_image -%}
+        <img src="{{ product.featured_image | image_url: width: 1200 }}"
+             alt="{{ product.featured_image.alt | escape }}"
+             width="600" height="750"
+             loading="eager">
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div>
+    <p class="eyebrow">{{ product.vendor }}</p>
+    <h1 class="product__title">{{ product.title }}</h1>
+    <p class="product__price" style="margin-top:.5rem;">
+      {% render 'price', product: product %}
+      <span class="muted" style="font-weight:400; font-size: 1rem;"> USD · shipping calc'd at checkout</span>
+    </p>
+
+    {% form 'product', product, class: 'product-form' %}
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <div class="option">
+            <p class="option__label">{{ option.name }}</p>
+            <div class="option__choices" role="radiogroup" aria-label="{{ option.name }}">
+              {%- for value in option.values -%}
+                {%- assign opt_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                <input type="radio" id="{{ opt_id }}" name="options[{{ option.name }}]" value="{{ value }}" {% if option.selected_value == value %}checked{% endif %}>
+                <label for="{{ opt_id }}">{{ value }}</label>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <div class="option">
+        <p class="option__label">{{ 'products.product.quantity' | t }}</p>
+        <div class="qty" role="group" aria-label="Quantity">
+          <button type="button" aria-label="Decrease" data-qty="-1">−</button>
+          <input type="number" name="quantity" value="1" min="1" aria-label="Quantity" data-qty-input>
+          <button type="button" aria-label="Increase" data-qty="1">+</button>
+        </div>
+      </div>
+
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+      <div class="product__atc">
+        <button class="btn btn--primary btn--block" type="submit" name="add" {% unless product.available %}disabled{% endunless %}>
+          {%- if product.available -%}
+            {{ 'products.product.add_to_cart' | t }} · {% render 'price', product: product %}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      </div>
+    {% endform %}
+
+    <div class="product__meta">
+      {%- for block in section.blocks -%}
+        <details class="accordion" {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.title }}</summary>
+          <p>{{ block.settings.content }}</p>
+        </details>
+      {%- endfor -%}
+      {%- if product.description != blank and section.blocks.size == 0 -%}
+        <details class="accordion" open>
+          <summary>Details</summary>
+          {{ product.description }}
+        </details>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product — main",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Accordion item",
+      "settings": [
+        { "type": "text",     "id": "title",   "label": "Title",   "default": "The details" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Heavyweight 100% cotton, oversized boxy fit, drop shoulder. Garment-dyed.</p>" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "info", "settings": { "title": "The details" } },
+      { "type": "info", "settings": { "title": "Fit & sizing", "content": "<p>Runs true to size for an oversized look.</p>" } },
+      { "type": "info", "settings": { "title": "Care", "content": "<p>Cold wash inside out, hang dry.</p>" } },
+      { "type": "info", "settings": { "title": "Shipping & returns", "content": "<p>Ships in 3–5 business days. Free returns within 30 days.</p>" } }
+    ]
+  }
+}
+{% endschema %}

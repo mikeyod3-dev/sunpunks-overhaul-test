@@ -1,0 +1,35 @@
+<section class="values" id="shopify-section-{{ section.id }}">
+  <div class="container values__list" data-anim-stagger>
+    {%- for block in section.blocks -%}
+      <div class="values__item" data-anim {{ block.shopify_attributes }}>
+        <span>{{ block.settings.icon }}</span>{{ block.settings.text }}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Value props strip",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Symbol", "default": "★" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Printed on demand" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "default": {
+    "blocks": [
+      { "type": "item", "settings": { "icon": "★", "text": "Printed on demand" } },
+      { "type": "item", "settings": { "icon": "☀", "text": "Made for the sun" } },
+      { "type": "item", "settings": { "icon": "⚑", "text": "Ships from the USA" } }
+    ]
+  },
+  "presets": [ { "name": "Value props strip" } ]
+}
+{% endschema %}

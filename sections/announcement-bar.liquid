@@ -1,0 +1,18 @@
+<div class="announce" id="shopify-section-{{ section.id }}">
+  {{ section.settings.message }}
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "<p>Coming soon: <strong>Sun Punks Hacky Sacks</strong> &nbsp;·&nbsp; Free U.S. shipping over $50</p>"
+    }
+  ]
+}
+{% endschema %}

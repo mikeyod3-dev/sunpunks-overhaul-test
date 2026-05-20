@@ -1,0 +1,13 @@
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">Page</p>
+    <h1 class="h1">{{ page.title }}</h1>
+    <div class="lede" style="margin-top: 1.5rem; max-width: 720px;">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Page — main", "settings": [] }
+{% endschema %}

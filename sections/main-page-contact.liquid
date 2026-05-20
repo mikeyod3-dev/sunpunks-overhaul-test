@@ -1,0 +1,67 @@
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">Get in touch</p>
+    <h1 class="h1">{{ section.settings.heading }}</h1>
+    <p class="lede" style="margin-top:1rem;">{{ section.settings.lede }}</p>
+
+    <div class="contact" style="margin-top: 3rem;">
+      {% form 'contact' %}
+        {%- if form.posted_successfully? -%}
+          <p style="color: var(--ocean); margin-bottom: 1rem;">Got it — we'll be in touch.</p>
+        {%- endif -%}
+        <label>
+          <span class="option__label">Name</span>
+          <input type="text" name="contact[name]" required autocomplete="name">
+        </label>
+        <label>
+          <span class="option__label">Email</span>
+          <input type="email" name="contact[email]" required autocomplete="email">
+        </label>
+        <label>
+          <span class="option__label">Subject</span>
+          <select name="contact[topic]">
+            <option>Order question</option>
+            <option>Returns &amp; exchanges</option>
+            <option>Wholesale</option>
+            <option>Design idea</option>
+            <option>Just saying hi</option>
+          </select>
+        </label>
+        <label>
+          <span class="option__label">Message</span>
+          <textarea rows="6" name="contact[body]" required></textarea>
+        </label>
+        <button class="btn btn--primary" type="submit">Send it</button>
+      {% endform %}
+
+      <aside>
+        <h2 class="h3" style="margin-bottom:1rem;">Other ways</h2>
+        <p><strong>Email</strong><br/><a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a></p>
+        {%- if section.settings.instagram_handle != blank -%}
+          <p style="margin-top:1rem;"><strong>Instagram</strong><br/>{{ section.settings.instagram_handle }}</p>
+        {%- endif -%}
+        <p style="margin-top:1rem;"><strong>Response time</strong><br/>{{ section.settings.response_time }}</p>
+        <div style="margin-top:2rem; padding:1.5rem; background: var(--cream); border-radius: var(--radius);">
+          <p class="eyebrow">FYI</p>
+          <p style="margin-top:.5rem;">{{ section.settings.fyi }}</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact — main",
+  "settings": [
+    { "type": "html",     "id": "heading",          "label": "Heading", "default": "Say <span class=\"mark-acid\">hey</span>." },
+    { "type": "textarea", "id": "lede",             "label": "Lede",
+      "default": "Order question, design idea, or just want to send a beach photo — we read everything." },
+    { "type": "text",     "id": "contact_email",    "label": "Contact email", "default": "hey@sunpunksclothing.com" },
+    { "type": "text",     "id": "instagram_handle", "label": "Instagram handle", "default": "@sunpunksclothing" },
+    { "type": "text",     "id": "response_time",    "label": "Response time", "default": "Usually within 24h — we close shop on Saturdays for surf." },
+    { "type": "textarea", "id": "fyi",              "label": "FYI text",
+      "default": "All orders ship from the USA. Returns within 30 days. International shipping coming soon." }
+  ]
+}
+{% endschema %}

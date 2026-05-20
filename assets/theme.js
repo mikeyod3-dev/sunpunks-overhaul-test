@@ -550,14 +550,23 @@
     animTargets.forEach(el => el.classList.add('is-visible'));
   }
 
-  // ---------- Hero surf clip playlist (cycles through assets/surf/*.mp4) ----------
-  const heroVid = $('.hero-video[data-playlist]');
+  // ---------- Hero surf clip playlist ----------
+  // Accepts either:
+  //   data-playlist-urls="url1|url2|url3"          (Shopify Liquid renders asset_urls)
+  //   data-playlist="id1,id2" data-playlist-path="assets/surf/"  (static preview)
+  const heroVid = $('.hero-video[data-playlist-urls], .hero-video[data-playlist]');
   if (heroVid) {
-    const ids = heroVid.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
-    const pathPrefix = heroVid.dataset.playlistPath || 'assets/surf/';
+    let order;
+    if (heroVid.dataset.playlistUrls) {
+      order = heroVid.dataset.playlistUrls.split('|').map(s => s.trim()).filter(Boolean);
+    } else {
+      const ids = heroVid.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
+      const pathPrefix = heroVid.dataset.playlistPath || 'assets/';
+      order = ids.map(id => `${pathPrefix}${id}.mp4`);
+    }
     // Shuffle so the loop feels fresh each pageload, but keep stable within a session.
-    const order = ids.slice().sort(() => Math.random() - 0.5);
-    const srcOf = i => `${pathPrefix}${order[i % order.length]}.mp4`;
+    order = order.slice().sort(() => Math.random() - 0.5);
+    const srcOf = i => order[i % order.length];
     let idx = 0;
 
     const preload = src => {
@@ -567,7 +576,7 @@
     };
 
     const playAt = i => {
-      idx = i % order.length;
+      idx = ((i % order.length) + order.length) % order.length;
       heroVid.src = srcOf(idx);
       heroVid.load();
       heroVid.play().catch(() => { /* autoplay denied */ });

@@ -1,0 +1,61 @@
+<section class="section section--tight" id="shopify-section-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-anim>
+      <div>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+        <p class="lede" style="margin-top:.75rem; max-width: 56ch;">{{ section.settings.lede }}</p>
+      </div>
+      <a class="section-head__link" href="#" data-ugc-next style="cursor:pointer;">Next repost →</a>
+    </header>
+
+    <article class="ugc-feature" data-ugc-feature aria-live="polite" data-anim="scale">
+      <div class="ugc-feature__media" data-ugc-media>
+        <svg viewBox="0 0 1 1" preserveAspectRatio="none"><text x=".5" y=".58" data-ugc-label>TEE</text></svg>
+        <div class="ugc-feature__progress" data-ugc-progress><span></span></div>
+      </div>
+
+      <div class="ugc-feature__info">
+        <header class="ugc-feature__head">
+          <div class="ugc-feature__avatar" data-ugc-avatar>S</div>
+          <div style="flex:1; min-width:0;">
+            <div class="ugc-feature__handle" data-ugc-handle>@sandbar.salt</div>
+            <div class="ugc-feature__time"><span data-ugc-time>2h</span> · {{ section.settings.location }}</div>
+          </div>
+          <button class="btn btn--sm" data-ugc-follow>Follow</button>
+        </header>
+
+        <p class="ugc-feature__caption" data-ugc-caption>Best fit for the sunset run.</p>
+        <p class="ugc-feature__tags" data-ugc-tags>#sunpunks #30a #beachpunks</p>
+
+        <div class="ugc-feature__stats">
+          <span><b data-ugc-likes>247</b> likes</span>
+          <span class="dot">·</span>
+          <span><b data-ugc-comments>18</b> comments</span>
+          <span class="dot">·</span>
+          <span><b data-ugc-shares>9</b> shares</span>
+        </div>
+
+        <div class="ugc-feature__cta">
+          <p style="margin:0;">{{ section.settings.cta_text }}</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UGC circle (rotating reposts)",
+  "tag": "section",
+  "settings": [
+    { "type": "text",     "id": "eyebrow", "label": "Eyebrow", "default": "Spotted in the wild" },
+    { "type": "html",     "id": "heading", "label": "Heading", "default": "The <span class=\"mark-acid\">Sun Punks</span> Circle." },
+    { "type": "textarea", "id": "lede",    "label": "Lede",    "default": "Tag @sunpunksclothing in your fit pic. The best ones get featured here on rotation — and earn $5 off your next order." },
+    { "type": "text",     "id": "location","label": "Default location tag", "default": "Grayton Beach" },
+    { "type": "textarea", "id": "cta_text","label": "Bottom CTA text",
+      "default": "Tag @sunpunksclothing on Instagram to land here next. $5 off your next order if you make the cut." }
+  ],
+  "presets": [ { "name": "UGC circle" } ]
+}
+{% endschema %}

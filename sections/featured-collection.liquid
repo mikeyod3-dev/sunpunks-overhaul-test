@@ -1,0 +1,41 @@
+{%- assign coll = collections[section.settings.collection] -%}
+
+<section class="section" id="shopify-section-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-anim>
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.view_all_url != blank -%}
+        <a class="section-head__link" href="{{ section.settings.view_all_url }}">{{ section.settings.view_all_text | default: 'Shop all' }}</a>
+      {%- endif -%}
+    </header>
+
+    <div class="grid grid--products" data-anim-stagger>
+      {%- if coll.products.size > 0 -%}
+        {%- for product in coll.products limit: section.settings.products_to_show -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- else -%}
+        <p class="muted" style="grid-column: 1 / -1;">Pick a collection in the theme editor to populate this grid.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "settings": [
+    { "type": "text",       "id": "eyebrow",         "label": "Eyebrow",     "default": "Best sellers" },
+    { "type": "html",       "id": "heading",         "label": "Heading",     "default": "The <span class=\"mark-acid\">heat</span> rack" },
+    { "type": "collection", "id": "collection",      "label": "Collection" },
+    { "type": "range",      "id": "products_to_show","label": "Products to show", "min": 4, "max": 16, "step": 1, "default": 8 },
+    { "type": "url",        "id": "view_all_url",    "label": "View-all link" },
+    { "type": "text",       "id": "view_all_text",   "label": "View-all text", "default": "Shop all" }
+  ],
+  "presets": [ { "name": "Featured collection" } ]
+}
+{% endschema %}

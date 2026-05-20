@@ -1,0 +1,69 @@
+<button class="spin-fab" data-spin-open aria-label="Spin to win">
+  <span class="spin-fab__star">★</span>
+  <span class="spin-fab__text">Spin to win</span>
+</button>
+
+<div class="spin-modal" role="dialog" aria-modal="true" aria-labelledby="spinTitle" aria-hidden="true" id="spinModal">
+  <div class="spin-modal__backdrop" data-spin-close></div>
+  <div class="spin-modal__panel">
+    <button class="icon-btn spin-modal__close" data-spin-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M6 18 18 6"/></svg>
+    </button>
+
+    <div class="spin-step" data-spin-step="intro">
+      <p class="eyebrow" style="color: var(--sunset);">{{ section.settings.intro_eyebrow }}</p>
+      <h2 id="spinTitle">{{ section.settings.intro_heading }}</h2>
+      <p class="lede" style="margin-top:.5rem;">{{ section.settings.intro_body }}</p>
+      <form data-spin-form>
+        <label class="visually-hidden" for="spinName">Full name (for shipping)</label>
+        <input type="text" required placeholder="Full name (for shipping)" id="spinName" autocomplete="name">
+        <label class="visually-hidden" for="spinEmail">Email address</label>
+        <input type="email" required placeholder="you@thebeach.com" id="spinEmail" autocomplete="email" style="margin-top:.5rem;">
+        <button type="submit" class="btn btn--primary btn--block" style="margin-top:.5rem;">Unlock my spin →</button>
+        <p class="muted" style="font-size:.75rem; text-align:center; margin-top:.5rem;">No spam — unsubscribe anytime.</p>
+      </form>
+    </div>
+
+    <div class="spin-step" data-spin-step="game" hidden>
+      <p class="eyebrow" style="color: var(--sunset); text-align:center;">You're in</p>
+      <h2 style="text-align:center;">Give it a rip.</h2>
+      <div class="wheel-wrap">
+        <div class="wheel-pointer" aria-hidden="true"></div>
+        <div class="wheel">
+          <div class="wheel__rotor" data-wheel-rotor></div>
+          <span class="wheel__label" style="--x: 50px; --y: -87px;">NOTHING</span>
+          <span class="wheel__label" style="--x: 100px; --y: 0px;">10% OFF</span>
+          <span class="wheel__label" style="--x: 50px; --y: 87px;">NOTHING</span>
+          <span class="wheel__label wheel__label--ink" style="--x: -50px; --y: 87px;">HACKY SACK</span>
+          <span class="wheel__label" style="--x: -100px; --y: 0px;">NOTHING</span>
+          <span class="wheel__label" style="--x: -50px; --y: -87px;">10% OFF</span>
+          <div class="wheel__hub" aria-hidden="true"></div>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--block" data-spin-go>SPIN!</button>
+    </div>
+
+    <div class="spin-step" data-spin-step="result" hidden>
+      <p class="eyebrow" style="text-align:center;" data-result-banner></p>
+      <h2 style="text-align:center;" data-result-title></h2>
+      <p class="lede" style="text-align:center; margin-top:.5rem;" data-result-body></p>
+      <div class="spin-code" data-result-code-wrap hidden>
+        <code data-result-code></code>
+        <button class="btn btn--sm" data-result-copy>Copy</button>
+      </div>
+      <a href="{{ routes.collections_url }}" class="btn btn--primary btn--block" style="margin-top:1rem;">Shop the drop →</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Spin to win",
+  "settings": [
+    { "type": "text",     "id": "intro_eyebrow", "label": "Intro eyebrow", "default": "Spin to win" },
+    { "type": "text",     "id": "intro_heading", "label": "Intro heading", "default": "One spin per email." },
+    { "type": "textarea", "id": "intro_body",    "label": "Intro body",
+      "default": "Sign up for the new-drop list and earn your spin. There's a 1-in-50 shot at a free Sun Punks hacky sack with your next order." }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "hero": { "type": "hero-sun-punks-on-film" },
+    "values": { "type": "value-props" },
+    "dropcard": { "type": "coming-soon-dropcard" },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Best sellers",
+        "heading": "The <span class=\"mark-acid\">heat</span> rack",
+        "view_all_text": "Shop all",
+        "products_to_show": 8
+      }
+    },
+    "ugc": { "type": "ugc-circle" },
+    "tiles": {
+      "type": "collection-tiles",
+      "settings": { "eyebrow": "Shop by category", "heading": "Pick your weapon" }
+    },
+    "newsletter": { "type": "newsletter" }
+  },
+  "order": ["hero", "values", "dropcard", "featured", "ugc", "tiles", "newsletter"]
+}

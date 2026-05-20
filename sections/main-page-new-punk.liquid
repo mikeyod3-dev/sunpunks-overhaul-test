@@ -1,0 +1,144 @@
+{%- comment -%}
+  "New Punk" appreciation page — shown after an order completes. Pulls the
+  customer's most recent order; falls back to placeholder copy when there's no
+  logged-in customer or no orders yet (lets the page still preview cleanly).
+{%- endcomment -%}
+
+{%- assign order = customer.orders.first -%}
+
+<section class="thanks-hero">
+  <div class="container">
+    <p class="thanks-hero__eyebrow">Order received</p>
+    <h1 class="thanks-hero__greet">
+      Thanks, <span class="thanks-hero__name" data-customer-name>
+        {{- order.shipping_address.name | default: customer.name | default: 'punk' -}}
+      </span>.
+    </h1>
+    <p class="thanks-hero__lede">{{ section.settings.lede }}</p>
+    <div class="thanks-hero__stamps" aria-label="Order details">
+      <span><b>Order</b> {{ order.order_number | default: '#SP1057' | prepend: '#' }}</span>
+      <span><b>Placed</b> <span data-order-date>{{ order.created_at | date: '%b %-d, %Y' | default: 'Today' }}</span></span>
+      <span><b>Total</b> {{ order.total_price | money | default: '$0.00' }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="thanks-receipt" data-anim="scale">
+      <div class="thanks-stamp">Received</div>
+      <h2>Your order <span>{{ order.order_number | default: '#SP1057' | prepend: '#' }}</span></h2>
+
+      {%- if order != blank -%}
+        {%- for line in order.line_items -%}
+          <div class="thanks-receipt__line">
+            <div class="thanks-receipt__thumb" style="background:#1b2a3a;">
+              {%- if line.image -%}<img src="{{ line.image | image_url: width: 120 }}" alt="{{ line.title }}">{%- endif -%}
+            </div>
+            <div>
+              <strong>{{ line.product.title }}</strong>
+              <div class="thanks-receipt__meta">{{ line.variant.title }} · Qty {{ line.quantity }}</div>
+            </div>
+            <span>{{ line.final_line_price | money }}</span>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="thanks-receipt__line">
+          <div class="thanks-receipt__thumb" style="background:#1b2a3a;">TEE</div>
+          <div><strong>Sun Punk Summer Boxy Tee</strong><div class="thanks-receipt__meta">Sand · M · Qty 1</div></div>
+          <span>$20.00</span>
+        </div>
+        <div class="thanks-receipt__line">
+          <div class="thanks-receipt__thumb" style="background:#1f8a8f;">KOO</div>
+          <div><strong>Sun Punk Tribal Koozie</strong><div class="thanks-receipt__meta">Blue · One size · Qty 1</div></div>
+          <span>$4.99</span>
+        </div>
+      {%- endif -%}
+
+      <div class="thanks-receipt__totals">
+        <div><span>Subtotal</span><span>{{ order.subtotal_price | money | default: '$24.99' }}</span></div>
+        <div><span>Shipping</span><span>{{ order.shipping_price | money | default: 'FREE' }}</span></div>
+        <div><span>Tax</span><span>{{ order.tax_price | money | default: '$0.00' }}</span></div>
+        <div class="grand"><span>Total</span><span>{{ order.total_price | money | default: '$24.99' }}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <header class="section-head" data-anim>
+      <div>
+        <p class="eyebrow">What happens next</p>
+        <h2 class="h2">From our hands to yours.</h2>
+      </div>
+    </header>
+    <ol class="timeline" data-anim-stagger>
+      <li class="is-done"><b>Ordered</b><small>Today</small></li>
+      <li class="is-active"><b>Packed</b><small>1–2 days</small></li>
+      <li><b>Shipped</b><small>3–5 days · tracking sent</small></li>
+      <li><b>Delivered</b><small>5–7 days · enjoy</small></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="appreciation" data-anim>
+      <span class="appreciation__days"><span data-account-days>Day 1</span> a Sun Punk</span>
+      <p class="eyebrow" style="color: var(--acid);">{{ section.settings.appreciation_eyebrow }}</p>
+      <h2>{{ section.settings.appreciation_heading }}</h2>
+      <p style="max-width: 48ch; margin-inline: auto; color: #fbf6e9cc;">{{ section.settings.appreciation_body }}</p>
+      <div class="appreciation__perk">
+        <p style="margin:0;">{{ section.settings.perk_body }}</p>
+      </div>
+      <div class="appreciation__share">
+        {%- if settings.social_instagram != blank -%}
+          <a class="btn btn--primary" href="{{ settings.social_instagram }}">Tag us on Instagram</a>
+        {%- endif -%}
+        <a class="btn btn--ghost" href="{{ routes.account_url }}" style="border-color: var(--cream); color: var(--cream);">View all orders</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.recommend_collection != blank -%}
+  {%- assign rec = collections[section.settings.recommend_collection] -%}
+  <section class="section section--tight">
+    <div class="container">
+      <header class="section-head" data-anim>
+        <div>
+          <p class="eyebrow">While you wait</p>
+          <h2 class="h2">Round out the kit.</h2>
+        </div>
+        <a class="section-head__link" href="{{ routes.all_products_collection_url }}">Shop all</a>
+      </header>
+      <div class="grid grid--products" data-anim-stagger>
+        {%- for product in rec.products limit: 4 -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "New Punk — appreciation",
+  "settings": [
+    { "type": "textarea", "id": "lede",
+      "label": "Hero lede",
+      "default": "You just helped fund the next drop. We're packing it up by hand." },
+    { "type": "text",     "id": "appreciation_eyebrow", "label": "Appreciation eyebrow", "default": "For the punks" },
+    { "type": "html",     "id": "appreciation_heading", "label": "Appreciation heading",
+      "default": "You're not just a customer — <br/>you're <span class=\"mark-acid\">in the circle</span>." },
+    { "type": "textarea", "id": "appreciation_body",
+      "label": "Appreciation body",
+      "default": "Every order keeps the lights on, the dyes mixing, and the next drop coming. We don't take that for granted." },
+    { "type": "richtext", "id": "perk_body",
+      "label": "Perk body",
+      "default": "<p><b>Tag us in your fit pic.</b> Post wearing your new gear, tag <b>@sunpunksclothing</b>, and we'll send <b>$5 off</b> your next order.</p>" },
+    { "type": "collection", "id": "recommend_collection", "label": "Recommend products from" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,66 @@
+{%- comment -%}
+  Hero: "Sun Punks on Film" — looping surf-clip playlist with LIVE HUD + clock.
+  Clips are theme assets (assets/surf-*.mp4). Add or remove IDs in the settings.
+{%- endcomment -%}
+
+{%- assign clip_ids = section.settings.clip_ids | split: ',' -%}
+{%- capture playlist_urls -%}
+  {%- for raw_id in clip_ids -%}
+    {%- assign id = raw_id | strip -%}
+    {%- assign filename = 'surf-' | append: id | append: '.mp4' -%}
+    {{ filename | asset_url }}{% unless forloop.last %}|{% endunless %}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<section class="hero--video hero--live" id="shopify-section-{{ section.id }}" aria-label="{{ section.settings.aria_label }}">
+  <video class="hero-video"
+         autoplay muted playsinline preload="auto"
+         poster="{{ 'hero-poster.svg' | asset_url }}"
+         aria-hidden="true"
+         data-playlist-urls="{{ playlist_urls | strip }}"></video>
+
+  <div class="hero-live" aria-hidden="true">
+    <div><span class="dot"></span><span class="label">LIVE</span></div>
+    <div class="stamp">{{ section.settings.location_label }}</div>
+    <div class="clock" data-live-clock>—</div>
+  </div>
+  <div class="hero-feed" aria-hidden="true">{{ section.settings.feed_label }}</div>
+
+  <div class="container">
+    <span class="hero-eyebrow">{{ section.settings.eyebrow }}</span>
+    <h1 class="hero-title">{{ section.settings.title }}</h1>
+    {%- if section.settings.cta_primary_text != blank or section.settings.cta_secondary_text != blank -%}
+      <div class="hero-cta-bar">
+        {%- if section.settings.cta_primary_text != blank -%}
+          <a class="btn btn--primary" href="{{ section.settings.cta_primary_url }}">{{ section.settings.cta_primary_text }}</a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_text != blank -%}
+          <a class="btn btn--ghost" href="{{ section.settings.cta_secondary_url }}">{{ section.settings.cta_secondary_text }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero — Sun Punks on Film",
+  "tag": "section",
+  "settings": [
+    { "type": "text",     "id": "aria_label",      "label": "Section aria-label", "default": "Sun Punks on Film" },
+    { "type": "text",     "id": "eyebrow",         "label": "Eyebrow",            "default": "Sun Punks on Film" },
+    { "type": "html",     "id": "title",           "label": "Title (allows <em>)","default": "Sun <em>Punks</em>" },
+    { "type": "text",     "id": "location_label",  "label": "LIVE HUD stamp",     "default": "Sun Punks on Film" },
+    { "type": "text",     "id": "feed_label",      "label": "Feed footer label",  "default": "FEED · SUN PUNKS ON FILM · 30A" },
+    { "type": "text",     "id": "cta_primary_text",   "label": "Primary CTA text",  "default": "Shop the drop" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA link" },
+    { "type": "text",     "id": "cta_secondary_text", "label": "Secondary CTA text", "default": "See what’s new" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA link" },
+    { "type": "textarea", "id": "clip_ids",
+      "label": "Surf clip IDs (comma-separated)",
+      "info": "References assets/surf-{id}.mp4 — bundle clips into the theme assets folder",
+      "default": "36924, 1568, 36833, 1076, 1127, 1071, 1074, 1128, 1163, 1207, 1191, 36814" }
+  ],
+  "presets": [ { "name": "Hero — Sun Punks on Film" } ]
+}
+{% endschema %}

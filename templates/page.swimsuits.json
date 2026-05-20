@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page-swimsuits",
+      "blocks": {
+        "anchor-1": { "type": "anchor", "settings": { "label": "5″ inseam",  "url": "#boardshorts-5", "style": "ghost" } },
+        "anchor-2": { "type": "anchor", "settings": { "label": "8″ inseam",  "url": "#boardshorts-8", "style": "ghost" } },
+        "anchor-3": { "type": "anchor", "settings": { "label": "Rashguards", "url": "#rashguards",    "style": "ghost" } },
+        "anchor-4": { "type": "anchor", "settings": { "label": "Get on the list →", "url": "#newsletter", "style": "primary" } },
+        "group-1": {
+          "type": "product_group",
+          "settings": {
+            "id": "boardshorts-5",
+            "eyebrow": "Boardshorts · Short cut",
+            "heading": "5″ Inseam",
+            "subtitle": "Higher cut, classic surf silhouette. Less drag on the duck-dive, more leg on the boardwalk.",
+            "products_to_show": 2,
+            "bg": "none",
+            "accordion_title": "About the 5″ cut",
+            "accordion_body": "Sits about an inch above the knee. 4-way stretch recycled poly with a soft mesh liner."
+          }
+        },
+        "group-2": {
+          "type": "product_group",
+          "settings": {
+            "id": "boardshorts-8",
+            "eyebrow": "Boardshorts · Long cut",
+            "heading": "8″ Inseam",
+            "subtitle": "Mid-thigh coverage, easy fit. The all-day pick.",
+            "products_to_show": 2,
+            "bg": "cream",
+            "accordion_title": "About the 8″ cut",
+            "accordion_body": "Sits just above the knee. Same fabric and hardware as the 5″ with a longer leg."
+          }
+        },
+        "group-3": {
+          "type": "product_group",
+          "settings": {
+            "id": "rashguards",
+            "eyebrow": "Sun protection",
+            "heading": "Rashguards & UV",
+            "products_to_show": 3,
+            "bg": "none"
+          }
+        }
+      },
+      "block_order": ["anchor-1", "anchor-2", "anchor-3", "anchor-4", "group-1", "group-2", "group-3"]
+    },
+    "newsletter": { "type": "newsletter" }
+  },
+  "order": ["main", "newsletter"]
+}

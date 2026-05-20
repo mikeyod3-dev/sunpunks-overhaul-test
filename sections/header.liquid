@@ -1,0 +1,43 @@
+<header class="site-header" id="shopify-section-{{ section.id }}">
+  <div class="container site-header__bar">
+    <nav class="site-header__nav" aria-label="Primary">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <a class="site-header__logo" href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: width: 240 }}"
+             width="120" height="40" alt="{{ shop.name }}">
+      {%- else -%}
+        {{ section.settings.brand_text_left }}<span class="dot">·</span>{{ section.settings.brand_text_right }}
+      {%- endif -%}
+    </a>
+
+    <div class="site-header__tools">
+      <button class="icon-btn nav-toggle" aria-label="Open menu" data-nav-toggle>
+        {% render 'icon-menu' %}
+      </button>
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Search">{% render 'icon-search' %}</a>
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon-account' %}</a>
+      <button class="icon-btn" aria-label="Cart" data-cart-toggle>
+        {% render 'icon-cart' %}
+        <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use text logo" },
+    { "type": "text", "id": "brand_text_left",  "label": "Brand text — left",  "default": "Sun" },
+    { "type": "text", "id": "brand_text_right", "label": "Brand text — right", "default": "Punks" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

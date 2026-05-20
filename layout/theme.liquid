@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_sand }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <title>
+    {{- page_title -}}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&display=swap" rel="stylesheet">
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  {% comment %} Theme editor color overrides {% endcomment %}
+  <style>
+    :root {
+      --sunset: {{ settings.color_sunset }};
+      --ocean:  {{ settings.color_ocean }};
+      --acid:   {{ settings.color_acid }};
+      --ink:    {{ settings.color_ink }};
+      --sand:   {{ settings.color_sand }};
+    }
+  </style>
+
+  {{ content_for_header }}
+</head>
+<body data-template="{{ template | replace: '.', '-' }}">
+
+  <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  {% render 'cart-drawer' %}
+
+  {% if settings.spin_enabled %}
+    {% section 'spin-to-win' %}
+  {% endif %}
+
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

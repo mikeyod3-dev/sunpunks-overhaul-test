@@ -1,0 +1,92 @@
+<section class="collection-hero" style="background: linear-gradient(180deg, #c8e1d4 0%, var(--sand) 100%); border-bottom: 4px solid var(--acid);">
+  <div class="container" data-anim>
+    {%- if section.settings.coming_soon -%}<span class="coming-stamp">Coming Soon</span>{%- endif -%}
+    <p class="eyebrow" style="margin-top:.75rem;">{{ section.settings.eyebrow }}</p>
+    <h1 class="h1">{{ section.settings.heading }}</h1>
+    <p class="lede" style="margin-top:1rem;">{{ section.settings.lede }}</p>
+    <div class="cluster" style="margin-top:1.5rem; gap:.5rem;">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'anchor' -%}
+          <a href="{{ block.settings.url }}" class="btn btn--sm {% if block.settings.style == 'primary' %}btn--primary{% else %}btn--ghost{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- for block in section.blocks -%}
+  {%- if block.type == 'product_group' -%}
+    <section class="section {% if forloop.index | modulo: 2 == 0 %}section--tight{% endif %}"
+             {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}
+             {% if block.settings.bg == 'cream' %}style="background: var(--cream);"{% endif %}
+             {{ block.shopify_attributes }}>
+      <div class="container">
+        <header class="section-head" data-anim>
+          <div>
+            {%- if block.settings.eyebrow != blank -%}<p class="eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
+            <h2 class="h2">{{ block.settings.heading }}</h2>
+            {%- if block.settings.subtitle != blank -%}<p class="lede" style="margin-top:.5rem; max-width: 52ch;">{{ block.settings.subtitle }}</p>{%- endif -%}
+          </div>
+        </header>
+        {%- assign coll = collections[block.settings.collection] -%}
+        <div class="grid grid--products" data-anim-stagger>
+          {%- if coll.products.size > 0 -%}
+            {%- for product in coll.products limit: block.settings.products_to_show -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+          {%- else -%}
+            <p class="muted" style="grid-column: 1 / -1;">Pick a collection in the theme editor.</p>
+          {%- endif -%}
+        </div>
+        {%- if block.settings.accordion_title != blank -%}
+          <details class="accordion" style="margin-top: 2rem; max-width: 720px;">
+            <summary>{{ block.settings.accordion_title }}</summary>
+            <p>{{ block.settings.accordion_body }}</p>
+          </details>
+        {%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "Swimsuits — main",
+  "settings": [
+    { "type": "checkbox", "id": "coming_soon", "label": "Show Coming Soon stamp", "default": true },
+    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow", "default": "Wet stuff · Summer ’26" },
+    { "type": "html",     "id": "heading",    "label": "Heading", "default": "Swim. <span class=\"mark-acid\">Sun.</span> Salt." },
+    { "type": "textarea", "id": "lede",       "label": "Lede",
+      "default": "Quick-dry boardshorts and sand-friendly rashies cut for the 30A. Sun-bleached colorways, recycled fabric, salt-tested seams. Drop lands summer ’26 — here's the preview." }
+  ],
+  "blocks": [
+    {
+      "type": "anchor",
+      "name": "Anchor button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "5″ inseam" },
+        { "type": "url",  "id": "url",   "label": "URL" },
+        { "type": "select", "id": "style", "label": "Style",
+          "options": [{"value":"ghost","label":"Ghost"},{"value":"primary","label":"Primary"}],
+          "default": "ghost" }
+      ]
+    },
+    {
+      "type": "product_group",
+      "name": "Product group",
+      "settings": [
+        { "type": "text",       "id": "id",                "label": "Anchor id", "default": "boardshorts-5" },
+        { "type": "text",       "id": "eyebrow",           "label": "Eyebrow",   "default": "Boardshorts · Short cut" },
+        { "type": "text",       "id": "heading",           "label": "Heading",   "default": "5″ Inseam" },
+        { "type": "textarea",   "id": "subtitle",          "label": "Subtitle" },
+        { "type": "collection", "id": "collection",        "label": "Collection" },
+        { "type": "range",      "id": "products_to_show",  "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 2 },
+        { "type": "select",     "id": "bg",                "label": "Background",
+          "options": [{"value":"none","label":"None"},{"value":"cream","label":"Cream"}], "default": "none" },
+        { "type": "text",       "id": "accordion_title",   "label": "Accordion title" },
+        { "type": "textarea",   "id": "accordion_body",    "label": "Accordion body" }
+      ]
+    }
+  ]
+}
+{% endschema %}

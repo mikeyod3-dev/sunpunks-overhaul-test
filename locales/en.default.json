@@ -1,0 +1,41 @@
+{
+  "accessibility": {
+    "skip_to_text": "Skip to content"
+  },
+  "general": {
+    "meta": {
+      "tags": "tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "404": {
+      "title": "Page not found",
+      "subtext": "The page you were looking for doesn't exist.",
+      "link": "Back to homepage"
+    },
+    "search": {
+      "placeholder": "Search the closet"
+    },
+    "newsletter": {
+      "label": "Email address",
+      "placeholder": "you@thebeach.com",
+      "submit": "Sign me up"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "size_guide": "Size guide",
+      "quantity": "Quantity"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your cart",
+      "empty": "Your cart is empty.",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "continue_shopping": "Keep shopping"
+    }
+  }
+}

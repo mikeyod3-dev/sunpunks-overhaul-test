@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">Your bag</p>
+    <h1 class="h1">{{ 'cart.general.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart" style="margin-top: 2rem;">
+        <div>
+          {%- for item in cart.items -%}
+            <div class="cart-item">
+              <div class="cart-item__img">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="96" height="96">
+                {%- endif -%}
+              </div>
+              <div>
+                <strong style="font-family:var(--font-display); font-size:1.25rem; letter-spacing:.05em; text-transform:uppercase;">{{ item.product.title }}</strong>
+                <div class="muted" style="font-size:.9rem; margin-top:.25rem;">{{ item.variant.title }}</div>
+                <div class="qty" style="margin-top:.6rem;">
+                  <a href="{{ item.url_to_remove | replace: item.quantity, item.quantity | minus: 1 }}" aria-label="Decrease">−</a>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+                  <button type="submit" name="update" aria-label="Update">↻</button>
+                </div>
+                <a href="{{ item.url_to_remove }}" class="btn--sm muted" style="background:none; padding-left:0; margin-top:.5rem; text-decoration:underline; display:inline-block;">Remove</a>
+              </div>
+              <strong>{{ item.final_line_price | money }}</strong>
+            </div>
+          {%- endfor -%}
+
+          <div style="margin-top: 2rem;">
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn--ghost">← {{ 'cart.general.continue_shopping' | t }}</a>
+          </div>
+        </div>
+
+        <aside class="cart-summary" aria-label="Order summary">
+          <h2 style="font-size:1.4rem; margin-bottom: 1rem;">Order summary</h2>
+          <div class="cart-summary__row"><span>{{ 'cart.general.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+          <div class="cart-summary__row"><span>Shipping</span><span class="muted">Calculated at checkout</span></div>
+          <div class="cart-summary__row cart-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+          <label style="margin-top:1rem; display:block;">
+            <span class="option__label">Order note</span>
+            <textarea name="note" rows="3" placeholder="Anything we should know?">{{ cart.note }}</textarea>
+          </label>
+          <button type="submit" name="checkout" class="btn btn--primary btn--block" style="margin-top:1rem;">{{ 'cart.general.checkout' | t }} →</button>
+        </aside>
+      </form>
+    {%- else -%}
+      <p class="lede" style="margin-top:1rem;">{{ 'cart.general.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary" style="margin-top:1.5rem;">Pick a fit →</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Cart — main", "settings": [] }
+{% endschema %}

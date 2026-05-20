@@ -1,0 +1,33 @@
+<section class="section section--tight" id="newsletter">
+  <div class="container">
+    <div class="newsletter" data-anim="scale">
+      <div>
+        <p class="eyebrow" style="color: var(--acid);">{{ section.settings.eyebrow }}</p>
+        <h2 class="h2" style="color: var(--cream);">{{ section.settings.heading }}</h2>
+        <p class="muted" style="color: #fbf6e9cc; margin-top:.5rem;">{{ section.settings.subtext }}</p>
+      </div>
+      {% form 'customer', class: 'newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" required placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}">
+        <button class="btn btn--primary" type="submit">{{ section.settings.button_text }}</button>
+        {%- if form.posted_successfully? -%}
+          <p style="grid-column: 1 / -1; color: var(--acid); margin-top:.5rem;">Thanks — see you on the next drop.</p>
+        {%- endif -%}
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",     "label": "Eyebrow",     "default": "Sign up" },
+    { "type": "text",     "id": "heading",     "label": "Heading",     "default": "Get the next drop early." },
+    { "type": "textarea", "id": "subtext",     "label": "Subtext",     "default": "No spam. Just sunsets and 10% off your first order." },
+    { "type": "text",     "id": "button_text", "label": "Button text", "default": "Sign me up" }
+  ],
+  "presets": [ { "name": "Newsletter" } ]
+}
+{% endschema %}

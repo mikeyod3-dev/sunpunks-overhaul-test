@@ -1,0 +1,84 @@
+<section class="account-hero" data-account-loggedin>
+  <div class="container">
+    <p class="eyebrow">Your account</p>
+    <h1 class="h1">Hey, <span class="mark-acid" data-account-name>{{ customer.first_name | default: 'punk' }}</span>.</h1>
+    <div class="account-stats">
+      <div class="account-stat"><b data-stat-orders>{{ customer.orders_count }}</b><small>orders</small></div>
+      <div class="account-stat"><b data-stat-spent>{{ customer.total_spent | money }}</b><small>spent</small></div>
+      <div class="account-stat"><b data-stat-size>—</b><small>tee size</small></div>
+    </div>
+    <p style="margin-top:1.25rem;">
+      <span class="account-since">
+        Sun Punk since <b data-account-since>{{ customer.created_at | date: '%b %-d, %Y' }}</b>
+        <span class="days" data-account-days></span>
+      </span>
+    </p>
+  </div>
+</section>
+
+<section class="section" data-account-loggedin>
+  <div class="container">
+    <div class="account-grid">
+      <div>
+        <div class="account-card" data-anim="left">
+          <h2>Your sizes <a href="#" data-edit-sizes>Edit</a></h2>
+          <div class="size-grid">
+            <div><b data-size-tee>M</b><small>Tee</small></div>
+            <div><b data-size-bottom>32</b><small>Bottoms</small></div>
+            <div><b data-size-shoe>10</b><small>Shoe</small></div>
+          </div>
+          <p class="muted" style="font-size:.8rem; margin-top:1rem;">Saved sizes pre-fill on every product page.</p>
+        </div>
+
+        <div class="account-card" style="margin-top:1.5rem;" data-anim="left">
+          <h2>Profile</h2>
+          <p><strong>Shipping name</strong><br/><span data-account-shipping-name>{{ customer.default_address.name }}</span></p>
+          <p style="margin-top:1rem;"><strong>Email</strong><br/><span data-account-email>{{ customer.email }}</span></p>
+          <p style="margin-top:1rem;"><strong>Member since</strong><br/><span data-account-since-full>{{ customer.created_at | date: '%b %-d, %Y' }}</span></p>
+          <div class="cluster" style="margin-top:1.25rem;">
+            <a href="{{ routes.account_addresses_url }}" class="btn btn--ghost btn--sm">Addresses</a>
+            <a href="{{ routes.account_logout_url }}" class="btn btn--ghost btn--sm">Log out</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="account-card" data-anim="right">
+          <h2>Order history <a href="{{ routes.account_url }}#latest">View latest →</a></h2>
+
+          {%- if customer.orders.size > 0 -%}
+            {%- for o in customer.orders limit: 5 -%}
+              <div class="order">
+                <div class="order__head">
+                  <span class="order__id">#{{ o.order_number }}</span>
+                  <span class="order__pill">{{ o.fulfillment_status_label | default: 'Processing' }} · {{ o.created_at | date: '%b %-d, %Y' }}</span>
+                </div>
+                <div class="order__items">
+                  {%- for line in o.line_items -%}
+                    <div class="order__line">
+                      <div class="order__thumb" style="background:#1b2a3a;">
+                        {%- if line.image -%}<img src="{{ line.image | image_url: width: 120 }}" alt="" width="56" height="56">{%- endif -%}
+                      </div>
+                      <div>
+                        <strong>{{ line.product.title }}</strong>
+                        <div class="order__meta">{{ line.variant.title }} · Qty {{ line.quantity }}</div>
+                      </div>
+                      <span>{{ line.final_line_price | money }}</span>
+                    </div>
+                  {%- endfor -%}
+                </div>
+                <div class="order__total"><span>Total</span><span>{{ o.total_price | money }}</span></div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <p class="muted">No orders yet. <a href="{{ routes.all_products_collection_url }}">Pick your first fit →</a></p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Account — main", "settings": [] }
+{% endschema %}

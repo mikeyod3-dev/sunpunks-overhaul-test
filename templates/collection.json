@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "tiles": {
+      "type": "collection-tiles",
+      "settings": { "heading": "" }
+    },
+    "main": { "type": "main-collection" }
+  },
+  "order": ["tiles", "main"]
+}

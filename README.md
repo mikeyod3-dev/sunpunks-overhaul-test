@@ -1,103 +1,148 @@
-# Sun Punks Clothing — Overhaul
+# Sun Punks — Shopify theme
 
-A comprehensive front-end overhaul of [sunpunksclothing.com](https://sunpunksclothing.com),
-authored as static HTML/CSS/JS but **architected for migration to a Shopify Liquid theme**.
+A custom Shopify theme for [sunpunksclothing.com](https://sunpunksclothing.com),
+built from the brand's "Surf. Sun. Soul." identity.
 
-The existing storefront is a stock Dawn-ish Shopify install with default typography
-and layout. This project rebuilds the brand presentation around the "Surf. Sun. Soul."
-tagline — sun-bleached palette, blocky punk display type, and confident editorial
-layout — while keeping the markup carved into the same boundaries Shopify uses
-(`layout/theme.liquid`, `sections/*`, `snippets/*`, `templates/*`).
+The repo is structured as a valid Shopify Online Store 2.0 theme. Connect it to
+a Shopify store via **Shopify admin → Online Store → Themes → Add theme → Connect from GitHub**.
 
-## Folder layout
+## Theme structure
 
 ```
-sunpunks-overhaul/
-├── index.html              # Home — Liquid target: templates/index.liquid
-├── collection.html         # PLP  — Liquid target: templates/collection.liquid
-├── product.html            # PDP  — Liquid target: templates/product.liquid
-├── cart.html               # Cart — Liquid target: templates/cart.liquid
-├── contact.html            # Page — Liquid target: templates/page.contact.liquid
-├── assets/
-│   ├── theme.css           # Design system + components
-│   └── theme.js            # Drawer, nav, qty stepper, variant swap
-├── liquid-stubs/           # Reference Liquid versions of key files
-│   ├── layout/theme.liquid
-│   ├── sections/{header,footer,hero,featured-collection,newsletter}.liquid
-│   ├── snippets/{product-card,price,icon-cart}.liquid
-│   └── templates/{product,collection}.liquid
-└── README.md
+.
+├── assets/                    # CSS, JS, fonts, surf clips, poster SVG
+│   ├── theme.css
+│   ├── theme.js
+│   ├── hero-poster.svg
+│   └── surf-*.mp4             # 12 hero playlist clips
+├── config/
+│   ├── settings_schema.json   # Theme editor settings (colors, social, spin toggle)
+│   └── settings_data.json
+├── layout/
+│   └── theme.liquid           # Master wrapper for every page
+├── locales/
+│   └── en.default.json
+├── sections/                  # Theme-editor-driven sections (each has {% schema %})
+│   ├── announcement-bar.liquid
+│   ├── header.liquid
+│   ├── footer.liquid
+│   ├── spin-to-win.liquid
+│   ├── hero-sun-punks-on-film.liquid
+│   ├── value-props.liquid
+│   ├── coming-soon-dropcard.liquid
+│   ├── featured-collection.liquid
+│   ├── ugc-circle.liquid
+│   ├── collection-tiles.liquid
+│   ├── newsletter.liquid
+│   └── main-*.liquid          # Per-template main sections
+├── snippets/
+│   ├── product-card.liquid
+│   ├── price.liquid
+│   ├── cart-drawer.liquid
+│   └── icon-*.liquid
+├── templates/                 # Composed JSON templates
+│   ├── index.json
+│   ├── collection.json
+│   ├── product.json
+│   ├── cart.json
+│   ├── page.json
+│   ├── page.contact.json
+│   ├── page.swimsuits.json
+│   ├── page.new-punk.json
+│   ├── customers/account.json
+│   └── 404.json
+└── static-preview/            # Original static HTML, for local browser preview
 ```
 
-## HTML → Liquid mapping
+## Connecting this repo to Shopify
 
-Every HTML file is bracketed by comments like:
+1. Push to GitHub (already done at https://github.com/mikeyod3-dev/sunpunks-overhaul-test).
+2. In your Shopify admin: **Online Store → Themes → Add theme → Connect from GitHub**.
+3. Authorize Shopify on your GitHub account, choose this repo and the `main` branch.
+4. Shopify will install the theme on a development branch. Preview, then publish.
+5. Edits to the connected branch sync live in Shopify; edits in the theme editor
+   commit back to the branch (or to a feature branch you configure).
 
-```html
-<!-- LIQUID: {% section 'header' %} -->
-...
-<!-- /LIQUID -->
-```
+## What's in here vs. what Shopify will fill in
 
-Inside each bracket, the markup is *exactly* what should land in the corresponding
-Shopify section/snippet — the only difference is that sample copy and product data
-are hard-coded here. Swap the hard-coded values for `{{ ... }}` outputs and `{% ... %}`
-tags and the file moves into the theme without restructuring.
+The theme provides the **structure and visuals**; Shopify provides the **data**:
 
-| HTML region                       | Liquid file                                  |
-| --------------------------------- | -------------------------------------------- |
-| `<head>` + body shell             | `layout/theme.liquid`                        |
-| `.site-header`                    | `sections/header.liquid`                     |
-| `.site-footer`                    | `sections/footer.liquid`                     |
-| `.hero` (homepage)                | `sections/hero.liquid`                       |
-| `.featured-collection`            | `sections/featured-collection.liquid`        |
-| `.editorial-split`                | `sections/image-with-text.liquid`            |
-| `.newsletter`                     | `sections/newsletter.liquid`                 |
-| `.product-card`                   | `snippets/product-card.liquid`               |
-| `.price`                          | `snippets/price.liquid`                      |
-| `.collection-toolbar` + grid      | `sections/main-collection.liquid`            |
-| Product gallery + form (PDP)      | `sections/main-product.liquid`               |
-| `.cart`                           | `sections/main-cart.liquid`                  |
-| `.cart-drawer`                    | `snippets/cart-drawer.liquid`                |
+| The theme renders                                | From Shopify's data                                          |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| Product cards on the homepage & collection page  | Products in the collection chosen in the theme editor        |
+| Product detail page (variants, price, ATC)       | Each product's variants / images / description / metafields  |
+| Cart drawer & cart page line items               | Live cart state                                              |
+| Account dashboard (orders, addresses)            | `customer.orders`, `customer.default_address`                |
+| New Punk appreciation page                       | `customer.orders.first` (latest order)                       |
+| Footer payment icons + social links              | `shop.enabled_payment_types` + the social URLs in settings   |
 
-The `liquid-stubs/` directory contains one converted example per major type so the
-translation pattern is concrete.
+The Hacky Sacks "Coming Soon" dropcard, the rotating UGC feed, the surf-clip
+hero, and the spin-to-win popup are **static content sections** with editable
+text in the theme editor — none of them require backing Shopify objects.
 
-## Design system
+## What you'll want to set up in Shopify after import
 
-CSS custom properties on `:root` — change one variable, the brand follows:
+1. **Online Store → Navigation:**
+   - **Main menu** with links to Collections, Pages, etc. (the header reads
+     `linklists[section.settings.menu]` — defaults to `main-menu`)
+   - **Footer menu** for the footer column
+2. **Products + Collections:**
+   - Create a `featured` collection (or rename — pick it in the theme editor's
+     featured-collection section)
+   - Create per-category collections (`tees`, `koozies`, `bags`) that the
+     category-tile blocks link to
+   - For swim, create `boardshorts-5`, `boardshorts-8`, `rashguards` and assign
+     them in the swim page template
+3. **Pages:**
+   - Create a `Contact` page using the `page.contact` template
+   - Create a `Swimsuits` page using `page.swimsuits` (URL: `/pages/swimsuits`)
+   - Create a `New Punk` page using `page.new-punk` (URL: `/pages/new-punk`)
+4. **Settings → Notifications:** Enable customer account creation if you want
+   orders to feed the account / appreciation pages
 
-| Token            | Value      | Role                              |
-| ---------------- | ---------- | --------------------------------- |
-| `--sand`         | `#f4ead5`  | Page background (sun-bleached)    |
-| `--cream`        | `#fbf6e9`  | Card / surface                    |
-| `--ink`          | `#1b2a3a`  | Body text, deep navy              |
-| `--sunset`       | `#e8552c`  | Primary accent (sunset orange)    |
-| `--ocean`        | `#1f8a8f`  | Secondary accent (teal)           |
-| `--acid`         | `#f7d24c`  | Punk highlight (yellow)           |
-| `--shadow`       | `#1b2a3a14`| Soft brand shadow                 |
+## Brand tokens (editable in the theme editor)
 
-Display type is `Anton`/`Bebas`-class condensed sans for headings; body is system
-sans for performance. One web font, loaded with `font-display: swap`.
+| Setting       | Default     | Used for                              |
+| ------------- | ----------- | ------------------------------------- |
+| Sunset        | `#e8552c`   | Primary accent (buttons, badges)      |
+| Ocean         | `#1f8a8f`   | Secondary accent (USA badges, links)  |
+| Acid          | `#f7d24c`   | Highlight (mark-acid, hero ribbons)   |
+| Ink           | `#1b2a3a`   | Body text, dark backgrounds           |
+| Sand          | `#f4ead5`   | Page background                       |
 
-## Running locally
+Display type is **Anton** (chunky condensed sans); display script is **Pacifico**.
+Both loaded via Google Fonts in `layout/theme.liquid`.
 
-It's all static — open any HTML file directly, or:
+## Local development
+
+You can preview the design without a Shopify store by opening files in
+`static-preview/` (original static HTML versions). They read CSS/JS from
+`../assets/`. Some interactive features that depend on Shopify objects
+(cart, account, products) won't render real data locally.
 
 ```bash
-cd ~/sunpunks-overhaul && python3 -m http.server 8000
-# then visit http://localhost:8000/
+python3 -m http.server 8000
+# then http://localhost:8000/static-preview/index.html
 ```
 
-## Migration checklist (HTML → Liquid)
+For real Shopify previews:
 
-1. Copy `assets/theme.css` and `assets/theme.js` into the Shopify theme's `assets/`.
-2. Move the `<head>` + body wrapper into `layout/theme.liquid`, replacing static
-   `<title>`, `<meta>`, and `<link>` tags with `{{ page_title }}`, `{{ content_for_header }}`,
-   `{{ 'theme.css' | asset_url | stylesheet_tag }}`, and `{{ content_for_layout }}`.
-3. Lift each `<!-- LIQUID: {% section 'X' %} -->` block into `sections/X.liquid`. The
-   stubs in `liquid-stubs/` show the section-schema JSON you'll want.
-4. Replace the hardcoded product loops with `{% for product in collection.products %}`
-   and the card body with `{% render 'product-card', product: product %}`.
-5. Swap sample prices for `{% render 'price', product: product %}`.
-6. Delete the static HTML files once the theme is uploaded.
+```bash
+# Install the Shopify CLI (one time)
+npm install -g @shopify/cli @shopify/theme
+
+# Pull theme + preview against your dev store
+shopify theme dev
+```
+
+## Things to know about this conversion
+
+- Asset folder is flat (Shopify's `asset_url` filter takes a filename, not a path).
+  The hero playlist clips live at `assets/surf-{id}.mp4`; the JS reads asset URLs
+  Liquid renders into the `data-playlist-urls` attribute.
+- Sections all have `{% schema %}` blocks so merchants can edit copy, colors,
+  CTAs, and collection pickers without touching code.
+- The `customers/account` template uses the new Online Store 2.0 layout; if you
+  want the legacy account flow, swap it back to a `.liquid` file.
+- The Spin-to-Win popup persists state in `sessionStorage`; one spin per session.
+  Toggle it off in **Theme editor → Theme settings → Add-ons**.

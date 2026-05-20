@@ -1,0 +1,35 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Sun Punks",
+    "theme_version": "1.0.0",
+    "theme_author": "Sun Punks Clothing",
+    "theme_documentation_url": "https://github.com/mikeyod3-dev/sunpunks-overhaul-test#readme",
+    "theme_support_url": "https://github.com/mikeyod3-dev/sunpunks-overhaul-test/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_sunset", "label": "Sunset · primary accent", "default": "#e8552c" },
+      { "type": "color", "id": "color_ocean",  "label": "Ocean · secondary accent", "default": "#1f8a8f" },
+      { "type": "color", "id": "color_acid",   "label": "Acid · highlight", "default": "#f7d24c" },
+      { "type": "color", "id": "color_ink",    "label": "Ink · text", "default": "#1b2a3a" },
+      { "type": "color", "id": "color_sand",   "label": "Sand · page background", "default": "#f4ead5" }
+    ]
+  },
+  {
+    "name": "Add-ons",
+    "settings": [
+      { "type": "checkbox", "id": "spin_enabled", "label": "Show Spin-to-Win popup", "default": true,
+        "info": "1-in-50 chance at a free Sun Punks hacky sack. Email-gated." }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "url", "id": "social_tiktok",    "label": "TikTok URL" },
+      { "type": "url", "id": "social_youtube",   "label": "YouTube URL" }
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+<section class="section section--tight" id="shopify-section-{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <header class="section-head" data-anim>
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+          <h2 class="h2">{{ section.settings.heading }}</h2>
+        </div>
+      </header>
+    {%- endif -%}
+
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));" data-anim-stagger>
+      {%- for block in section.blocks -%}
+        <a class="product-card" href="{{ block.settings.url }}" {{ block.shopify_attributes }}>
+          <div class="product-card__media" style="aspect-ratio: 4/3; background: linear-gradient(135deg, {{ block.settings.gradient_from }}, {{ block.settings.gradient_to }});">
+            {%- if block.settings.badge != blank -%}<span class="product-card__badge">{{ block.settings.badge }}</span>{%- endif -%}
+            <svg viewBox="0 0 4 3" preserveAspectRatio="none" width="100%" height="100%">
+              <text x="2" y="1.95" font-family="Anton" font-size="0.7" fill="{{ block.settings.text_color }}" text-anchor="middle">{{ block.settings.label }}</text>
+            </svg>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title">{{ block.settings.title }} →</h3>
+            {%- if block.settings.subtitle != blank -%}<p class="muted" style="font-size:.85rem;">{{ block.settings.subtitle }}</p>{%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category tiles",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop by category" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your weapon" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "text",  "id": "label",         "label": "Display label",  "default": "TEES" },
+        { "type": "text",  "id": "title",         "label": "Title",          "default": "Tees" },
+        { "type": "text",  "id": "subtitle",      "label": "Subtitle" },
+        { "type": "text",  "id": "badge",         "label": "Badge (optional)" },
+        { "type": "url",   "id": "url",           "label": "Link" },
+        { "type": "color", "id": "gradient_from", "label": "Gradient from",  "default": "#e8552c" },
+        { "type": "color", "id": "gradient_to",   "label": "Gradient to",    "default": "#c8441f" },
+        { "type": "color", "id": "text_color",    "label": "Label color",    "default": "#fbf6e9" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "tile", "settings": { "label": "TEES",    "title": "Tees",            "gradient_from": "#e8552c", "gradient_to": "#c8441f", "text_color": "#fbf6e9" } },
+      { "type": "tile", "settings": { "label": "KOOZIES", "title": "Koozies",         "gradient_from": "#1f8a8f", "gradient_to": "#166b6f", "text_color": "#f7d24c" } },
+      { "type": "tile", "settings": { "label": "BAGS",    "title": "Bags & Totes",    "gradient_from": "#f7d24c", "gradient_to": "#e8552c", "text_color": "#1b2a3a" } }
+    ]
+  },
+  "presets": [ { "name": "Category tiles" } ]
+}
+{% endschema %}

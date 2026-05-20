@@ -1,0 +1,23 @@
+{
+  "current": {
+    "color_sunset": "#e8552c",
+    "color_ocean":  "#1f8a8f",
+    "color_acid":   "#f7d24c",
+    "color_ink":    "#1b2a3a",
+    "color_sand":   "#f4ead5",
+    "spin_enabled": true,
+    "social_instagram": "",
+    "social_tiktok": "",
+    "social_youtube": ""
+  },
+  "presets": {
+    "Sun Punks default": {
+      "color_sunset": "#e8552c",
+      "color_ocean":  "#1f8a8f",
+      "color_acid":   "#f7d24c",
+      "color_ink":    "#1b2a3a",
+      "color_sand":   "#f4ead5",
+      "spin_enabled": true
+    }
+  }
+}
