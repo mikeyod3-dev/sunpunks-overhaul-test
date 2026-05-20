@@ -63,6 +63,18 @@ a Shopify store via **Shopify admin → Online Store → Themes → Add theme �
 5. Edits to the connected branch sync live in Shopify; edits in the theme editor
    commit back to the branch (or to a feature branch you configure).
 
+## ⚠️ Hero video setup (important)
+
+Shopify themes have a hard **50MB total size cap**, so the surf clips that
+shipped with the static demo are NOT bundled in this repo. After import:
+
+1. Open the theme editor → click the hero section
+2. **Upload hero video** — drag in an MP4 (Shopify Files, no size cap there)
+3. *Or* paste a YouTube / Vimeo URL into the **External video URL** field
+
+Until one of those is set the hero shows the SVG poster artwork. The hero
+section will never crash from missing video assets.
+
 ## What's in here vs. what Shopify will fill in
 
 The theme provides the **structure and visuals**; Shopify provides the **data**:

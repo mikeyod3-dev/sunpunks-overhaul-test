@@ -556,14 +556,15 @@
   //   data-playlist="id1,id2" data-playlist-path="assets/surf/"  (static preview)
   const heroVid = $('.hero-video[data-playlist-urls], .hero-video[data-playlist]');
   if (heroVid) {
-    let order;
+    let order = [];
     if (heroVid.dataset.playlistUrls) {
       order = heroVid.dataset.playlistUrls.split('|').map(s => s.trim()).filter(Boolean);
-    } else {
+    } else if (heroVid.dataset.playlist) {
       const ids = heroVid.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
       const pathPrefix = heroVid.dataset.playlistPath || 'assets/';
       order = ids.map(id => `${pathPrefix}${id}.mp4`);
     }
+    if (order.length === 0) return;   // no clips configured — leave the poster
     // Shuffle so the loop feels fresh each pageload, but keep stable within a session.
     order = order.slice().sort(() => Math.random() - 0.5);
     const srcOf = i => order[i % order.length];

@@ -6,13 +6,15 @@
     3. surf-{id}.mp4 playlist bundled in theme assets (the original local demo).
 {%- endcomment -%}
 
-{%- assign clip_ids = section.settings.clip_ids | split: ',' -%}
 {%- capture playlist_urls -%}
-  {%- for raw_id in clip_ids -%}
-    {%- assign id = raw_id | strip -%}
-    {%- assign filename = 'surf-' | append: id | append: '.mp4' -%}
-    {{ filename | asset_url }}{% unless forloop.last %}|{% endunless %}
-  {%- endfor -%}
+  {%- if section.settings.clip_ids != blank -%}
+    {%- assign clip_ids = section.settings.clip_ids | split: ',' -%}
+    {%- for raw_id in clip_ids -%}
+      {%- assign id = raw_id | strip -%}
+      {%- assign filename = 'surf-' | append: id | append: '.mp4' -%}
+      {{ filename | asset_url }}{% unless forloop.last %}|{% endunless %}
+    {%- endfor -%}
+  {%- endif -%}
 {%- endcapture -%}
 
 <section class="hero--video hero--live" id="shopify-section-{{ section.id }}" aria-label="{{ section.settings.aria_label }}">
@@ -85,9 +87,9 @@
       "accept": ["youtube", "vimeo"],
       "info": "Paste a YouTube or Vimeo link. Used only if no upload is set." },
     { "type": "textarea",   "id": "clip_ids",
-      "label": "Or bundled surf-clip playlist (IDs, comma-separated)",
-      "info": "Last-resort fallback. References assets/surf-{id}.mp4 from the theme.",
-      "default": "36924, 1568, 36833, 1076, 1127, 1071, 1074, 1128, 1163, 1207, 1191, 36814" },
+      "label": "Or bundled clip playlist (advanced)",
+      "info": "Optional. Comma-separated IDs that reference assets/surf-{id}.mp4. Most stores should upload above instead — theme assets count toward Shopify's 50MB theme size limit.",
+      "default": "" },
 
     { "type": "header", "content": "Copy & HUD" },
     { "type": "text",     "id": "aria_label",      "label": "Section aria-label", "default": "Sun Punks on Film" },
