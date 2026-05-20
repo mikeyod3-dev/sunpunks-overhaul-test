@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- LIQUID: layout/theme.liquid <head> -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Sun Punks Clothing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+  <!-- /LIQUID -->
+</head>
+<body data-template="page.contact">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- LIQUID: {% section 'announcement-bar' %} -->
+  <div class="announce">Free U.S. shipping over <strong>$50</strong></div>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% section 'header' %} -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="collection.html">Shop</a>
+        <a href="collection.html#tees">Tees</a>
+        <a href="collection.html#koozies">Koozies</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      </nav>
+      <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
+      <div class="site-header__tools">
+        <a class="icon-btn" href="#" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+        <a class="icon-btn" href="cart.html" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-count" data-cart-count>2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- /LIQUID -->
+
+  <main id="main">
+
+    <!-- LIQUID: {% section 'page-contact' %} -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Get in touch</p>
+        <h1 class="h1">Say <span class="mark-acid">hey</span>.</h1>
+        <p class="lede" style="margin-top:1rem;">Order question, design idea, or just want to send a beach photo — we read everything.</p>
+
+        <div class="contact" style="margin-top: 3rem;">
+          <form action="#" method="post" aria-label="Contact form">
+            <label>
+              <span class="option__label">Name</span>
+              <input type="text" name="name" required autocomplete="name" />
+            </label>
+            <label>
+              <span class="option__label">Email</span>
+              <input type="email" name="email" required autocomplete="email" />
+            </label>
+            <label>
+              <span class="option__label">Subject</span>
+              <select name="topic">
+                <option>Order question</option>
+                <option>Returns & exchanges</option>
+                <option>Wholesale</option>
+                <option>Design idea</option>
+                <option>Just saying hi</option>
+              </select>
+            </label>
+            <label>
+              <span class="option__label">Message</span>
+              <textarea rows="6" name="body" required></textarea>
+            </label>
+            <button class="btn btn--primary" type="submit">Send it</button>
+          </form>
+
+          <aside>
+            <h2 class="h3" style="margin-bottom:1rem;">Other ways</h2>
+            <p><strong>Email</strong><br/><a href="mailto:hey@sunpunksclothing.com">hey@sunpunksclothing.com</a></p>
+            <p style="margin-top:1rem;"><strong>Instagram</strong><br/>@sunpunksclothing</p>
+            <p style="margin-top:1rem;"><strong>Response time</strong><br/>Usually within 24h — we close shop on Saturdays for surf.</p>
+            <div style="margin-top:2rem; padding:1.5rem; background: var(--cream); border-radius: var(--radius);">
+              <p class="eyebrow">FYI</p>
+              <p style="margin-top:.5rem;">All orders ship from the USA. Returns within 30 days. International shipping coming soon.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+  </main>
+
+  <!-- LIQUID: {% section 'footer' %} -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__brand">Sun<span style="color:var(--sunset)">·</span>Punks</p>
+          <p style="max-width: 32ch; color:#ffffffaa; margin-top: .5rem;">Surf. Sun. Soul.</p>
+        </div>
+        <div><h4>Shop</h4><ul class="stack"><li><a href="collection.html">All products</a></li><li><a href="collection.html#tees">Tees</a></li><li><a href="collection.html#koozies">Koozies</a></li></ul></div>
+        <div><h4>Help</h4><ul class="stack"><li><a href="contact.html">Contact</a></li><li><a href="#">Shipping & returns</a></li></ul></div>
+        <div><h4>Follow</h4><ul class="stack"><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li></ul></div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Sun Punks Clothing</span>
+        <div class="payment-icons"><span>Visa</span><span>MC</span><span>Amex</span><span>Apple Pay</span><span>Shop Pay</span></div>
+      </div>
+    </div>
+  </footer>
+  <!-- /LIQUID -->
+
+  <script src="assets/theme.js" defer></script>
+</body>
+</html>

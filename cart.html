@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- LIQUID: layout/theme.liquid <head> -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart — Sun Punks Clothing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+  <!-- /LIQUID -->
+</head>
+<body data-template="cart">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- LIQUID: {% section 'announcement-bar' %} -->
+  <div class="announce">Free U.S. shipping over <strong>$50</strong></div>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% section 'header' %} -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="collection.html">Shop</a>
+        <a href="collection.html#tees">Tees</a>
+        <a href="collection.html#koozies">Koozies</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
+      <div class="site-header__tools">
+        <a class="icon-btn" href="#" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+        <a class="icon-btn" href="cart.html" aria-label="Cart" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-count" data-cart-count>2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- /LIQUID -->
+
+  <main id="main">
+
+    <!-- LIQUID: {% section 'main-cart' %} -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Your bag</p>
+        <h1 class="h1">Cart</h1>
+
+        <div class="cart" style="margin-top: 2rem;">
+          <div>
+            <div class="cart-item">
+              <div class="cart-item__img" style="background:#e8552c;">
+                <svg viewBox="0 0 1 1" preserveAspectRatio="none"><text x=".5" y=".6" font-family="Anton" font-size=".25" fill="#fbf6e9" text-anchor="middle">TEE</text></svg>
+              </div>
+              <div>
+                <strong style="font-family:var(--font-display); font-size:1.25rem; letter-spacing:.05em; text-transform:uppercase;">Sun Punk Summer Boxy Tee</strong>
+                <div class="muted" style="font-size:.9rem; margin-top:.25rem;">Sand · M</div>
+                <div class="qty" style="margin-top:.6rem;">
+                  <button type="button" aria-label="Decrease" data-qty="-1">−</button>
+                  <input type="text" value="1" aria-label="Quantity" data-qty-input />
+                  <button type="button" aria-label="Increase" data-qty="1">+</button>
+                </div>
+                <button class="btn--sm muted" style="background:none; padding-left:0; margin-top:.5rem; text-decoration:underline;">Remove</button>
+              </div>
+              <strong>$20.00</strong>
+            </div>
+
+            <div class="cart-item">
+              <div class="cart-item__img" style="background:#1f8a8f;">
+                <svg viewBox="0 0 1 1" preserveAspectRatio="none"><text x=".5" y=".6" font-family="Anton" font-size=".2" fill="#f7d24c" text-anchor="middle">TRIBAL</text></svg>
+              </div>
+              <div>
+                <strong style="font-family:var(--font-display); font-size:1.25rem; letter-spacing:.05em; text-transform:uppercase;">Sun Punk Tribal Koozie</strong>
+                <div class="muted" style="font-size:.9rem; margin-top:.25rem;">Blue · One size</div>
+                <div class="qty" style="margin-top:.6rem;">
+                  <button type="button" aria-label="Decrease" data-qty="-1">−</button>
+                  <input type="text" value="1" aria-label="Quantity" data-qty-input />
+                  <button type="button" aria-label="Increase" data-qty="1">+</button>
+                </div>
+                <button class="btn--sm muted" style="background:none; padding-left:0; margin-top:.5rem; text-decoration:underline;">Remove</button>
+              </div>
+              <strong>$4.99</strong>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <a href="collection.html" class="btn btn--ghost">← Keep shopping</a>
+            </div>
+          </div>
+
+          <aside class="cart-summary" aria-label="Order summary">
+            <h2 style="font-size:1.4rem; margin-bottom: 1rem;">Order summary</h2>
+            <div class="cart-summary__row"><span>Subtotal</span><span>$24.99</span></div>
+            <div class="cart-summary__row"><span>Shipping</span><span class="muted">Calculated at checkout</span></div>
+            <div class="cart-summary__row"><span>Estimated tax</span><span class="muted">—</span></div>
+            <div class="cart-summary__row cart-summary__total"><span>Total</span><span>$24.99</span></div>
+            <label style="margin-top:1rem; display:block;">
+              <span class="option__label">Order note</span>
+              <textarea rows="3" placeholder="Anything we should know?"></textarea>
+            </label>
+            <button class="btn btn--primary btn--block" style="margin-top:1rem;">Checkout →</button>
+            <p class="muted" style="font-size:.8rem; text-align:center; margin-top:.75rem;">Taxes and shipping calculated at checkout.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+  </main>
+
+  <!-- LIQUID: {% section 'footer' %} -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__brand">Sun<span style="color:var(--sunset)">·</span>Punks</p>
+          <p style="max-width: 32ch; color:#ffffffaa; margin-top: .5rem;">Surf. Sun. Soul.</p>
+        </div>
+        <div><h4>Shop</h4><ul class="stack"><li><a href="collection.html">All products</a></li><li><a href="collection.html#tees">Tees</a></li><li><a href="collection.html#koozies">Koozies</a></li></ul></div>
+        <div><h4>Help</h4><ul class="stack"><li><a href="contact.html">Contact</a></li><li><a href="#">Shipping & returns</a></li></ul></div>
+        <div><h4>Follow</h4><ul class="stack"><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li></ul></div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Sun Punks Clothing</span>
+        <div class="payment-icons"><span>Visa</span><span>MC</span><span>Amex</span><span>Apple Pay</span><span>Shop Pay</span></div>
+      </div>
+    </div>
+  </footer>
+  <!-- /LIQUID -->
+
+  <script src="assets/theme.js" defer></script>
+</body>
+</html>

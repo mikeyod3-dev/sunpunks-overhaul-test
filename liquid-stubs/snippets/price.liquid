@@ -1,0 +1,21 @@
+{% comment %}
+  Snippet: price
+  Usage:   {% render 'price', product: product %}  or  {% render 'price', variant: variant %}
+{% endcomment %}
+
+{%- liquid
+  if variant
+    assign target = variant
+  else
+    assign target = product.selected_or_first_available_variant
+  endif
+-%}
+
+<p class="product-card__price">
+  {%- if target.compare_at_price > target.price -%}
+    <span class="price--sale">{{ target.price | money }}</span>
+    <s class="price--was muted">{{ target.compare_at_price | money }}</s>
+  {%- else -%}
+    {{ target.price | money }}
+  {%- endif -%}
+</p>

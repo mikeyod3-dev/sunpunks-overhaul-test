@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- LIQUID: layout/theme.liquid <head> -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sun Punk Summer Boxy Tee — Sun Punks Clothing</title>
+  <meta name="description" content="Oversized boxy tee with the Sun Punk Summer graphic. Heavyweight cotton. Garment dyed for sun-bleached fade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+  <!-- /LIQUID -->
+</head>
+<body data-template="product">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- LIQUID: {% section 'announcement-bar' %} -->
+  <div class="announce">Free U.S. shipping over <strong>$50</strong></div>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% section 'header' %} -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="collection.html">Shop</a>
+        <a href="collection.html#tees">Tees</a>
+        <a href="collection.html#koozies">Koozies</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
+      <div class="site-header__tools">
+        <button class="icon-btn nav-toggle" aria-label="Open menu" data-nav-toggle>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <a class="icon-btn" href="#" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+        <a class="icon-btn" href="#" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+        <button class="icon-btn" aria-label="Cart" data-cart-toggle>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-count" data-cart-count>2</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- /LIQUID -->
+
+  <main id="main">
+
+    <!-- LIQUID: {% section 'breadcrumbs' %} -->
+    <nav class="container" aria-label="Breadcrumb" style="padding-block: 1rem; font-size: var(--fs-sm);">
+      <a href="index.html">Home</a> /
+      <a href="collection.html">Catalog</a> /
+      <span>Sun Punk Summer Boxy Tee</span>
+    </nav>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'main-product' %} -->
+    <section class="container product">
+
+      <!-- LIQUID: {% render 'product-gallery', product: product %} -->
+      <div class="product__gallery">
+        <div class="product__thumbs" role="tablist" aria-label="Gallery thumbnails">
+          <button aria-current="true">
+            <svg viewBox="0 0 1 1" preserveAspectRatio="xMidYMid slice"><rect width="1" height="1" fill="#f4ead5"/></svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 1 1"><rect width="1" height="1" fill="#1b2a3a"/></svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 1 1"><rect width="1" height="1" fill="#e8552c"/></svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 1 1"><rect width="1" height="1" fill="#1f8a8f"/></svg>
+          </button>
+        </div>
+        <div class="product__hero">
+          <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%">
+            <rect width="4" height="5" fill="#f4ead5"/>
+            <circle cx="2" cy="2" r="1.2" fill="#f7d24c"/>
+            <text x="2" y="3.6" font-family="Anton" font-size="0.55" fill="#e8552c" text-anchor="middle" letter-spacing="0.02">SUN PUNK SUMMER</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- LIQUID: {% render 'product-form', product: product %} -->
+      <div>
+        <p class="eyebrow">Sun Punks Originals</p>
+        <h1 class="product__title">Sun Punk Summer — Unisex Oversized Boxy Tee</h1>
+        <p class="product__price" style="margin-top:.5rem;">$20.00 <span class="muted" style="font-weight:400; font-size: 1rem;">USD · shipping calc'd at checkout</span></p>
+
+        <div class="option">
+          <p class="option__label">Color</p>
+          <div class="option__choices" role="radiogroup" aria-label="Color">
+            <input type="radio" id="c-sand" name="color" checked />
+            <label for="c-sand">Sand</label>
+            <input type="radio" id="c-navy" name="color" />
+            <label for="c-navy">Navy</label>
+            <input type="radio" id="c-sunset" name="color" />
+            <label for="c-sunset">Sunset</label>
+            <input type="radio" id="c-ocean" name="color" />
+            <label for="c-ocean">Ocean</label>
+          </div>
+        </div>
+
+        <div class="option">
+          <p class="option__label">Size</p>
+          <div class="option__choices" role="radiogroup" aria-label="Size">
+            <input type="radio" id="s-s" name="size" />
+            <label for="s-s">S</label>
+            <input type="radio" id="s-m" name="size" checked />
+            <label for="s-m">M</label>
+            <input type="radio" id="s-l" name="size" />
+            <label for="s-l">L</label>
+            <input type="radio" id="s-xl" name="size" />
+            <label for="s-xl">XL</label>
+            <input type="radio" id="s-2xl" name="size" />
+            <label for="s-2xl">2XL</label>
+          </div>
+          <p class="muted" style="font-size:.85rem; margin-top: .5rem;"><a href="#" style="text-decoration:underline">Size guide</a></p>
+        </div>
+
+        <div class="option">
+          <p class="option__label">Quantity</p>
+          <div class="qty" role="group" aria-label="Quantity">
+            <button type="button" aria-label="Decrease" data-qty="-1">−</button>
+            <input type="text" value="1" aria-label="Quantity" data-qty-input />
+            <button type="button" aria-label="Increase" data-qty="1">+</button>
+          </div>
+        </div>
+
+        <div class="product__atc">
+          <button class="btn btn--primary btn--block" type="button">Add to cart · $20.00</button>
+          <button class="btn btn--ghost btn--block" type="button">Buy with Shop Pay</button>
+        </div>
+
+        <div class="product__meta">
+          <details class="accordion" open>
+            <summary>The details</summary>
+            <p>Heavyweight 100% cotton, oversized boxy fit, drop shoulder. Garment-dyed so the color fades like the sky over the Pacific. Front graphic, blank back. Printed on demand in the USA.</p>
+          </details>
+          <details class="accordion">
+            <summary>Fit & sizing</summary>
+            <p>Runs true to size for an oversized look. Size down for a relaxed-but-not-baggy fit. Length on M: 28″, Chest: 24″.</p>
+          </details>
+          <details class="accordion">
+            <summary>Care</summary>
+            <p>Cold wash inside out, hang dry. The dye will fade — that's the point. Don't iron directly on the graphic.</p>
+          </details>
+          <details class="accordion">
+            <summary>Shipping & returns</summary>
+            <p>Ships in 3–5 business days from the USA. Free returns within 30 days on unworn items.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'product-recommendations' %} -->
+    <section class="section section--tight">
+      <div class="container">
+        <header class="section-head">
+          <div>
+            <p class="eyebrow">You might also like</p>
+            <h2 class="h2">Pair it up</h2>
+          </div>
+          <a class="section-head__link" href="collection.html">Shop all</a>
+        </header>
+        <div class="grid grid--products">
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#e8552c"/><text x="2" y="2.8" font-family="Anton" font-size="0.6" fill="#fbf6e9" text-anchor="middle">TRIBAL</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Sun Punk Tribal Koozie</h3>
+                <p class="product-card__price">$4.99</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <span class="product-card__badge">Eco</span>
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#ead8b2"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1b2a3a" text-anchor="middle">CANVAS TOTE</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Cotton Canvas Tote Bag</h3>
+                <p class="product-card__price">$14.99</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f7d24c"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">VERTICAL</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Sun Punk Vertical Tee</h3>
+                <p class="product-card__price">$20.00</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4ead5"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1f8a8f" text-anchor="middle">SURF CLUB</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Surf Club Comfort Colors Tee</h3>
+                <p class="product-card__price">$20.00</p>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+  </main>
+
+  <!-- LIQUID: {% section 'footer' %} -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__brand">Sun<span style="color:var(--sunset)">·</span>Punks</p>
+          <p style="max-width: 32ch; color:#ffffffaa; margin-top: .5rem;">Surf. Sun. Soul. — graphic gear for the sun-chasing crowd.</p>
+        </div>
+        <div><h4>Shop</h4><ul class="stack"><li><a href="collection.html">All products</a></li><li><a href="collection.html#tees">Tees</a></li><li><a href="collection.html#koozies">Koozies</a></li><li><a href="collection.html#bags">Bags</a></li></ul></div>
+        <div><h4>Help</h4><ul class="stack"><li><a href="contact.html">Contact</a></li><li><a href="#">Shipping & returns</a></li><li><a href="#">Size guide</a></li><li><a href="#">FAQ</a></li></ul></div>
+        <div><h4>Follow</h4><ul class="stack"><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">YouTube</a></li></ul></div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Sun Punks Clothing · <a href="#">Privacy</a> · <a href="#">Terms</a></span>
+        <div class="payment-icons"><span>Visa</span><span>MC</span><span>Amex</span><span>Disc</span><span>Apple Pay</span><span>Shop Pay</span><span>PayPal</span><span>Venmo</span></div>
+      </div>
+    </div>
+  </footer>
+  <!-- /LIQUID -->
+
+  <script src="assets/theme.js" defer></script>
+</body>
+</html>

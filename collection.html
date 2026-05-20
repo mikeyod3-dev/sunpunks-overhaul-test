@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- LIQUID: layout/theme.liquid <head> -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalog — Sun Punks Clothing</title>
+  <meta name="description" content="Shop the full Sun Punks Clothing catalog: graphic tees, koozies, totes, and beach gear." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+  <!-- /LIQUID -->
+</head>
+<body data-template="collection">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- LIQUID: {% section 'announcement-bar' %} -->
+  <div class="announce">Free U.S. shipping over <strong>$50</strong></div>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% section 'header' %} -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="collection.html" aria-current="page">Shop</a>
+        <a href="collection.html#tees">Tees</a>
+        <a href="collection.html#koozies">Koozies</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
+      <div class="site-header__tools">
+        <button class="icon-btn nav-toggle" aria-label="Open menu" data-nav-toggle>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <a class="icon-btn" href="#" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+        <a class="icon-btn" href="#" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+        <button class="icon-btn" aria-label="Cart" data-cart-toggle>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-count" data-cart-count>2</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- /LIQUID -->
+
+  <main id="main">
+
+    <!-- LIQUID: {% section 'main-collection-banner' %} -->
+    <section class="collection-hero">
+      <div class="container">
+        <p class="eyebrow">Catalog</p>
+        <h1 class="h1">The whole <span class="mark-acid">closet</span></h1>
+        <p class="lede" style="margin-top:1rem;">Every Sun Punks piece, one scroll. 22 in stock.</p>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'main-collection' %} -->
+    <section class="section section--tight">
+      <div class="container">
+
+        <div class="collection-toolbar">
+          <div class="cluster">
+            <strong>22 products</strong>
+            <span class="muted">·</span>
+            <span class="muted">Showing 1–16</span>
+          </div>
+          <div class="cluster">
+            <label for="sort" class="muted" style="margin-right:.5rem;">Sort</label>
+            <select id="sort" aria-label="Sort by">
+              <option>Featured</option>
+              <option>Best selling</option>
+              <option>Alphabetically, A–Z</option>
+              <option>Alphabetically, Z–A</option>
+              <option>Price, low to high</option>
+              <option>Price, high to low</option>
+              <option>Date, new to old</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="collection-layout">
+
+          <aside class="filter-rail" aria-label="Filters">
+            <details open>
+              <summary><h4 style="display:inline">Availability</h4></summary>
+              <label><input type="checkbox" checked /> In stock (21)</label>
+              <label><input type="checkbox" /> Out of stock (1)</label>
+            </details>
+            <details open>
+              <summary><h4 style="display:inline">Price</h4></summary>
+              <label style="display:block; padding-top:.5rem;">
+                <input type="range" min="0" max="20" value="20" />
+                <div class="muted" style="font-size:.85rem;">Up to $20.00</div>
+              </label>
+            </details>
+            <details open>
+              <summary><h4 style="display:inline">Type</h4></summary>
+              <label><input type="checkbox" /> T-Shirts (14)</label>
+              <label><input type="checkbox" /> Koozies (6)</label>
+              <label><input type="checkbox" /> Bags (1)</label>
+              <label><input type="checkbox" /> Tanks (1)</label>
+            </details>
+            <details>
+              <summary><h4 style="display:inline">Color</h4></summary>
+              <label><input type="checkbox" /> Sand</label>
+              <label><input type="checkbox" /> Navy</label>
+              <label><input type="checkbox" /> Sunset</label>
+              <label><input type="checkbox" /> Ocean</label>
+            </details>
+            <details>
+              <summary><h4 style="display:inline">Size</h4></summary>
+              <label><input type="checkbox" /> S</label>
+              <label><input type="checkbox" /> M</label>
+              <label><input type="checkbox" /> L</label>
+              <label><input type="checkbox" /> XL</label>
+            </details>
+          </aside>
+
+          <div class="grid grid--products" id="tees">
+            <!-- LIQUID: {% for product in collection.products %}{% render 'product-card', product: product %}{% endfor %} -->
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <span class="product-card__badge">New</span>
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4ead5"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#e8552c" text-anchor="middle">SUN PUNKS</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk Summer — Boxy Tee</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <span class="product-card__badge product-card__badge--ocean">USA</span>
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#1f8a8f"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#f7d24c" text-anchor="middle">USA TEE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk Summer USA Tee</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f7d24c"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">VERTICAL</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk Vertical Tee</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#1b2a3a"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#f7d24c" text-anchor="middle">BOHO TEE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Oversized Boxy Tee — Boho Graphic</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4ead5"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1f8a8f" text-anchor="middle">SURF CLUB</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Surf Club Comfort Colors Tee</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#fbf6e9"/><text x="2" y="2.8" font-family="Anton" font-size="0.4" fill="#e8552c" text-anchor="middle">OLD SCHOOL</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Garment-Dyed Old School Tee</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#e8552c"/><text x="2" y="2.8" font-family="Anton" font-size="0.6" fill="#fbf6e9" text-anchor="middle">LOGO</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Oversized Boxy Tee — Sun Punks Logo</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#ead8b2"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">TANK</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Women's Spaghetti Strap Tank</h3>
+                  <p class="product-card__price">$20.00</p>
+                </div>
+              </a>
+            </article>
+
+            <div id="koozies"></div>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#e8552c"/><text x="2" y="2.8" font-family="Anton" font-size="0.6" fill="#fbf6e9" text-anchor="middle">TRIBAL</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk Tribal Koozie</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#1f8a8f"/><text x="2" y="2.8" font-family="Anton" font-size="0.6" fill="#fbf6e9" text-anchor="middle">TRIBAL</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk Tribal Koozie — Blue</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#1b2a3a"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#f7d24c" text-anchor="middle">USA</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punk USA Koozie</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4ead5"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">SIMPLE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punks Simple Koozie</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#9ec7e8"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">SIMPLE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punks Simple Koozie — Blue</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4b6c2"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">SIMPLE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Sun Punks Simple Koozie — Pink</h3>
+                  <p class="product-card__price">$4.99</p>
+                </div>
+              </a>
+            </article>
+
+            <div id="bags"></div>
+
+            <article class="product-card">
+              <a href="product.html">
+                <div class="product-card__media">
+                  <span class="product-card__badge">Eco</span>
+                  <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#ead8b2"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1b2a3a" text-anchor="middle">CANVAS TOTE</text></svg>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__title">Cotton Canvas Tote Bag</h3>
+                  <p class="product-card__price">$14.99</p>
+                </div>
+              </a>
+            </article>
+
+          </div>
+        </div>
+
+        <nav class="cluster" style="justify-content:center; margin-top: 3rem;" aria-label="Pagination">
+          <a class="btn btn--ghost btn--sm" href="#" aria-current="page">1</a>
+          <a class="btn btn--ghost btn--sm" href="#">2</a>
+          <a class="btn btn--ghost btn--sm" href="#">Next →</a>
+        </nav>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+  </main>
+
+  <!-- LIQUID: {% section 'footer' %} -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__brand">Sun<span style="color:var(--sunset)">·</span>Punks</p>
+          <p style="max-width: 32ch; color:#ffffffaa; margin-top: .5rem;">Surf. Sun. Soul. — graphic gear for the sun-chasing crowd.</p>
+        </div>
+        <div><h4>Shop</h4><ul class="stack">
+          <li><a href="collection.html">All products</a></li>
+          <li><a href="collection.html#tees">Tees</a></li>
+          <li><a href="collection.html#koozies">Koozies</a></li>
+          <li><a href="collection.html#bags">Bags</a></li>
+        </ul></div>
+        <div><h4>Help</h4><ul class="stack">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Shipping & returns</a></li>
+          <li><a href="#">Size guide</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul></div>
+        <div><h4>Follow</h4><ul class="stack">
+          <li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">YouTube</a></li>
+        </ul></div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Sun Punks Clothing · <a href="#">Privacy</a> · <a href="#">Terms</a></span>
+        <div class="payment-icons"><span>Visa</span><span>MC</span><span>Amex</span><span>Disc</span><span>Apple Pay</span><span>Shop Pay</span><span>PayPal</span><span>Venmo</span></div>
+      </div>
+    </div>
+  </footer>
+  <!-- /LIQUID -->
+
+  <script src="assets/theme.js" defer></script>
+</body>
+</html>
