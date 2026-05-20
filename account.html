@@ -23,11 +23,8 @@
   <header class="site-header">
     <div class="container site-header__bar">
       <nav class="site-header__nav" aria-label="Primary">
-        <a href="collection.html">Shop</a>
-        <a href="collection.html#tees">Tees</a>
-        <a href="collection.html#koozies">Koozies</a>
-        <a href="swimsuits.html">Swimsuits</a>
-        <a href="dressing-room.html">Dressing Room</a>
+        <a href="collection.html">Collection</a>
+        <a href="last-order.html">New Punk</a>
         <a href="contact.html">Contact</a>
       </nav>
       <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
@@ -72,9 +69,10 @@
         <p class="eyebrow">Account</p>
         <h1 class="h1">Become a <span class="mark-acid">Sun Punk.</span></h1>
         <p class="lede" style="margin-top:1rem;">Sign up to track orders, save your sizes, and unlock spins on the wheel. Takes 10 seconds.</p>
-        <form data-account-signup style="display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1.5rem; max-width:520px;">
-          <input type="email" required placeholder="you@thebeach.com" aria-label="Email" style="flex:1; min-width:240px;" />
-          <button type="submit" class="btn btn--primary">Sign me up →</button>
+        <form data-account-signup style="display:grid; gap:.5rem; margin-top:1.5rem; max-width:520px;">
+          <input type="text" required placeholder="Full name (for shipping)" aria-label="Name" autocomplete="name" />
+          <input type="email" required placeholder="you@thebeach.com" aria-label="Email" autocomplete="email" />
+          <button type="submit" class="btn btn--primary" style="justify-self:start;">Sign me up →</button>
         </form>
         <p class="muted" style="font-size:.85rem; margin-top:.5rem;">For the demo this stores everything locally. In production this would create a Shopify customer account.</p>
       </div>
@@ -99,10 +97,11 @@
 
             <div class="account-card" style="margin-top:1.5rem;" data-anim="left">
               <h2>Profile</h2>
-              <p><strong>Email</strong><br/><span data-account-email>—</span></p>
+              <p><strong>Shipping name</strong><br/><span data-account-shipping-name>—</span></p>
+              <p style="margin-top:1rem;"><strong>Email</strong><br/><span data-account-email>—</span></p>
               <p style="margin-top:1rem;"><strong>Member since</strong><br/><span data-account-since-full>—</span></p>
               <div class="cluster" style="margin-top:1.25rem;">
-                <a class="btn btn--ghost btn--sm" href="#" data-edit-profile>Edit profile</a>
+                <button class="btn btn--ghost btn--sm" data-edit-name>Edit name</button>
                 <button class="btn btn--ghost btn--sm" data-account-logout>Log out</button>
               </div>
             </div>
@@ -110,7 +109,7 @@
 
           <div>
             <div class="account-card" data-anim="right">
-              <h2>Order history <a href="contact.html">Need help?</a></h2>
+              <h2>Order history <a href="last-order.html">View latest →</a></h2>
 
               <div class="order">
                 <div class="order__head">

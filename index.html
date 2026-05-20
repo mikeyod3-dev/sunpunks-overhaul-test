@@ -26,11 +26,8 @@
   <header class="site-header">
     <div class="container site-header__bar">
       <nav class="site-header__nav" aria-label="Primary">
-        <a href="collection.html">Shop</a>
-        <a href="collection.html#tees">Tees</a>
-        <a href="collection.html#koozies">Koozies</a>
-        <a href="swimsuits.html">Swimsuits</a>
-        <a href="dressing-room.html">Dressing Room</a>
+        <a href="collection.html">Collection</a>
+        <a href="last-order.html">New Punk</a>
         <a href="contact.html">Contact</a>
       </nav>
       <a class="site-header__logo" href="index.html">
@@ -57,38 +54,13 @@
 
   <main id="main">
 
-    <!-- LIQUID: {% section 'hero-live-cam' %} -->
-    <!--
-      LIVE BEACH CAM HERO
-      ===================
-      The <video> below is a PLACEHOLDER loop (assets/hero-surf.mp4). To plug in
-      a real live stream, replace it with ONE of the following inside this section:
-
-        A) YouTube live stream (easiest, requires the stream allows embedding):
-           <iframe class="hero-video"
-                   src="https://www.youtube.com/embed/STREAM_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=STREAM_ID"
-                   allow="autoplay; encrypted-media; picture-in-picture"
-                   allowfullscreen frameborder="0"></iframe>
-
-        B) HLS / m3u8 stream (most beach-cam providers — needs hls.js):
-           <video class="hero-video" autoplay muted playsinline></video>
-           <script type="module">
-             import Hls from "https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.mjs";
-             const v = document.querySelector('.hero-video');
-             const src = 'https://your-stream.example.com/playlist.m3u8';
-             if (Hls.isSupported()) { const h = new Hls(); h.loadSource(src); h.attachMedia(v); }
-             else { v.src = src; }
-           </script>
-
-      IMPORTANT: a commercial storefront embedding a third-party cam needs the
-      cam owner's permission. Reach out to SoWal, HDBeachCams, SkylineWebcams,
-      30A.com, or whoever runs the Grayton feed you want to use.
-    -->
+    <!-- LIQUID: {% section 'hero-sun-punks-on-film' %} -->
     <section class="hero--video hero--live" aria-label="Sun Punks on Film">
       <video class="hero-video"
              autoplay muted playsinline preload="auto"
              poster="assets/hero-poster.svg"
              aria-hidden="true"
+             data-playlist-path="assets/surf/"
              data-playlist="36924,1568,36833,1076,1127,1071,1074,1128,1163,1207,1191,36814"></video>
 
       <div class="hero-live" aria-hidden="true">
@@ -96,7 +68,7 @@
         <div class="stamp">Sun Punks on Film</div>
         <div class="clock" data-live-clock>—</div>
       </div>
-      <div class="hero-feed" aria-hidden="true">FEED <b>·</b> SUN PUNKS ON FILM <b>·</b> CH 30A</div>
+      <div class="hero-feed" aria-hidden="true">FEED <b>·</b> SUN PUNKS ON FILM <b>·</b> 30A</div>
 
       <div class="container">
         <span class="hero-eyebrow">Sun Punks on Film</span>
@@ -293,24 +265,55 @@
     </section>
     <!-- /LIQUID -->
 
-    <!-- LIQUID: {% section 'image-with-text' %} -->
-    <section class="section section--tight">
+    <!-- LIQUID: {% section 'ugc-circle' %} -->
+    <section class="section section--tight" id="circle">
       <div class="container">
-        <div class="editorial-split">
-          <div class="editorial-split__media" data-anim="left">
-            <span class="editorial-split__caption">Pacific, 6:42 AM</span>
-          </div>
-          <div data-anim="right">
-            <p class="eyebrow">The Lookbook</p>
-            <h2 class="h2">Built for <span class="mark-acid">long days</span> & late tides.</h2>
-            <p class="lede" style="margin-top: 1rem">
-              We design every piece around the things we actually do — surf checks before
-              work, beach bonfires after, and weekends spent dodging real plans. Heavyweight
-              cotton, garment dyes that fade like the sky, and graphics drawn on the sand.
+        <header class="section-head" data-anim>
+          <div>
+            <p class="eyebrow">Spotted in the wild</p>
+            <h2 class="h2">The <span class="mark-acid">Sun Punks</span> Circle.</h2>
+            <p class="lede" style="margin-top:.75rem; max-width: 56ch;">
+              Tag <strong>@sunpunksclothing</strong> in your fit pic. The best ones get featured here on rotation — and earn <strong>$5 off</strong> your next order.
             </p>
-            <a class="btn btn--ghost" href="collection.html" style="margin-top:1.5rem">Read the story</a>
           </div>
-        </div>
+          <a class="section-head__link" href="#" data-ugc-next style="cursor:pointer;">Next repost →</a>
+        </header>
+
+        <article class="ugc-feature" data-ugc-feature aria-live="polite" data-anim="scale">
+          <div class="ugc-feature__media" data-ugc-media>
+            <svg viewBox="0 0 1 1" preserveAspectRatio="none">
+              <text x=".5" y=".58" data-ugc-label>TEE</text>
+            </svg>
+            <div class="ugc-feature__progress" data-ugc-progress><span></span></div>
+          </div>
+
+          <div class="ugc-feature__info">
+            <header class="ugc-feature__head">
+              <div class="ugc-feature__avatar" data-ugc-avatar>S</div>
+              <div style="flex:1; min-width:0;">
+                <div class="ugc-feature__handle" data-ugc-handle>@sandbar.salt</div>
+                <div class="ugc-feature__time"><span data-ugc-time>2h</span> · Grayton Beach</div>
+              </div>
+              <button class="btn btn--sm" data-ugc-follow>Follow</button>
+            </header>
+
+            <p class="ugc-feature__caption" data-ugc-caption>Best fit for the sunset run.</p>
+
+            <p class="ugc-feature__tags" data-ugc-tags>#sunpunks #30a #beachpunks</p>
+
+            <div class="ugc-feature__stats">
+              <span><b data-ugc-likes>247</b> likes</span>
+              <span class="dot">·</span>
+              <span><b data-ugc-comments>18</b> comments</span>
+              <span class="dot">·</span>
+              <span><b data-ugc-shares>9</b> shares</span>
+            </div>
+
+            <div class="ugc-feature__cta">
+              <p style="margin:0;">Tag <strong>@sunpunksclothing</strong> on Instagram to land here next. $5 off your next order if you make the cut.</p>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
     <!-- /LIQUID -->
@@ -467,8 +470,10 @@
         <h2 id="spinTitle">One spin per email.</h2>
         <p class="lede" style="margin-top:.5rem;">Sign up for the new-drop list and earn your spin. There's a <strong>1-in-100 shot</strong> at a free Sun Punks hacky sack with your next order.</p>
         <form data-spin-form>
+          <label class="visually-hidden" for="spinName">Full name (for shipping)</label>
+          <input type="text" required placeholder="Full name (for shipping)" id="spinName" autocomplete="name" />
           <label class="visually-hidden" for="spinEmail">Email address</label>
-          <input type="email" required placeholder="you@thebeach.com" id="spinEmail" />
+          <input type="email" required placeholder="you@thebeach.com" id="spinEmail" autocomplete="email" style="margin-top:.5rem;" />
           <button type="submit" class="btn btn--primary btn--block" style="margin-top:.5rem;">Unlock my spin →</button>
           <p class="muted" style="font-size:.75rem; text-align:center; margin-top:.5rem;">No spam — unsubscribe anytime.</p>
         </form>
@@ -481,12 +486,12 @@
           <div class="wheel-pointer" aria-hidden="true"></div>
           <div class="wheel">
             <div class="wheel__rotor" data-wheel-rotor></div>
-            <span class="wheel__label" style="--x: 50px; --y: -87px;">15% OFF</span>
-            <span class="wheel__label" style="--x: 100px; --y: 0px;">FREE STICKER</span>
-            <span class="wheel__label wheel__label--ink" style="--x: 50px; --y: 87px;">FREE SHIP</span>
-            <span class="wheel__label" style="--x: -50px; --y: 87px;">TRY AGAIN</span>
-            <span class="wheel__label" style="--x: -100px; --y: 0px;">10% OFF</span>
-            <span class="wheel__label" style="--x: -50px; --y: -87px;">HACKY SACK</span>
+            <span class="wheel__label" style="--x: 50px; --y: -87px;">NOTHING</span>
+            <span class="wheel__label" style="--x: 100px; --y: 0px;">10% OFF</span>
+            <span class="wheel__label" style="--x: 50px; --y: 87px;">NOTHING</span>
+            <span class="wheel__label wheel__label--ink" style="--x: -50px; --y: 87px;">HACKY SACK</span>
+            <span class="wheel__label" style="--x: -100px; --y: 0px;">NOTHING</span>
+            <span class="wheel__label" style="--x: -50px; --y: -87px;">10% OFF</span>
             <div class="wheel__hub" aria-hidden="true"></div>
           </div>
         </div>

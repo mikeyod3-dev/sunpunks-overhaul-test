@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- LIQUID: layout/theme.liquid <head> -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thanks for the order — Sun Punks Clothing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+  <!-- /LIQUID -->
+</head>
+<body data-template="customers.order">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- LIQUID: {% section 'announcement-bar' %} -->
+  <div class="announce">Coming soon: <strong>Sun Punks Hacky Sacks</strong> &nbsp;·&nbsp; Free U.S. shipping over $50</div>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% section 'header' %} -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="collection.html">Collection</a>
+        <a href="last-order.html" aria-current="page">New Punk</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="site-header__logo" href="index.html">Sun<span class="dot">·</span>Punks</a>
+      <div class="site-header__tools">
+        <button class="icon-btn nav-toggle" aria-label="Open menu" data-nav-toggle>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <a class="icon-btn" href="#" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+        <a class="icon-btn" href="account.html" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+        <a class="icon-btn" href="cart.html" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-count" data-cart-count>0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- /LIQUID -->
+
+  <main id="main">
+
+    <!-- LIQUID: {% section 'thanks-hero' %} -->
+    <section class="thanks-hero">
+      <div class="container">
+        <p class="thanks-hero__eyebrow">Order received</p>
+        <h1 class="thanks-hero__greet">
+          Thanks, <span class="thanks-hero__name" data-customer-name>punk</span>.
+        </h1>
+        <p class="thanks-hero__lede">You just helped fund the next drop. We're packing it up by hand.</p>
+        <div class="thanks-hero__stamps" aria-label="Order details">
+          <span><b>Order</b> #SP1057</span>
+          <span><b>Placed</b> <span data-order-date>Today</span></span>
+          <span><b>Total</b> $24.99</span>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'order-receipt' %} -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <div class="thanks-receipt" data-anim="scale">
+          <div class="thanks-stamp">Received</div>
+          <h2>Your order <span>#SP1057</span></h2>
+
+          <div class="thanks-receipt__line">
+            <div class="thanks-receipt__thumb" style="background:#1b2a3a;">TEE</div>
+            <div>
+              <strong>Sun Punk Summer Boxy Tee</strong>
+              <div class="thanks-receipt__meta">Sand · M · Qty 1</div>
+            </div>
+            <span>$20.00</span>
+          </div>
+
+          <div class="thanks-receipt__line">
+            <div class="thanks-receipt__thumb" style="background:#1f8a8f;">KOO</div>
+            <div>
+              <strong>Sun Punk Tribal Koozie</strong>
+              <div class="thanks-receipt__meta">Blue · Qty 1</div>
+            </div>
+            <span>$4.99</span>
+          </div>
+
+          <div class="thanks-receipt__totals">
+            <div><span>Subtotal</span><span>$24.99</span></div>
+            <div><span>Shipping</span><span>FREE</span></div>
+            <div><span>Tax</span><span>$0.00</span></div>
+            <div class="grand"><span>Total</span><span>$24.99</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'order-timeline' %} -->
+    <section class="section section--tight">
+      <div class="container">
+        <header class="section-head" data-anim>
+          <div>
+            <p class="eyebrow">What happens next</p>
+            <h2 class="h2">From our hands to yours.</h2>
+          </div>
+        </header>
+        <ol class="timeline" data-anim-stagger>
+          <li class="is-done">
+            <b>Ordered</b>
+            <small>Today</small>
+          </li>
+          <li class="is-active">
+            <b>Packed</b>
+            <small>1–2 days</small>
+          </li>
+          <li>
+            <b>Shipped</b>
+            <small>3–5 days · tracking sent</small>
+          </li>
+          <li>
+            <b>Delivered</b>
+            <small>5–7 days · enjoy</small>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'appreciation' %} -->
+    <section class="section">
+      <div class="container">
+        <div class="appreciation" data-anim>
+          <span class="appreciation__days"><span data-account-days>—</span> a Sun Punk</span>
+          <p class="eyebrow" style="color: var(--acid);">For the punks</p>
+          <h2>You're not just a customer — <br/>you're <span class="mark-acid">in the circle</span>.</h2>
+          <p style="max-width: 48ch; margin-inline: auto; color: #fbf6e9cc;">
+            Every order keeps the lights on, the dyes mixing, and the next drop coming. We don't take that for granted.
+          </p>
+          <div class="appreciation__perk">
+            <p style="margin:0;"><b>Tag us in your fit pic.</b> Post wearing your new gear, tag <b>@sunpunksclothing</b>, and we'll send <b>$5 off</b> your next order.</p>
+          </div>
+          <div class="appreciation__share">
+            <a class="btn btn--primary" href="#">Tag us on Instagram</a>
+            <a class="btn btn--ghost" href="#" style="border-color: var(--cream); color: var(--cream);">Leave a review</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'pair-it' %} -->
+    <section class="section section--tight">
+      <div class="container">
+        <header class="section-head" data-anim>
+          <div>
+            <p class="eyebrow">While you wait</p>
+            <h2 class="h2">Round out the kit.</h2>
+          </div>
+          <a class="section-head__link" href="collection.html">Shop all</a>
+        </header>
+        <div class="grid grid--products" data-anim-stagger>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f7d24c"/><text x="2" y="2.8" font-family="Anton" font-size="0.55" fill="#1b2a3a" text-anchor="middle">VERTICAL</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Sun Punk Vertical Tee</h3>
+                <p class="product-card__price">$20.00</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <span class="product-card__badge">Eco</span>
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#ead8b2"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1b2a3a" text-anchor="middle">CANVAS TOTE</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Cotton Canvas Tote Bag</h3>
+                <p class="product-card__price">$14.99</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#e8552c"/><text x="2" y="2.8" font-family="Anton" font-size="0.6" fill="#fbf6e9" text-anchor="middle">USA</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Sun Punk USA Koozie</h3>
+                <p class="product-card__price">$4.99</p>
+              </div>
+            </a>
+          </article>
+          <article class="product-card">
+            <a href="product.html">
+              <div class="product-card__media">
+                <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%"><rect width="4" height="5" fill="#f4ead5"/><text x="2" y="2.8" font-family="Anton" font-size="0.45" fill="#1f8a8f" text-anchor="middle">SURF CLUB</text></svg>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">Surf Club Comfort Colors Tee</h3>
+                <p class="product-card__price">$20.00</p>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'order-help' %} -->
+    <section class="section section--tight">
+      <div class="container" style="max-width: 640px; text-align: center;">
+        <p class="lede">A confirmation hit your inbox. Need help with anything?</p>
+        <div class="cluster" style="justify-content:center; margin-top:1rem;">
+          <a href="account.html" class="btn btn--ghost">View all orders</a>
+          <a href="contact.html" class="btn btn--ghost">Get in touch</a>
+        </div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+  </main>
+
+  <!-- LIQUID: {% section 'footer' %} -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__brand">Sun<span style="color:var(--sunset)">·</span>Punks</p>
+          <p style="max-width: 32ch; color:#ffffffaa; margin-top: .5rem;">Surf. Sun. Soul.</p>
+        </div>
+        <div><h4>Shop</h4><ul class="stack">
+          <li><a href="collection.html">Collection</a></li>
+          <li><a href="swimsuits.html">Swimsuits</a></li>
+        </ul></div>
+        <div><h4>Account</h4><ul class="stack">
+          <li><a href="account.html">Your account</a></li>
+          <li><a href="last-order.html">Latest order</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul></div>
+        <div><h4>Follow</h4><ul class="stack"><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li></ul></div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Sun Punks Clothing</span>
+        <div class="payment-icons"><span>Visa</span><span>MC</span><span>Amex</span><span>Apple Pay</span><span>Shop Pay</span></div>
+      </div>
+    </div>
+  </footer>
+  <!-- /LIQUID -->
+
+  <script src="assets/theme.js" defer></script>
+</body>
+</html>

@@ -7,6 +7,175 @@
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  // ============================================================
+  //  SunPunks UX kit — toast, cart, wishlist, back-to-top
+  // ============================================================
+  window.SunPunks = window.SunPunks || {};
+
+  // ----- Toast -----
+  const toast = (msg, type = 'success') => {
+    let host = document.querySelector('.toast-host');
+    if (!host) {
+      host = document.createElement('div');
+      host.className = 'toast-host';
+      document.body.appendChild(host);
+    }
+    const t = document.createElement('div');
+    t.className = `toast toast--${type}`;
+    t.textContent = msg;
+    host.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('is-visible'));
+    setTimeout(() => {
+      t.classList.remove('is-visible');
+      setTimeout(() => t.remove(), 280);
+    }, 2800);
+  };
+  window.SunPunks.toast = toast;
+
+  // ----- Cart (localStorage) -----
+  const Cart = {
+    KEY: 'sunpunks-cart',
+    read() { try { return JSON.parse(localStorage.getItem(this.KEY)) || []; } catch { return []; } },
+    write(items) { localStorage.setItem(this.KEY, JSON.stringify(items)); this.refresh(); },
+    add(item) {
+      const items = this.read();
+      const existing = items.find(x => x.id === item.id && (x.variant || '') === (item.variant || ''));
+      if (existing) existing.qty = (existing.qty || 1) + (item.qty || 1);
+      else items.push({ ...item, qty: item.qty || 1 });
+      this.write(items);
+    },
+    count() { return this.read().reduce((s, i) => s + (i.qty || 1), 0); },
+    total() { return this.read().reduce((s, i) => s + (i.price || 0) * (i.qty || 1), 0); },
+    refresh() {
+      const n = this.count();
+      $$('[data-cart-count]').forEach(el => {
+        el.textContent = n;
+        el.style.display = n > 0 ? '' : 'none';
+      });
+      this.renderDrawer();
+    },
+    renderDrawer() {
+      const body = $('.drawer__body');
+      const foot = $('.drawer__foot strong:last-child');
+      if (!body) return;
+      const items = this.read();
+      if (!items.length) {
+        body.innerHTML = '<p class="muted" style="text-align:center; padding:2rem 1rem;">Your cart is empty.<br/>Pick a fit from the <a href="collection.html">Collection</a>.</p>';
+        if (foot) foot.textContent = '$0.00';
+        return;
+      }
+      body.innerHTML = items.map(i => `
+        <div class="cart-item">
+          <div class="cart-item__img" style="background:${i.color || '#1b2a3a'};"></div>
+          <div>
+            <strong>${i.title}</strong>
+            <div class="muted" style="font-size:.85rem;">${i.variant || 'One size'} · Qty ${i.qty}</div>
+          </div>
+          <span>$${(i.price * i.qty).toFixed(2)}</span>
+        </div>`).join('');
+      if (foot) foot.textContent = '$' + this.total().toFixed(2);
+    },
+  };
+  window.SunPunks.cart = Cart;
+  Cart.refresh();
+
+  // ----- Wishlist (localStorage) -----
+  const Wishlist = {
+    KEY: 'sunpunks-wishlist',
+    read() { try { return JSON.parse(localStorage.getItem(this.KEY)) || []; } catch { return []; } },
+    write(ids) { localStorage.setItem(this.KEY, JSON.stringify(ids)); this.refresh(); },
+    has(id) { return this.read().includes(id); },
+    toggle(id) {
+      const items = this.read();
+      const i = items.indexOf(id);
+      if (i >= 0) items.splice(i, 1); else items.push(id);
+      this.write(items);
+      return this.has(id);
+    },
+    refresh() {
+      const ids = this.read();
+      $$('.wishlist-btn').forEach(btn => btn.setAttribute('aria-pressed', ids.includes(btn.dataset.id) ? 'true' : 'false'));
+    },
+  };
+  window.SunPunks.wishlist = Wishlist;
+
+  // ----- Auto-enhance: inject quick-add + wishlist on every product card -----
+  const HEART_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.5 4 4 0 0 1 7 2.5c0 6.5-7 11-7 11Z"/></svg>';
+  const PLUS_SVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  $$('.product-card').forEach(card => {
+    const title = card.querySelector('.product-card__title')?.textContent.trim();
+    if (!title) return;
+    // Skip category tiles (they end with → for navigation, no price)
+    if (title.endsWith('→') || title.endsWith('→')) return;
+    if (!card.querySelector('.product-card__price')) return;
+    if (card.querySelector('.quick-add')) return;     // already enhanced
+
+    const priceText = card.querySelector('.product-card__price')?.textContent.trim() || '';
+    const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+    const id = slug(title);
+
+    const qa = document.createElement('button');
+    qa.type = 'button';
+    qa.className = 'quick-add';
+    qa.setAttribute('aria-label', `Quick add ${title}`);
+    qa.innerHTML = PLUS_SVG;
+    qa.dataset.id = id;
+    qa.dataset.title = title;
+    qa.dataset.price = price;
+
+    const wl = document.createElement('button');
+    wl.type = 'button';
+    wl.className = 'wishlist-btn';
+    wl.setAttribute('aria-label', `Save ${title}`);
+    wl.setAttribute('aria-pressed', Wishlist.has(id) ? 'true' : 'false');
+    wl.innerHTML = HEART_SVG;
+    wl.dataset.id = id;
+
+    card.appendChild(qa);
+    card.appendChild(wl);
+  });
+
+  // Delegated click handling for quick-add / wishlist (works for newly-injected nodes)
+  document.addEventListener('click', (e) => {
+    const qa = e.target.closest('.quick-add');
+    if (qa) {
+      e.preventDefault();
+      e.stopPropagation();
+      Cart.add({
+        id: qa.dataset.id,
+        title: qa.dataset.title,
+        price: parseFloat(qa.dataset.price) || 0
+      });
+      qa.classList.add('is-popped');
+      setTimeout(() => qa.classList.remove('is-popped'), 350);
+      toast(`Added · ${qa.dataset.title}`);
+      return;
+    }
+    const wl = e.target.closest('.wishlist-btn');
+    if (wl) {
+      e.preventDefault();
+      e.stopPropagation();
+      const saved = Wishlist.toggle(wl.dataset.id);
+      toast(saved ? 'Saved to wishlist' : 'Removed from wishlist', saved ? 'save' : 'info');
+      wl.setAttribute('aria-pressed', saved ? 'true' : 'false');
+    }
+  });
+
+  // ----- Back-to-top -----
+  const btt = document.createElement('button');
+  btt.type = 'button';
+  btt.className = 'back-to-top';
+  btt.setAttribute('aria-label', 'Back to top');
+  btt.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(btt);
+  const onScroll = () => btt.classList.toggle('is-visible', window.scrollY > 600);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  onScroll();
+
   // ---------- Spin to win (1/100 free hacky sack, email-gated) ----------
   const spinModal = $('#spinModal');
   if (spinModal) {
@@ -26,37 +195,41 @@
     const codeEl      = $('[data-result-code]', spinModal);
     const copyBtn     = $('[data-result-copy]', spinModal);
 
-    // Prize table — weights sum to 100, so HACKY SACK is exactly 1/100.
-    // centerDeg = angle (in conic-gradient terms, 0=top, clockwise) of that segment's center.
-    const PRIZES = [
-      { id: 'HACKY',  label: 'FREE HACKY SACK', code: 'HACKYPUNK',  centerDeg: 330, weight: 1,
-        title: 'YOU JUST WON A HACKY SACK!',
-        banner: '1 in 100 · You did it', cta: 'Add to your next order' },
-      { id: 'OFF15',  label: '15% off',         code: 'PUNKS15',    centerDeg: 30,  weight: 15,
-        title: '15% off your order',
-        banner: 'Nice spin', cta: 'Shop the drop' },
-      { id: 'OFF10',  label: '10% off',         code: 'PUNKS10',    centerDeg: 270, weight: 25,
-        title: '10% off your order',
-        banner: 'Solid', cta: 'Shop the drop' },
-      { id: 'STICK',  label: 'Free sticker pack', code: 'STICKER',  centerDeg: 90,  weight: 20,
-        title: 'Free sticker pack',
-        banner: 'Pack it up', cta: 'Add to your next order' },
-      { id: 'SHIP',   label: 'Free shipping',   code: 'SHIPFREE',   centerDeg: 150, weight: 10,
-        title: 'Free shipping',
-        banner: 'Ships clean', cta: 'Use your code' },
-      { id: 'AGAIN',  label: 'Try again next drop', code: null,     centerDeg: 210, weight: 29,
-        title: 'Almost.',
-        banner: 'Maybe next drop', cta: 'Keep shopping' },
+    // Three prizes. Weights total 100. The wheel has six visual segments;
+    // some prizes appear in multiple positions, so the spin lands on a random
+    // matching segment for variety.
+    const PRIZES = {
+      HACKY:   { id: 'HACKY',   label: 'FREE HACKY SACK', code: 'HACKYPUNK', weight: 2,
+                 title: 'YOU JUST WON A HACKY SACK!',
+                 banner: '1 in 50 · You did it' },
+      OFF10:   { id: 'OFF10',   label: '10% OFF',         code: 'PUNKS10',   weight: 10,
+                 title: '10% off your next order',
+                 banner: 'Nice spin' },
+      NOTHING: { id: 'NOTHING', label: 'Nothing',         code: null,        weight: 88,
+                 title: 'No luck this time.',
+                 banner: 'Wax up — try the next drop' },
+    };
+
+    // centerDeg = conic-gradient angle (0 = top, clockwise) for each segment.
+    const SEGMENTS = [
+      { centerDeg:  30, prize: 'NOTHING' },
+      { centerDeg:  90, prize: 'OFF10'   },
+      { centerDeg: 150, prize: 'NOTHING' },
+      { centerDeg: 210, prize: 'HACKY'   },
+      { centerDeg: 270, prize: 'NOTHING' },
+      { centerDeg: 330, prize: 'OFF10'   },
     ];
 
     const pickPrize = () => {
       const roll = Math.random() * 100;
-      let cum = 0;
-      for (const p of PRIZES) {
-        cum += p.weight;
-        if (roll < cum) return p;
-      }
-      return PRIZES[PRIZES.length - 1];
+      if (roll < PRIZES.HACKY.weight) return PRIZES.HACKY;
+      if (roll < PRIZES.HACKY.weight + PRIZES.OFF10.weight) return PRIZES.OFF10;
+      return PRIZES.NOTHING;
+    };
+
+    const segmentFor = (prizeId) => {
+      const matches = SEGMENTS.filter(s => s.prize === prizeId);
+      return matches[Math.floor(Math.random() * matches.length)];
     };
 
     const openModal  = () => { spinModal.setAttribute('data-open', ''); spinModal.setAttribute('aria-hidden', 'false'); };
@@ -71,7 +244,7 @@
       bannerEl.textContent = prize.banner;
       bodyEl.textContent = prize.code
         ? `Use this code at checkout — one use per customer.`
-        : `Sign up sticks — we'll DM you when the next drop lands.`;
+        : `Your email's on the list — we'll DM you when the next drop lands.`;
       if (prize.code) {
         codeEl.textContent = prize.code;
         codeWrap.hidden = false;
@@ -102,10 +275,12 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
+      const name = ($('#spinName')?.value || '').trim();
       const email = $('#spinEmail').value.trim();
       if (!email) return;
       sessionStorage.setItem(EMAIL_KEY, email);
-      // Also stamp account creation if not set (consumed by account page)
+      if (name) localStorage.setItem('sunpunks-name', name);
+      // Stamp account creation if not set (consumed by the account + appreciation pages)
       if (!localStorage.getItem('sunpunks-since')) {
         localStorage.setItem('sunpunks-since', new Date().toISOString());
         localStorage.setItem('sunpunks-email', email);
@@ -120,9 +295,10 @@
       spinBtn.disabled = true;
       spinBtn.textContent = 'Spinning…';
       const prize = pickPrize();
+      const seg = segmentFor(prize.id);
       const turns = 5 + Math.floor(Math.random() * 3);   // 5–7 full rotations
       const jitter = (Math.random() - 0.5) * 30;          // ±15° within the segment
-      const target = turns * 360 - prize.centerDeg + jitter;
+      const target = turns * 360 - seg.centerDeg + jitter;
       rotor.classList.add('is-spinning');
       rotor.style.transform = `rotate(${target}deg)`;
       setTimeout(() => {
@@ -156,6 +332,28 @@
     }
   }
 
+  // Prefer the shipping name; fall back to the email handle, then 'punk'.
+  const displayName = () => {
+    const stored = (localStorage.getItem('sunpunks-name') || '').trim();
+    if (stored) return stored;
+    const email = (localStorage.getItem('sunpunks-email') || '').trim();
+    if (email) return (email.split('@')[0] || 'punk').replace(/[.\-_]+/g, ' ');
+    return 'punk';
+  };
+
+  // ---------- Latest order / appreciation page ----------
+  if (document.body.dataset.template === 'customers.order') {
+    const since = localStorage.getItem('sunpunks-since');
+    $$('[data-customer-name]').forEach(e => e.textContent = displayName());
+    $$('[data-order-date]').forEach(e => e.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }));
+    if (since) {
+      const days = Math.max(1, Math.floor((Date.now() - new Date(since).getTime()) / 86400000));
+      $$('[data-account-days]').forEach(e => e.textContent = days + (days === 1 ? ' day' : ' days'));
+    } else {
+      $$('[data-account-days]').forEach(e => e.textContent = 'Day 1');
+    }
+  }
+
   // ---------- Account page (Sun Punk since · sizes · orders) ----------
   if (document.body.dataset.template === 'customers.account') {
     const loggedIn  = !!localStorage.getItem('sunpunks-since');
@@ -172,8 +370,10 @@
       const monthDay = since.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       const days = Math.max(1, Math.floor((Date.now() - since.getTime()) / 86400000));
 
-      const nameFromEmail = (email.split('@')[0] || 'punk').replace(/[.\-_]+/g, ' ');
-      $$('[data-account-name]').forEach(e => e.textContent = nameFromEmail);
+      const name = displayName();
+      const firstName = name.split(/\s+/)[0];
+      $$('[data-account-name]').forEach(e => e.textContent = firstName);
+      $$('[data-account-shipping-name]').forEach(e => e.textContent = name);
       $$('[data-account-since]').forEach(e => e.textContent = monthDay);
       $$('[data-account-since-full]').forEach(e => e.textContent = monthDay);
       $$('[data-account-days]').forEach(e => e.textContent = days + (days === 1 ? ' day' : ' days') + ' strong');
@@ -188,16 +388,28 @@
 
     $('[data-account-signup]')?.addEventListener('submit', e => {
       e.preventDefault();
+      const name = e.target.querySelector('input[type=text]').value.trim();
       const email = e.target.querySelector('input[type=email]').value.trim();
       if (!email) return;
+      if (name) localStorage.setItem('sunpunks-name', name);
       localStorage.setItem('sunpunks-since', new Date().toISOString());
       localStorage.setItem('sunpunks-email', email);
       location.reload();
     });
 
+    $('[data-edit-name]')?.addEventListener('click', () => {
+      const current = localStorage.getItem('sunpunks-name') || '';
+      const next = prompt('Shipping name', current);
+      if (next === null) return;
+      const trimmed = next.trim();
+      if (trimmed) localStorage.setItem('sunpunks-name', trimmed);
+      else localStorage.removeItem('sunpunks-name');
+      location.reload();
+    });
+
     $('[data-account-logout]')?.addEventListener('click', () => {
       if (!confirm('Log out and clear local Sun Punks data?')) return;
-      ['sunpunks-since', 'sunpunks-email', 'sunpunks-sizes'].forEach(k => localStorage.removeItem(k));
+      ['sunpunks-since', 'sunpunks-email', 'sunpunks-name', 'sunpunks-sizes'].forEach(k => localStorage.removeItem(k));
       sessionStorage.removeItem('sunpunks-spin-result');
       sessionStorage.removeItem('sunpunks-email');
       location.reload();
@@ -212,6 +424,101 @@
       localStorage.setItem('sunpunks-sizes', JSON.stringify({ tee, bottom, shoe }));
       location.reload();
     });
+  }
+
+  // ---------- UGC featured repost (one big "as if seen on socials" post, rotates) ----------
+  const ugcFeature = $('[data-ugc-feature]');
+  if (ugcFeature) {
+    const POSTS = [
+      { h:'sandbar.salt',    c:'Best fit for the sunset run.',          bg:'linear-gradient(135deg,#e8552c,#c8441f)', label:'TEE',    likes:'247', comments:'18', shares:'9',  time:'2h',  tags:'#sunpunks #30a #beachpunks' },
+      { h:'30a.dreamer',     c:'Wearing it literally everywhere.',      bg:'linear-gradient(135deg,#1f8a8f,#166b6f)', label:'KOOZIE', likes:'182', comments:'11', shares:'4',  time:'4h',  tags:'#sunpunks #graytonbeach #tribal' },
+      { h:'gulfsidehang',    c:'Got the boys matching on the boat.',    bg:'linear-gradient(135deg,#f7d24c,#e8552c)', label:'CREW',   likes:'309', comments:'27', shares:'12', time:'6h',  tags:'#sunpunks #boysboys #30alove' },
+      { h:'beachpunks',      c:'Wave check, suns out.',                 bg:'linear-gradient(135deg,#1b2a3a,#3a4b5e)', label:'WAVE',   likes:'412', comments:'33', shares:'18', time:'1d',  tags:'#sunpunks #surfclub #saltlife' },
+      { h:'grayton.crew',    c:'Tribal koozie pulling double duty.',    bg:'linear-gradient(135deg,#e8552c,#f7d24c)', label:'CREW',   likes:'164', comments:'9',  shares:'3',  time:'1d',  tags:'#sunpunks #koozie #firstdrop' },
+      { h:'santarosabum',    c:'Sun Punks summer ’26 is real.',         bg:'linear-gradient(135deg,#1f8a8f,#aab38a)', label:'SUMMER', likes:'298', comments:'21', shares:'7',  time:'2d',  tags:'#sunpunks #summer26 #santarosabeach' },
+      { h:'theresnoinland',  c:'Tee + tote combo. Perfect Saturday.',   bg:'linear-gradient(135deg,#ead8b2,#1b2a3a)', label:'COMBO',  likes:'221', comments:'14', shares:'5',  time:'2d',  tags:'#sunpunks #ecotote #vintagetee' },
+      { h:'doglovesdusk',    c:'Beach dog approved.',                   bg:'linear-gradient(135deg,#f4ead5,#e8552c)', label:'PUP',    likes:'577', comments:'62', shares:'24', time:'3d',  tags:'#sunpunks #beachdog #goldenhour' },
+      { h:'sealevelmind',    c:'Salt water tested, salt water approved.', bg:'linear-gradient(135deg,#1f8a8f,#1b2a3a)', label:'SALT', likes:'195', comments:'8',  shares:'4',  time:'4d',  tags:'#sunpunks #saltlife #surfgear' },
+      { h:'thirty.acoast',   c:'USA tee for the 4th. Stars and sunsets.', bg:'linear-gradient(135deg,#1b2a3a,#e8552c)', label:'USA',  likes:'401', comments:'29', shares:'15', time:'5d',  tags:'#sunpunks #usa #starsandsunsets' },
+      { h:'sunbleachedsoul', c:'Vintage feel, faded just right.',       bg:'linear-gradient(135deg,#ead8b2,#aab38a)', label:'FADED',  likes:'267', comments:'19', shares:'6',  time:'1w',  tags:'#sunpunks #garmentdyed #vintagevibes' },
+      { h:'ridethewavefl',   c:'Punk circle, sunset vibes.',            bg:'linear-gradient(135deg,#f7d24c,#1f8a8f)', label:'CIRCLE', likes:'333', comments:'24', shares:'10', time:'1w',  tags:'#sunpunks #punkcircle #floridalife' },
+    ];
+
+    const media     = $('[data-ugc-media]', ugcFeature);
+    const label     = $('[data-ugc-label]', ugcFeature);
+    const handle    = $('[data-ugc-handle]', ugcFeature);
+    const time      = $('[data-ugc-time]', ugcFeature);
+    const avatar    = $('[data-ugc-avatar]', ugcFeature);
+    const caption   = $('[data-ugc-caption]', ugcFeature);
+    const tags      = $('[data-ugc-tags]', ugcFeature);
+    const likes     = $('[data-ugc-likes]', ugcFeature);
+    const comments  = $('[data-ugc-comments]', ugcFeature);
+    const shares    = $('[data-ugc-shares]', ugcFeature);
+    const progress  = $('[data-ugc-progress]', ugcFeature);
+    const followBtn = $('[data-ugc-follow]', ugcFeature);
+
+    let idx = Math.floor(Math.random() * POSTS.length);
+
+    const render = (p) => {
+      // Fade media, then swap
+      media.classList.add('is-changing');
+      setTimeout(() => {
+        media.style.background = p.bg;
+        if (label) label.textContent = p.label;
+        if (handle) handle.textContent = '@' + p.h;
+        if (time) time.textContent = p.time;
+        if (caption) caption.textContent = p.c;
+        if (tags) tags.textContent = p.tags;
+        if (likes) likes.textContent = p.likes;
+        if (comments) comments.textContent = p.comments;
+        if (shares) shares.textContent = p.shares;
+        if (avatar) avatar.textContent = p.h[0].toUpperCase();
+        if (followBtn) { followBtn.textContent = 'Follow'; followBtn.classList.remove('btn--primary'); followBtn.classList.add('btn--ghost'); }
+        media.classList.remove('is-changing');
+        // Restart progress
+        if (progress) {
+          progress.classList.remove('is-active');
+          // Force reflow so the transition restarts
+          void progress.offsetWidth;
+          progress.classList.add('is-active');
+        }
+      }, 250);
+    };
+
+    const advance = () => {
+      idx = (idx + 1) % POSTS.length;
+      render(POSTS[idx]);
+    };
+
+    render(POSTS[idx]);
+    let timer = setInterval(advance, 7000);
+
+    $$('[data-ugc-next]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearInterval(timer);
+        advance();
+        timer = setInterval(advance, 7000);
+      });
+    });
+
+    // Click the media to also advance
+    media.addEventListener('click', () => {
+      clearInterval(timer);
+      advance();
+      timer = setInterval(advance, 7000);
+    });
+
+    // Follow button toggles (cosmetic)
+    if (followBtn) {
+      followBtn.addEventListener('click', () => {
+        const following = followBtn.textContent.trim() === 'Following';
+        followBtn.textContent = following ? 'Follow' : 'Following';
+        followBtn.classList.toggle('btn--primary', !following);
+        followBtn.classList.toggle('btn--ghost', following);
+        if (window.SunPunks?.toast) window.SunPunks.toast(following ? 'Unfollowed' : `Following @${POSTS[idx].h}`, following ? 'info' : 'success');
+      });
+    }
   }
 
   // ---------- Year stamp ----------
@@ -247,13 +554,13 @@
   const heroVid = $('.hero-video[data-playlist]');
   if (heroVid) {
     const ids = heroVid.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
-    // Shuffle so the loop feels fresh each pageload, but keep stable inside one session.
+    const pathPrefix = heroVid.dataset.playlistPath || 'assets/surf/';
+    // Shuffle so the loop feels fresh each pageload, but keep stable within a session.
     const order = ids.slice().sort(() => Math.random() - 0.5);
-    const srcOf = i => `assets/surf/${order[i % order.length]}.mp4`;
+    const srcOf = i => `${pathPrefix}${order[i % order.length]}.mp4`;
     let idx = 0;
 
     const preload = src => {
-      // Hint the browser to start fetching the next clip.
       const v = document.createElement('video');
       v.preload = 'auto';
       v.src = src;
@@ -263,7 +570,7 @@
       idx = i % order.length;
       heroVid.src = srcOf(idx);
       heroVid.load();
-      heroVid.play().catch(() => { /* autoplay denied; user can interact */ });
+      heroVid.play().catch(() => { /* autoplay denied */ });
       preload(srcOf(idx + 1));
     };
 
