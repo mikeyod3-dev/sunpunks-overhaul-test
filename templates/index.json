@@ -1,13 +1,32 @@
 {
   "sections": {
-    "test": {
+    "hero": { "type": "hero-sun-punks-on-film" },
+    "values": { "type": "value-props" },
+    "dropcard": { "type": "coming-soon-dropcard" },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Best sellers",
+        "heading": "The <span class=\"mark-acid\">heat</span> rack",
+        "view_all_text": "Shop all",
+        "products_to_show": 8
+      }
+    },
+    "ugc": { "type": "ugc-circle" },
+    "tiles": {
+      "type": "collection-tiles",
+      "settings": { "eyebrow": "Shop by category", "heading": "Pick your weapon" }
+    },
+    "custom-html": {
       "type": "custom-html",
       "settings": {
-        "eyebrow": "Diagnostic",
-        "heading": "Home page is rendering",
-        "html": "<p style=\"text-align:center; max-width:640px; margin:0 auto;\">If you can see this, <code>templates/index.json</code> loads fine and the bug is in one of the other sections (hero, featured-collection, ugc-circle, etc.). We'll add them back one at a time to find it.</p>"
+        "eyebrow": "Drop anything here",
+        "heading": "Custom HTML block",
+        "html": "<p style=\"text-align:center; max-width:640px; margin:0 auto;\">Edit this section in the theme editor → drop in an iframe, video embed, mailing list signup, banner, anything that takes HTML.</p>",
+        "tight": true
       }
-    }
+    },
+    "newsletter": { "type": "newsletter" }
   },
-  "order": ["test"]
+  "order": ["hero", "values", "dropcard", "featured", "ugc", "tiles", "custom-html", "newsletter"]
 }
