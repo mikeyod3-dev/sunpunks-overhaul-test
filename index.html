@@ -8,7 +8,7 @@
   <meta name="description" content="Sun-bleached graphic tees, koozies, and beach gear for sun-chasing punks. Free shipping over $50." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/theme.css" />
   <!-- /LIQUID -->
 </head>
@@ -18,7 +18,7 @@
 
   <!-- LIQUID: {% section 'announcement-bar' %} -->
   <div class="announce">
-    Free U.S. shipping over <strong>$50</strong> &nbsp;·&nbsp; Summer drop is live
+    Coming soon: <strong>Sun Punks Hacky Sacks</strong> &nbsp;·&nbsp; Punks circle up &nbsp;·&nbsp; Free U.S. shipping over $50
   </div>
   <!-- /LIQUID -->
 
@@ -29,6 +29,8 @@
         <a href="collection.html">Shop</a>
         <a href="collection.html#tees">Tees</a>
         <a href="collection.html#koozies">Koozies</a>
+        <a href="swimsuits.html">Swimsuits</a>
+        <a href="dressing-room.html">Dressing Room</a>
         <a href="contact.html">Contact</a>
       </nav>
       <a class="site-header__logo" href="index.html">
@@ -41,7 +43,7 @@
         <a class="icon-btn" href="#" aria-label="Search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         </a>
-        <a class="icon-btn" href="#" aria-label="Account">
+        <a class="icon-btn" href="account.html" aria-label="Account">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
         </a>
         <button class="icon-btn" aria-label="Cart" data-cart-toggle>
@@ -55,30 +57,91 @@
 
   <main id="main">
 
-    <!-- LIQUID: {% section 'hero' %} -->
-    <section class="hero">
-      <div class="container hero__inner">
-        <div>
-          <p class="hero__kicker">Summer ’26 Drop</p>
-          <h1 class="hero__title">Surf.<br/>Sun.<br/><em>Soul.</em></h1>
-          <p class="hero__sub">Sun-bleached graphic tees, beach koozies, and tote-everything bags for the salty and sandy.</p>
-          <div class="hero__ctas">
-            <a class="btn btn--primary" href="collection.html">Shop the drop</a>
-            <a class="btn btn--ghost" href="#featured" style="border-color: #fbf6e9; color: #fbf6e9;">See what's new</a>
-          </div>
+    <!-- LIQUID: {% section 'hero-live-cam' %} -->
+    <!--
+      LIVE BEACH CAM HERO
+      ===================
+      The <video> below is a PLACEHOLDER loop (assets/hero-surf.mp4). To plug in
+      a real live stream, replace it with ONE of the following inside this section:
+
+        A) YouTube live stream (easiest, requires the stream allows embedding):
+           <iframe class="hero-video"
+                   src="https://www.youtube.com/embed/STREAM_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=STREAM_ID"
+                   allow="autoplay; encrypted-media; picture-in-picture"
+                   allowfullscreen frameborder="0"></iframe>
+
+        B) HLS / m3u8 stream (most beach-cam providers — needs hls.js):
+           <video class="hero-video" autoplay muted playsinline></video>
+           <script type="module">
+             import Hls from "https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.mjs";
+             const v = document.querySelector('.hero-video');
+             const src = 'https://your-stream.example.com/playlist.m3u8';
+             if (Hls.isSupported()) { const h = new Hls(); h.loadSource(src); h.attachMedia(v); }
+             else { v.src = src; }
+           </script>
+
+      IMPORTANT: a commercial storefront embedding a third-party cam needs the
+      cam owner's permission. Reach out to SoWal, HDBeachCams, SkylineWebcams,
+      30A.com, or whoever runs the Grayton feed you want to use.
+    -->
+    <section class="hero--video hero--live" aria-label="Sun Punks on Film">
+      <video class="hero-video"
+             autoplay muted playsinline preload="auto"
+             poster="assets/hero-poster.svg"
+             aria-hidden="true"
+             data-playlist="36924,1568,36833,1076,1127,1071,1074,1128,1163,1207,1191,36814"></video>
+
+      <div class="hero-live" aria-hidden="true">
+        <div><span class="dot"></span><span class="label">LIVE</span></div>
+        <div class="stamp">Sun Punks on Film</div>
+        <div class="clock" data-live-clock>—</div>
+      </div>
+      <div class="hero-feed" aria-hidden="true">FEED <b>·</b> SUN PUNKS ON FILM <b>·</b> CH 30A</div>
+
+      <div class="container">
+        <span class="hero-eyebrow">Sun Punks on Film</span>
+        <h1 class="hero-title">Sun <em>Punks</em></h1>
+        <div class="hero-cta-bar">
+          <a class="btn btn--primary" href="collection.html">Shop the drop</a>
+          <a class="btn btn--ghost" href="#featured">See what’s new</a>
         </div>
-        <div class="hero__sun" aria-hidden="true"></div>
       </div>
     </section>
     <!-- /LIQUID -->
 
     <!-- LIQUID: {% section 'value-props' %} -->
     <section class="values">
-      <div class="container values__list">
-        <div class="values__item"><span>★</span>Printed on demand</div>
-        <div class="values__item"><span>↻</span>Free returns</div>
-        <div class="values__item"><span>☀</span>Made for the sun</div>
-        <div class="values__item"><span>⚑</span>Ships from the USA</div>
+      <div class="container values__list" data-anim-stagger>
+        <div class="values__item" data-anim><span>★</span>Printed on demand</div>
+        <div class="values__item" data-anim><span>☀</span>Made for the sun</div>
+        <div class="values__item" data-anim><span>⚑</span>Ships from the USA</div>
+      </div>
+    </section>
+    <!-- /LIQUID -->
+
+    <!-- LIQUID: {% section 'coming-soon-dropcard' %} -->
+    <section class="dropcard" id="hacky-sacks" aria-label="Hacky sacks coming soon">
+      <div class="container">
+        <div class="dropcard__inner">
+          <div class="dropcard__copy" data-anim="left">
+            <span class="coming-stamp">Coming Soon</span>
+            <p class="eyebrow" style="color: var(--acid);">Next drop · Summer ’26</p>
+            <h2>Hacky <em>Sacks.</em><br/>Punks circle up.</h2>
+            <p class="lede">Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is limited — pack your crew.</p>
+            <div class="dropcard__meta" aria-label="Drop details">
+              <span>8 panel &amp; 32 panel</span>
+              <span>Dropping summer ’26</span>
+            </div>
+            <div class="dropcard__ctas">
+              <a class="btn btn--primary" href="#newsletter">Get on the list →</a>
+              <a class="btn btn--ghost" href="collection.html" style="border-color: var(--cream); color: var(--cream);">Shop the current drop</a>
+            </div>
+          </div>
+          <div class="dropcard__visual" aria-hidden="true" data-anim="scale">
+            <div class="hacky-sack"></div>
+            <div class="dropcard__sticker">Soon</div>
+          </div>
+        </div>
       </div>
     </section>
     <!-- /LIQUID -->
@@ -86,7 +149,7 @@
     <!-- LIQUID: {% section 'featured-collection' %} -->
     <section class="section" id="featured">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-anim>
           <div>
             <p class="eyebrow">Best Sellers</p>
             <h2 class="h2">The <span class="mark-acid">heat</span> rack</h2>
@@ -94,7 +157,7 @@
           <a class="section-head__link" href="collection.html">Shop all</a>
         </header>
 
-        <div class="grid grid--products">
+        <div class="grid grid--products" data-anim-stagger>
           <!-- LIQUID: {% for product in collections.featured.products limit: 8 %}{% render 'product-card', product: product %}{% endfor %} -->
 
           <article class="product-card">
@@ -234,10 +297,10 @@
     <section class="section section--tight">
       <div class="container">
         <div class="editorial-split">
-          <div class="editorial-split__media">
+          <div class="editorial-split__media" data-anim="left">
             <span class="editorial-split__caption">Pacific, 6:42 AM</span>
           </div>
-          <div>
+          <div data-anim="right">
             <p class="eyebrow">The Lookbook</p>
             <h2 class="h2">Built for <span class="mark-acid">long days</span> & late tides.</h2>
             <p class="lede" style="margin-top: 1rem">
@@ -261,7 +324,7 @@
             <h2 class="h2">Pick your weapon</h2>
           </div>
         </header>
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));" data-anim-stagger>
           <a class="product-card" href="collection.html#tees">
             <div class="product-card__media" style="aspect-ratio: 4/3; background: linear-gradient(135deg,#e8552c,#c8441f);">
               <svg viewBox="0 0 4 3" preserveAspectRatio="none" width="100%" height="100%"><text x="2" y="1.9" font-family="Anton" font-size="0.7" fill="#fbf6e9" text-anchor="middle">TEES</text></svg>
@@ -286,9 +349,9 @@
     <!-- /LIQUID -->
 
     <!-- LIQUID: {% section 'newsletter' %} -->
-    <section class="section section--tight">
+    <section class="section section--tight" id="newsletter">
       <div class="container">
-        <div class="newsletter">
+        <div class="newsletter" data-anim="scale">
           <div>
             <p class="eyebrow" style="color: var(--acid);">Sign up</p>
             <h2 class="h2" style="color: var(--cream);">Get the next drop early.</h2>
@@ -384,6 +447,64 @@
       <a href="#" class="btn btn--primary btn--block">Checkout</a>
     </div>
   </aside>
+  <!-- /LIQUID -->
+
+  <!-- LIQUID: {% render 'spin-to-win' %} -->
+  <button class="spin-fab" data-spin-open aria-label="Spin to win">
+    <span class="spin-fab__star">★</span>
+    <span class="spin-fab__text">Spin to win</span>
+  </button>
+
+  <div class="spin-modal" role="dialog" aria-modal="true" aria-labelledby="spinTitle" aria-hidden="true" id="spinModal">
+    <div class="spin-modal__backdrop" data-spin-close></div>
+    <div class="spin-modal__panel">
+      <button class="icon-btn spin-modal__close" data-spin-close aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M6 18 18 6"/></svg>
+      </button>
+
+      <div class="spin-step" data-spin-step="intro">
+        <p class="eyebrow" style="color: var(--sunset);">Spin to win</p>
+        <h2 id="spinTitle">One spin per email.</h2>
+        <p class="lede" style="margin-top:.5rem;">Sign up for the new-drop list and earn your spin. There's a <strong>1-in-100 shot</strong> at a free Sun Punks hacky sack with your next order.</p>
+        <form data-spin-form>
+          <label class="visually-hidden" for="spinEmail">Email address</label>
+          <input type="email" required placeholder="you@thebeach.com" id="spinEmail" />
+          <button type="submit" class="btn btn--primary btn--block" style="margin-top:.5rem;">Unlock my spin →</button>
+          <p class="muted" style="font-size:.75rem; text-align:center; margin-top:.5rem;">No spam — unsubscribe anytime.</p>
+        </form>
+      </div>
+
+      <div class="spin-step" data-spin-step="game" hidden>
+        <p class="eyebrow" style="color: var(--sunset); text-align:center;">You're in</p>
+        <h2 style="text-align:center;">Give it a rip.</h2>
+        <div class="wheel-wrap">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <div class="wheel">
+            <div class="wheel__rotor" data-wheel-rotor></div>
+            <span class="wheel__label" style="--x: 50px; --y: -87px;">15% OFF</span>
+            <span class="wheel__label" style="--x: 100px; --y: 0px;">FREE STICKER</span>
+            <span class="wheel__label wheel__label--ink" style="--x: 50px; --y: 87px;">FREE SHIP</span>
+            <span class="wheel__label" style="--x: -50px; --y: 87px;">TRY AGAIN</span>
+            <span class="wheel__label" style="--x: -100px; --y: 0px;">10% OFF</span>
+            <span class="wheel__label" style="--x: -50px; --y: -87px;">HACKY SACK</span>
+            <div class="wheel__hub" aria-hidden="true"></div>
+          </div>
+        </div>
+        <button class="btn btn--primary btn--block" data-spin-go>SPIN!</button>
+      </div>
+
+      <div class="spin-step" data-spin-step="result" hidden>
+        <p class="eyebrow" style="text-align:center;" data-result-banner></p>
+        <h2 style="text-align:center;" data-result-title></h2>
+        <p class="lede" style="text-align:center; margin-top:.5rem;" data-result-body></p>
+        <div class="spin-code" data-result-code-wrap hidden>
+          <code data-result-code></code>
+          <button class="btn btn--sm" data-result-copy>Copy</button>
+        </div>
+        <a href="collection.html" class="btn btn--primary btn--block" style="margin-top:1rem;">Shop the drop →</a>
+      </div>
+    </div>
+  </div>
   <!-- /LIQUID -->
 
   <script src="assets/theme.js" defer></script>

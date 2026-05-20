@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f5ecd6" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#9b958a" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141414"/>
+      <stop offset="0.55" stop-color="#2c2c2c"/>
+      <stop offset="1" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#222"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1140" cy="270" r="200" fill="url(#moon)"/>
+  <rect y="600" width="1600" height="300" fill="url(#sea)"/>
+  <rect y="595" width="1600" height="6" fill="#ffffff" opacity="0.3"/>
+  <g stroke="#ffffff" fill="none" stroke-linecap="round">
+    <path d="M0 700 Q 400 670 800 700 T 1600 700" stroke-width="2" opacity="0.32"/>
+    <path d="M0 755 Q 400 730 800 755 T 1600 755" stroke-width="1.5" opacity="0.24"/>
+    <path d="M0 810 Q 400 790 800 810 T 1600 810" stroke-width="1.1" opacity="0.18"/>
+    <path d="M0 860 Q 400 845 800 860 T 1600 860" stroke-width="1" opacity="0.13"/>
+  </g>
+  <g opacity="0.55">
+    <rect x="60" y="60" width="200" height="3" fill="#ff5050"/>
+    <rect x="60" y="72" width="120" height="2" fill="#ffffff"/>
+  </g>
+</svg>
