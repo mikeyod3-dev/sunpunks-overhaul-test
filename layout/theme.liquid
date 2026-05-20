@@ -35,6 +35,14 @@
   </style>
 
   {{ content_for_header }}
+
+  {%- if settings.custom_head_html != blank -%}
+    {{ settings.custom_head_html }}
+  {%- endif -%}
+
+  {%- if settings.custom_css != blank -%}
+    <style id="theme-custom-css">{{ settings.custom_css }}</style>
+  {%- endif -%}
 </head>
 <body data-template="{{ template | replace: '.', '-' }}">
 

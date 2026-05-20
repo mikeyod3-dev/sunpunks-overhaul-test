@@ -1,0 +1,245 @@
+/* =========================================================================
+   Sun Punks — Welcome (Homepage Hero) CSS
+   Self-contained. Drop this in anywhere that loads Google Fonts:
+   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&display=swap" rel="stylesheet">
+   ========================================================================= */
+
+/* ---------- Brand tokens used by the hero ---------- */
+:root {
+  --sand:      #f4ead5;
+  --cream:     #fbf6e9;
+  --ink:       #1b2a3a;
+  --ink-2:     #3a4b5e;
+  --sunset:    #e8552c;
+  --sunset-2:  #c8441f;
+  --ocean:     #1f8a8f;
+  --acid:      #f7d24c;
+  --gulf:      #c8e1d4;
+  --sandcream: #f5ecd6;
+  --line:      #1b2a3a1a;
+  --radius:    14px;
+  --radius-pill: 999px;
+  --font-display: "Anton", "Oswald", "Bebas Neue", "Impact", system-ui, sans-serif;
+  --font-script:  "Pacifico", "Yellowtail", cursive;
+  --font-body:    -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  --ease:         cubic-bezier(.2,.7,.2,1);
+  --dur:          220ms;
+}
+
+/* ---------- Layout primitive used by the hero ---------- */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2vw, 2rem);
+}
+
+/* ---------- Buttons (CTAs under the title) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: 0.95rem 1.4rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--cream);
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.btn:hover    { background: var(--sunset); transform: translateY(-1px); }
+.btn--primary { background: var(--sunset); color: var(--cream); }
+.btn--primary:hover { background: var(--sunset-2); }
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+}
+.btn--ghost:hover { background: var(--ink); color: var(--cream); }
+
+/* ---------- Hero — base VHS surf reel container ---------- */
+.hero--video {
+  position: relative;
+  min-height: clamp(560px, 92vh, 880px);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--cream);
+  background:
+    radial-gradient(60% 40% at 50% 80%, #2a2a2a 0%, #000 100%),
+    linear-gradient(180deg, #3a3a3a 0%, #1a1a1a 60%, #000 100%);
+  border-bottom: 4px solid var(--acid);
+}
+
+/* Background video / iframe */
+.hero-video {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15) brightness(0.78) saturate(0);
+}
+.hero-video--iframe-wrap { pointer-events: none; background: #000; }
+.hero-video--iframe-wrap iframe {
+  position: absolute; top: 50%; left: 50%;
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  transform: translate(-50%, -50%);
+  border: 0;
+}
+
+/* Warm cream + dark vignette wash */
+.hero--video::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 110%, #1b2a3acc 0%, transparent 60%),
+    radial-gradient(80% 50% at 50% 0%, #1b2a3a99 0%, transparent 60%),
+    linear-gradient(180deg, #f5ecd61a 0%, #c8e1d40d 50%, #f5ecd61a 100%);
+}
+
+/* VHS scanlines + flicker */
+.hero--video::after {
+  content: ""; position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, #00000059 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, #ffffff14 0 1px, transparent 1px 6px);
+  mix-blend-mode: overlay;
+  animation: vhs-flicker 7s infinite linear;
+}
+@keyframes vhs-flicker {
+  0%, 100% { opacity: .6; }
+  3%       { opacity: .9; }
+  6%       { opacity: .45; }
+  9%       { opacity: .75; }
+  60%      { opacity: .55; }
+  62%      { opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero--video::after { animation: none; opacity: .55; }
+}
+
+/* Content positioning over the video */
+.hero--video .container {
+  position: relative; z-index: 4;
+  min-height: clamp(560px, 92vh, 880px);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-bottom: clamp(3rem, 8vh, 6rem);
+  padding-top: clamp(5rem, 10vh, 8rem);
+}
+
+/* ---------- Hero typography ---------- */
+.hero-eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--acid);
+  font-size: clamp(.85rem, .7rem + .35vw, 1.1rem);
+  text-shadow: 0 2px 0 #1b2a3a80;
+  margin-bottom: .4em;
+}
+.hero-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(5rem, 4rem + 12vw, 16rem);
+  line-height: .85;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  margin: 0;
+  text-shadow:
+    0 4px 0 #00000040,
+    0 14px 50px #00000080,
+    0 0 2px #ffffff80;
+}
+.hero-title em { font-style: normal; color: var(--acid); }
+
+.hero-cta-bar {
+  position: relative; z-index: 4;
+  display: flex; flex-wrap: wrap; gap: 1rem;
+  margin-top: 1.8rem;
+}
+.hero-cta-bar .btn--ghost { border-color: var(--cream); color: var(--cream); }
+.hero-cta-bar .btn--ghost:hover { background: var(--cream); color: var(--ink); }
+
+/* ---------- LIVE beach cam variant (current live look) ---------- */
+.hero--live .hero-video {
+  filter: saturate(1.08) contrast(1.06) brightness(0.96) !important;
+}
+.hero--live::before {
+  background:
+    radial-gradient(120% 80% at 50% 110%, #1b2a3acc 0%, transparent 55%),
+    radial-gradient(50% 30% at 50% 0%, #1b2a3a99 0%, transparent 70%),
+    linear-gradient(180deg, #f5ecd610 0%, #f5ecd620 100%) !important;
+}
+.hero--live::after {
+  opacity: .22 !important;
+  animation: none !important;
+}
+
+/* LIVE badge cluster (top-right) */
+.hero-live {
+  position: absolute; top: 1.5rem; right: 1.5rem; z-index: 5;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: .8rem; letter-spacing: .15em;
+  color: var(--cream);
+  text-align: right;
+  text-shadow: 0 1px 0 #00000080;
+  line-height: 1.45;
+}
+.hero-live .label { color: #36e070; font-weight: bold; }
+.hero-live .dot {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 50%; background: #36e070;
+  box-shadow: 0 0 12px #36e070cc;
+  margin-right: 6px; vertical-align: -1px;
+  animation: live-pulse 1.6s infinite ease-in-out;
+}
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .55; transform: scale(1.18); }
+}
+.hero-live .stamp { color: #ffffffd0; font-size: .7rem; }
+.hero-live .clock { color: var(--acid); font-weight: bold; letter-spacing: .12em; }
+
+/* Bottom-left feed source label */
+.hero-feed {
+  position: absolute; bottom: 1.25rem; left: 1.5rem; z-index: 5;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: .7rem; letter-spacing: .18em;
+  color: #ffffffd0;
+  text-shadow: 0 1px 0 #000;
+}
+.hero-feed b { color: var(--acid); }
+
+/* Mobile tweaks */
+@media (max-width: 820px) {
+  .hero-live { top: 1rem; right: 1rem; font-size: .7rem; }
+  .hero-feed { bottom: .9rem; left: 1rem; }
+}
+
+/* =========================================================================
+   Example markup this CSS is built for
+   =========================================================================
+<section class="hero--video hero--live" aria-label="Sun Punks on Film">
+  <video class="hero-video" autoplay muted loop playsinline poster="...">
+    <source src="your-video.mp4" type="video/mp4">
+  </video>
+  <div class="hero-live">
+    <div><span class="dot"></span><span class="label">LIVE</span></div>
+    <div class="stamp">Sun Punks on Film</div>
+    <div class="clock">2:42:18 PM CT</div>
+  </div>
+  <div class="hero-feed">FEED <b>·</b> SUN PUNKS ON FILM <b>·</b> 30A</div>
+  <div class="container">
+    <span class="hero-eyebrow">Sun Punks on Film</span>
+    <h1 class="hero-title">Sun <em>Punks</em></h1>
+    <div class="hero-cta-bar">
+      <a class="btn btn--primary" href="/collections/all">Shop the drop</a>
+      <a class="btn btn--ghost" href="#featured">See what's new</a>
+    </div>
+  </div>
+</section>
+   ========================================================================= */

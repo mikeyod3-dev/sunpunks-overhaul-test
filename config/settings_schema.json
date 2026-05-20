@@ -31,5 +31,16 @@
       { "type": "url", "id": "social_tiktok",    "label": "TikTok URL" },
       { "type": "url", "id": "social_youtube",   "label": "YouTube URL" }
     ]
+  },
+  {
+    "name": "Custom code",
+    "settings": [
+      { "type": "header",   "content": "Custom CSS" },
+      { "type": "paragraph", "content": "Paste any extra CSS here. It loads at the bottom of the page <head> so it overrides theme styles." },
+      { "type": "textarea", "id": "custom_css", "label": "Custom CSS" },
+      { "type": "header",    "content": "Custom <head> HTML" },
+      { "type": "paragraph", "content": "Optional. Paste tracking pixels, additional <link> tags, or other <head> markup." },
+      { "type": "textarea",  "id": "custom_head_html", "label": "Custom <head> HTML" }
+    ]
   }
 ]
