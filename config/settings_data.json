@@ -22,7 +22,7 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "message": "<p>Coming soon: <strong>Sun Punks Hacky Sacks</strong> &nbsp;·&nbsp; Free U.S. shipping over $50</p>"
+          "message": "<p>Coming soon: <strong>Sun Punks Hacky Sacks</strong> &nbsp;\u00b7&nbsp; Free U.S. shipping over $50</p>"
         }
       },
       "header": {
@@ -76,8 +76,7 @@
           "intro_body": "Sign up for the new-drop list and earn your spin. There's a 1-in-50 shot at a free Sun Punks hacky sack with your next order."
         }
       }
-    },
-    "content_for_index": []
+    }
   },
   "presets": {
     "Sun Punks default": {
