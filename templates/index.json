@@ -12,7 +12,7 @@
     "hero": {
       "type": "hero-sun-punks-on-film",
       "settings": {
-        "hero_video": "shopify://files/videos/hero-loop-30-75.mp4",
+        "hero_video": "shopify://files/videos/sun-punks.mp4",
         "hero_video_url": "",
         "clip_ids": "",
         "aria_label": "Sun Punks on Film",
@@ -58,6 +58,18 @@
       ],
       "settings": {}
     },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Best sellers",
+        "heading": "The <span class=\"mark-acid\">heat</span> rack",
+        "collection": "",
+        "products_to_show": 8,
+        "view_all_url": "",
+        "view_all_text": "Shop all",
+        "demo_set": "featured"
+      }
+    },
     "dropcard": {
       "type": "coming-soon-dropcard",
       "settings": {
@@ -72,18 +84,6 @@
         "cta_secondary_text": "Shop the current drop",
         "cta_secondary_url": "",
         "sticker_text": "Soon"
-      }
-    },
-    "featured": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Best sellers",
-        "heading": "The <span class=\"mark-acid\">heat</span> rack",
-        "collection": "",
-        "products_to_show": 8,
-        "view_all_url": "",
-        "view_all_text": "Shop all",
-        "demo_set": "featured"
       }
     },
     "ugc": {
@@ -175,8 +175,8 @@
   "order": [
     "hero",
     "values",
-    "dropcard",
     "featured",
+    "dropcard",
     "ugc",
     "tiles",
     "custom_html",
