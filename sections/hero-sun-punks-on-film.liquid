@@ -1,6 +1,9 @@
 {%- comment -%}
-  Hero: "Sun Punks on Film" — looping surf-clip playlist with LIVE HUD + clock.
-  Clips are theme assets (assets/surf-*.mp4). Add or remove IDs in the settings.
+  Hero: "Sun Punks on Film". Video sources in priority order:
+    1. section.settings.hero_video — uploaded in the theme editor (Shopify Files,
+       no theme-asset size limits). Best for production.
+    2. section.settings.hero_video_url — YouTube or Vimeo URL embed.
+    3. surf-{id}.mp4 playlist bundled in theme assets (the original local demo).
 {%- endcomment -%}
 
 {%- assign clip_ids = section.settings.clip_ids | split: ',' -%}
@@ -13,11 +16,39 @@
 {%- endcapture -%}
 
 <section class="hero--video hero--live" id="shopify-section-{{ section.id }}" aria-label="{{ section.settings.aria_label }}">
-  <video class="hero-video"
-         autoplay muted playsinline preload="auto"
-         poster="{{ 'hero-poster.svg' | asset_url }}"
-         aria-hidden="true"
-         data-playlist-urls="{{ playlist_urls | strip }}"></video>
+
+  {%- if section.settings.hero_video != blank -%}
+    {%- comment -%} Uploaded Shopify video — preferred. {%- endcomment -%}
+    <video class="hero-video"
+           autoplay muted loop playsinline preload="auto"
+           {% if section.settings.hero_video.preview_image %}poster="{{ section.settings.hero_video.preview_image | image_url: width: 1600 }}"{% else %}poster="{{ 'hero-poster.svg' | asset_url }}"{% endif %}
+           aria-hidden="true">
+      {%- for source in section.settings.hero_video.sources -%}
+        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+      {%- endfor -%}
+    </video>
+
+  {%- elsif section.settings.hero_video_url != blank -%}
+    {%- comment -%} External YouTube / Vimeo embed. {%- endcomment -%}
+    {%- assign ext = section.settings.hero_video_url -%}
+    <div class="hero-video hero-video--iframe-wrap" aria-hidden="true">
+      {%- if ext.type == 'youtube' -%}
+        <iframe src="https://www.youtube.com/embed/{{ ext.id }}?autoplay=1&mute=1&loop=1&playlist={{ ext.id }}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&playsinline=1&rel=0"
+                frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      {%- else -%}
+        <iframe src="https://player.vimeo.com/video/{{ ext.id }}?autoplay=1&muted=1&loop=1&background=1&controls=0"
+                frameborder="0" allow="autoplay; encrypted-media"></iframe>
+      {%- endif -%}
+    </div>
+
+  {%- else -%}
+    {%- comment -%} Fallback: bundled surf-clip playlist. {%- endcomment -%}
+    <video class="hero-video"
+           autoplay muted playsinline preload="auto"
+           poster="{{ 'hero-poster.svg' | asset_url }}"
+           aria-hidden="true"
+           data-playlist-urls="{{ playlist_urls | strip }}"></video>
+  {%- endif -%}
 
   <div class="hero-live" aria-hidden="true">
     <div><span class="dot"></span><span class="label">LIVE</span></div>
@@ -47,19 +78,29 @@
   "name": "Hero — Sun Punks on Film",
   "tag": "section",
   "settings": [
+    { "type": "header", "content": "Video source", "info": "Pick ONE of the three options below. They're checked in this order." },
+    { "type": "video",      "id": "hero_video",     "label": "Upload hero video (recommended)",
+      "info": "Lives in Shopify Files. Best autoplay reliability and no theme-asset size limits." },
+    { "type": "video_url",  "id": "hero_video_url", "label": "Or external video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "Paste a YouTube or Vimeo link. Used only if no upload is set." },
+    { "type": "textarea",   "id": "clip_ids",
+      "label": "Or bundled surf-clip playlist (IDs, comma-separated)",
+      "info": "Last-resort fallback. References assets/surf-{id}.mp4 from the theme.",
+      "default": "36924, 1568, 36833, 1076, 1127, 1071, 1074, 1128, 1163, 1207, 1191, 36814" },
+
+    { "type": "header", "content": "Copy & HUD" },
     { "type": "text",     "id": "aria_label",      "label": "Section aria-label", "default": "Sun Punks on Film" },
     { "type": "text",     "id": "eyebrow",         "label": "Eyebrow",            "default": "Sun Punks on Film" },
     { "type": "html",     "id": "title",           "label": "Title (allows <em>)","default": "Sun <em>Punks</em>" },
     { "type": "text",     "id": "location_label",  "label": "LIVE HUD stamp",     "default": "Sun Punks on Film" },
     { "type": "text",     "id": "feed_label",      "label": "Feed footer label",  "default": "FEED · SUN PUNKS ON FILM · 30A" },
+
+    { "type": "header", "content": "CTAs" },
     { "type": "text",     "id": "cta_primary_text",   "label": "Primary CTA text",  "default": "Shop the drop" },
     { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA link" },
     { "type": "text",     "id": "cta_secondary_text", "label": "Secondary CTA text", "default": "See what’s new" },
-    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA link" },
-    { "type": "textarea", "id": "clip_ids",
-      "label": "Surf clip IDs (comma-separated)",
-      "info": "References assets/surf-{id}.mp4 — bundle clips into the theme assets folder",
-      "default": "36924, 1568, 36833, 1076, 1127, 1071, 1074, 1128, 1163, 1207, 1191, 36814" }
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA link" }
   ],
   "presets": [ { "name": "Hero — Sun Punks on Film" } ]
 }

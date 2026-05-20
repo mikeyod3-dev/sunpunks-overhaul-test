@@ -295,6 +295,17 @@ h3, .h3 { font-size: var(--fs-xl); }
   object-fit: cover;
   filter: grayscale(1) contrast(1.15) brightness(0.78) saturate(0);
 }
+.hero-video--iframe-wrap {
+  pointer-events: none;
+  background: #000;
+}
+.hero-video--iframe-wrap iframe {
+  position: absolute; top: 50%; left: 50%;
+  width: max(100vw, 177.78vh);   /* fill viewport, maintain 16:9 */
+  height: max(56.25vw, 100vh);
+  transform: translate(-50%, -50%);
+  border: 0;
+}
 
 /* Warm cream + dark vignette wash — gives B&W footage that 30A sun-washed feel */
 .hero--video::before {
