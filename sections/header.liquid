@@ -1,6 +1,7 @@
 <header class="site-header" id="shopify-section-{{ section.id }}">
   <div class="container site-header__bar">
     <nav class="site-header__nav" aria-label="Primary">
+      <a href="{{ routes.collections_url }}/all"{% if template contains 'collection' and collection.handle == 'all' %} aria-current="page"{% endif %}>Shop</a>
       {%- for link in linklists[section.settings.menu].links -%}
         <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
       {%- endfor -%}

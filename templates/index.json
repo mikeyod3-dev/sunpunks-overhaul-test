@@ -65,7 +65,7 @@
         "heading": "The <span class=\"mark-acid\">heat</span> rack",
         "collection": "bags",
         "products_to_show": 8,
-        "view_all_url": "",
+        "view_all_url": "shopify://collections/all",
         "view_all_text": "Shop all",
         "demo_set": "featured"
       }
@@ -106,7 +106,7 @@
             "title": "Tees",
             "subtitle": "",
             "badge": "",
-            "url": "shopify://collections",
+            "url": "shopify://collections/tees",
             "gradient_from": "#e8552c",
             "gradient_to": "#c8441f",
             "text_color": "#fbf6e9"
