@@ -12,6 +12,8 @@
         <button
           type="button"
           data-image-id="{{ image.id }}"
+          data-image-position="{{ forloop.index }}"
+          data-image-src="{{ image.src }}"
           data-hero-src="{{ image | image_url: width: 1200 }}"
           data-image-alt="{{ image.alt | default: '' | downcase | escape }}"
           data-variant-ids="{{ image.variant_ids | join: ',' }}"

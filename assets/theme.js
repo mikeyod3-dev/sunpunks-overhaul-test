@@ -707,36 +707,76 @@
       thumbs.forEach(t => t.setAttribute('aria-current', String(t.dataset.imageId) === String(imageId) ? 'true' : 'false'));
     }
 
+    // Strip a Shopify CDN image src down to its base filename (no query, no
+    // extension, no Shopify dimension suffix like "_2048"). Used to detect
+    // duplicate uploads — Shopify gives a duplicate the same base name plus
+    // a UUID suffix before the extension.
+    function imageBaseName(src) {
+      if (!src) return '';
+      const tail = src.split('?')[0].split('/').pop();         // 12345_2048.jpg
+      const noExt = tail.replace(/\.[^.]+$/, '');                // 12345_2048
+      return noExt.replace(/_\d{2,4}x\d{0,4}$|_\d{3,4}$/, '');   // 12345
+    }
+
     function filterGalleryByColor(color) {
-      // Strict mode: show ONLY 3 thumbnails per color — front, back, folded.
-      //   front  = the variant's featured_image (linked in Shopify Admin)
-      //   back   = an image whose alt text contains the color AND "back"
-      //   folded = an image whose alt text contains the color AND "fold"
-      // Set the alt text in Shopify Admin → Products → [product] → Media.
+      // Show ONLY 3 thumbnails per color — front, back, folded.
+      //
+      // Anchor: when a merchant accidentally uploads the front shot twice,
+      // the duplicate gets a UUID suffix on the filename but the same base.
+      // The back + folded shots are uploaded immediately before that
+      // duplicate. So: find the duplicate of each color's front by base
+      // filename, then back = (dup position - 2), folded = (dup position - 1).
+      //
+      // Fallbacks if the duplicate pattern isn't present:
+      //   1. Alt-text match — "Bay back", "Bay folded", "Bay flat lay"
+      //   2. If nothing matches, only the front shows.
+
       thumbs.forEach(t => { t.hidden = true; });
       if (!color) return;
       const colorLower = color.toLowerCase();
 
-      // Front: the color's variant featured_image
       const variantForColor = variants.find(v => v.option1 === color);
-      const frontId = variantForColor && variantForColor.featured_image && variantForColor.featured_image.id;
-      if (frontId != null) {
-        const frontThumb = productEl.querySelector('.product__thumbs button[data-image-id="' + frontId + '"]');
-        if (frontThumb) frontThumb.hidden = false;
+      const frontImage = variantForColor && variantForColor.featured_image;
+      if (!frontImage) return;
+
+      // Show the front
+      const frontThumb = productEl.querySelector('.product__thumbs button[data-image-id="' + frontImage.id + '"]');
+      if (frontThumb) frontThumb.hidden = false;
+
+      // ---- duplicate-anchor strategy ----
+      const frontBase = imageBaseName(frontImage.src);
+      let dupPos = null;
+      const allThumbs = Array.from(thumbs);
+      for (const t of allThumbs) {
+        if (Number(t.dataset.imageId) === frontImage.id) continue;
+        if (imageBaseName(t.dataset.imageSrc || t.dataset.heroSrc) === frontBase) {
+          dupPos = Number(t.dataset.imagePosition);
+          break;
+        }
       }
 
-      // Back & folded: first alt-text match wins
-      let backShown = false, foldedShown = false;
-      thumbs.forEach(t => {
-        const alt = (t.dataset.imageAlt || '').toLowerCase();
-        if (alt.indexOf(colorLower) === -1) return;
-        if (!backShown && alt.indexOf('back') !== -1) {
-          t.hidden = false; backShown = true; return;
-        }
-        if (!foldedShown && (alt.indexOf('fold') !== -1 || alt.indexOf('flat') !== -1)) {
-          t.hidden = false; foldedShown = true; return;
-        }
-      });
+      let backThumb = null, foldedThumb = null;
+      if (dupPos) {
+        backThumb   = allThumbs.find(t => Number(t.dataset.imagePosition) === dupPos - 2) || null;
+        foldedThumb = allThumbs.find(t => Number(t.dataset.imagePosition) === dupPos - 1) || null;
+      }
+
+      // ---- alt-text fallback ----
+      if (!backThumb) {
+        backThumb = allThumbs.find(t => {
+          const alt = (t.dataset.imageAlt || '').toLowerCase();
+          return alt.indexOf(colorLower) !== -1 && alt.indexOf('back') !== -1;
+        }) || null;
+      }
+      if (!foldedThumb) {
+        foldedThumb = allThumbs.find(t => {
+          const alt = (t.dataset.imageAlt || '').toLowerCase();
+          return alt.indexOf(colorLower) !== -1 && (alt.indexOf('fold') !== -1 || alt.indexOf('flat') !== -1);
+        }) || null;
+      }
+
+      if (backThumb)   backThumb.hidden   = false;
+      if (foldedThumb) foldedThumb.hidden = false;
     }
 
     // Thumbnail clicks swap the hero without changing the variant.
