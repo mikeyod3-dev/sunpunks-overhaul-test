@@ -41,6 +41,11 @@
       <span class="muted" style="font-weight:400; font-size: 1rem;"> USD · shipping calc'd at checkout</span>
     </p>
 
+    {%- comment -%}
+      Sizes above XL are hidden from the picker site-wide. To restore them,
+      empty this list or remove the unless guard below.
+    {%- endcomment -%}
+    {%- assign excluded_sizes = '2XL,3XL,4XL,5XL,XXL,XXXL,XXXXL' | split: ',' -%}
     {% form 'product', product, class: 'product-form' %}
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
@@ -48,6 +53,7 @@
             <p class="option__label">{{ option.name }}</p>
             <div class="option__choices" role="radiogroup" aria-label="{{ option.name }}">
               {%- for value in option.values -%}
+                {%- if option.name == 'Size' and excluded_sizes contains value -%}{%- continue -%}{%- endif -%}
                 {%- assign opt_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
                 <input type="radio" id="{{ opt_id }}" name="options[{{ option.name }}]" value="{{ value }}" {% if option.selected_value == value %}checked{% endif %}>
                 <label for="{{ opt_id }}">{{ value }}</label>
