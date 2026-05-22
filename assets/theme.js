@@ -708,24 +708,34 @@
     }
 
     function filterGalleryByColor(color) {
-      // Show thumbnails that: (a) are linked to a variant of this color, OR
-      // (b) have no variant linkage (generic lifestyle/back shots), OR
-      // (c) have alt text mentioning this color.
-      if (!color) {
-        thumbs.forEach(t => { t.hidden = false; });
-        return;
-      }
+      // Strict mode: show ONLY 3 thumbnails per color — front, back, folded.
+      //   front  = the variant's featured_image (linked in Shopify Admin)
+      //   back   = an image whose alt text contains the color AND "back"
+      //   folded = an image whose alt text contains the color AND "fold"
+      // Set the alt text in Shopify Admin → Products → [product] → Media.
+      thumbs.forEach(t => { t.hidden = true; });
+      if (!color) return;
       const colorLower = color.toLowerCase();
-      const matchingVariantIds = variants
-        .filter(v => v.option1 === color)
-        .map(v => String(v.id));
-      thumbs.forEach(thumb => {
-        const variantIds = (thumb.dataset.variantIds || '').split(',').filter(Boolean);
-        const alt = thumb.dataset.imageAlt || '';
-        const linkedToThisColor = variantIds.some(id => matchingVariantIds.includes(id));
-        const generic = variantIds.length === 0;
-        const altMentions = alt.indexOf(colorLower) !== -1;
-        thumb.hidden = !(linkedToThisColor || generic || altMentions);
+
+      // Front: the color's variant featured_image
+      const variantForColor = variants.find(v => v.option1 === color);
+      const frontId = variantForColor && variantForColor.featured_image && variantForColor.featured_image.id;
+      if (frontId != null) {
+        const frontThumb = productEl.querySelector('.product__thumbs button[data-image-id="' + frontId + '"]');
+        if (frontThumb) frontThumb.hidden = false;
+      }
+
+      // Back & folded: first alt-text match wins
+      let backShown = false, foldedShown = false;
+      thumbs.forEach(t => {
+        const alt = (t.dataset.imageAlt || '').toLowerCase();
+        if (alt.indexOf(colorLower) === -1) return;
+        if (!backShown && alt.indexOf('back') !== -1) {
+          t.hidden = false; backShown = true; return;
+        }
+        if (!foldedShown && (alt.indexOf('fold') !== -1 || alt.indexOf('flat') !== -1)) {
+          t.hidden = false; foldedShown = true; return;
+        }
       });
     }
 
