@@ -644,15 +644,7 @@
     });
   });
 
-  // ---------- PDP thumbnail switch ----------
-  const thumbs = $$('.product__thumbs button');
-  thumbs.forEach(t => t.addEventListener('click', () => {
-    thumbs.forEach(x => x.setAttribute('aria-current', 'false'));
-    t.setAttribute('aria-current', 'true');
-    // In Liquid: swap the main image src here.
-  }));
-
-  // ---------- Variant swatch sync (PDP) ----------
+  // ---------- PDP gallery + variant sync ----------
   $$('.product').forEach(productEl => {
     const dataEl = productEl.querySelector('[data-product-variants]');
     if (!dataEl) return;
@@ -660,12 +652,12 @@
     let variants;
     try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
 
-    const form = productEl.querySelector('.product-form');
-    if (!form) return;
-
-    const hiddenId  = form.querySelector('input[name="id"]');
-    const atcButton = form.querySelector('button[type="submit"][name="add"]');
+    const form      = productEl.querySelector('.product-form');
+    const hiddenId  = form && form.querySelector('input[name="id"]');
+    const atcButton = form && form.querySelector('button[type="submit"][name="add"]');
     const priceEl   = productEl.querySelector('.product__price .product-card__price');
+    const heroImg   = productEl.querySelector('.product__hero img');
+    const thumbs    = productEl.querySelectorAll('.product__thumbs button');
 
     const money = cents => '$' + (Number(cents) / 100).toFixed(2);
 
@@ -678,6 +670,19 @@
       return opts;
     }
 
+    function getSelectedColor() {
+      // Find which option is the Color and return its current value
+      const groups = productEl.querySelectorAll('.option');
+      for (const g of groups) {
+        const label = g.querySelector('.option__label');
+        if (label && /color/i.test(label.textContent)) {
+          const checked = g.querySelector('input[type=radio]:checked');
+          if (checked) return checked.value;
+        }
+      }
+      return null;
+    }
+
     function findVariant(opts) {
       return variants.find(v => {
         const vo = v.options || [];
@@ -686,13 +691,54 @@
       });
     }
 
+    function setHero(imageId, fallbackSrc) {
+      if (!heroImg) return;
+      const matchingThumb = productEl.querySelector('.product__thumbs button[data-image-id="' + imageId + '"]');
+      if (matchingThumb && matchingThumb.dataset.heroSrc) {
+        heroImg.src = matchingThumb.dataset.heroSrc;
+      } else if (fallbackSrc) {
+        try {
+          const u = new URL(fallbackSrc);
+          u.searchParams.set('width', '1200');
+          heroImg.src = u.toString();
+        } catch (e) { heroImg.src = fallbackSrc; }
+      }
+      heroImg.dataset.imageId = String(imageId);
+      thumbs.forEach(t => t.setAttribute('aria-current', String(t.dataset.imageId) === String(imageId) ? 'true' : 'false'));
+    }
+
+    function filterGalleryByColor(color) {
+      // Show thumbnails that: (a) are linked to a variant of this color, OR
+      // (b) have no variant linkage (generic lifestyle/back shots), OR
+      // (c) have alt text mentioning this color.
+      if (!color) {
+        thumbs.forEach(t => { t.hidden = false; });
+        return;
+      }
+      const colorLower = color.toLowerCase();
+      const matchingVariantIds = variants
+        .filter(v => v.option1 === color)
+        .map(v => String(v.id));
+      thumbs.forEach(thumb => {
+        const variantIds = (thumb.dataset.variantIds || '').split(',').filter(Boolean);
+        const alt = thumb.dataset.imageAlt || '';
+        const linkedToThisColor = variantIds.some(id => matchingVariantIds.includes(id));
+        const generic = variantIds.length === 0;
+        const altMentions = alt.indexOf(colorLower) !== -1;
+        thumb.hidden = !(linkedToThisColor || generic || altMentions);
+      });
+    }
+
+    // Thumbnail clicks swap the hero without changing the variant.
+    thumbs.forEach(t => t.addEventListener('click', (e) => {
+      e.preventDefault();
+      setHero(t.dataset.imageId, t.dataset.heroSrc);
+    }));
+
     function update() {
       const v = findVariant(getSelected());
       if (!v) {
-        if (atcButton) {
-          atcButton.disabled = true;
-          atcButton.innerHTML = 'Unavailable';
-        }
+        if (atcButton) { atcButton.disabled = true; atcButton.innerHTML = 'Unavailable'; }
         return;
       }
       if (hiddenId) hiddenId.value = v.id;
@@ -705,18 +751,17 @@
         }
       }
       if (atcButton) {
-        if (v.available) {
-          atcButton.disabled = false;
-          atcButton.innerHTML = 'Add to cart · ' + money(v.price);
-        } else {
-          atcButton.disabled = true;
-          atcButton.innerHTML = 'Sold out';
-        }
+        atcButton.disabled = !v.available;
+        atcButton.innerHTML = v.available ? 'Add to cart · ' + money(v.price) : 'Sold out';
       }
       if (window.history && window.history.replaceState) {
         const url = new URL(window.location);
         url.searchParams.set('variant', v.id);
         window.history.replaceState({}, '', url);
+      }
+      filterGalleryByColor(getSelectedColor());
+      if (v.featured_image) {
+        setHero(v.featured_image.id, v.featured_image.src);
       }
     }
 

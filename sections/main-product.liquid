@@ -6,17 +6,25 @@
 
 <section class="container product" id="shopify-section-{{ section.id }}">
   <div class="product__gallery">
+    {%- assign hero_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
     <div class="product__thumbs" role="tablist" aria-label="Gallery thumbnails">
-      {%- for image in product.images limit: 6 -%}
-        <button {% if forloop.first %}aria-current="true"{% endif %}>
+      {%- for image in product.images -%}
+        <button
+          type="button"
+          data-image-id="{{ image.id }}"
+          data-hero-src="{{ image | image_url: width: 1200 }}"
+          data-image-alt="{{ image.alt | default: '' | downcase | escape }}"
+          data-variant-ids="{{ image.variant_ids | join: ',' }}"
+          aria-current="{% if image.id == hero_image.id %}true{% else %}false{% endif %}">
           <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" loading="lazy" width="80" height="80">
         </button>
       {%- endfor -%}
     </div>
     <div class="product__hero">
-      {%- if product.featured_image -%}
-        <img src="{{ product.featured_image | image_url: width: 1200 }}"
-             alt="{{ product.featured_image.alt | escape }}"
+      {%- if hero_image -%}
+        <img src="{{ hero_image | image_url: width: 1200 }}"
+             data-image-id="{{ hero_image.id }}"
+             alt="{{ hero_image.alt | escape }}"
              width="600" height="750"
              loading="eager">
       {%- endif -%}
