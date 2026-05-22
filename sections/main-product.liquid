@@ -58,6 +58,10 @@
 
       <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
+      <script type="application/json" data-product-variants>
+        {{ product.variants | json }}
+      </script>
+
       <div class="product__atc">
         <button class="btn btn--primary btn--block" type="submit" name="add" {% unless product.available %}disabled{% endunless %}>
           {%- if product.available -%}

@@ -653,10 +653,76 @@
   }));
 
   // ---------- Variant swatch sync (PDP) ----------
-  $$('.option__choices input[type=radio]').forEach(radio => {
-    radio.addEventListener('change', () => {
-      // In Liquid: post the variant change to /variants/{id}.js to update
-      // price, availability, and selected_variant id on the form.
+  $$('.product').forEach(productEl => {
+    const dataEl = productEl.querySelector('[data-product-variants]');
+    if (!dataEl) return;
+
+    let variants;
+    try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+    const form = productEl.querySelector('.product-form');
+    if (!form) return;
+
+    const hiddenId  = form.querySelector('input[name="id"]');
+    const atcButton = form.querySelector('button[type="submit"][name="add"]');
+    const priceEl   = productEl.querySelector('.product__price .product-card__price');
+
+    const money = cents => '$' + (Number(cents) / 100).toFixed(2);
+
+    function getSelected() {
+      const opts = [];
+      productEl.querySelectorAll('.option__choices').forEach(group => {
+        const checked = group.querySelector('input[type=radio]:checked');
+        if (checked) opts.push(checked.value);
+      });
+      return opts;
+    }
+
+    function findVariant(opts) {
+      return variants.find(v => {
+        const vo = v.options || [];
+        if (vo.length !== opts.length) return false;
+        return vo.every((val, i) => val === opts[i]);
+      });
+    }
+
+    function update() {
+      const v = findVariant(getSelected());
+      if (!v) {
+        if (atcButton) {
+          atcButton.disabled = true;
+          atcButton.innerHTML = 'Unavailable';
+        }
+        return;
+      }
+      if (hiddenId) hiddenId.value = v.id;
+      if (priceEl) {
+        if (v.compare_at_price && v.compare_at_price > v.price) {
+          priceEl.innerHTML = '<span class="price--sale">' + money(v.price) + '</span> ' +
+                              '<s class="price--was muted">' + money(v.compare_at_price) + '</s>';
+        } else {
+          priceEl.innerHTML = money(v.price);
+        }
+      }
+      if (atcButton) {
+        if (v.available) {
+          atcButton.disabled = false;
+          atcButton.innerHTML = 'Add to cart · ' + money(v.price);
+        } else {
+          atcButton.disabled = true;
+          atcButton.innerHTML = 'Sold out';
+        }
+      }
+      if (window.history && window.history.replaceState) {
+        const url = new URL(window.location);
+        url.searchParams.set('variant', v.id);
+        window.history.replaceState({}, '', url);
+      }
+    }
+
+    productEl.querySelectorAll('.option__choices input[type=radio]').forEach(radio => {
+      radio.addEventListener('change', update);
     });
+    update();
   });
 })();
