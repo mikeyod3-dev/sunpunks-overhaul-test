@@ -1,0 +1,187 @@
+/* =========================================================================
+   Sun Punks — USA / 4th of July seasonal overlay
+   Loaded only when settings.usa_theme = true. Toggle off to revert.
+   ========================================================================= */
+
+/* Sun-faded American palette — red/blue/cream that still feels 30A */
+.theme-usa {
+  --sunset:   #c41e3a;     /* faded patriot red */
+  --sunset-2: #971628;
+  --ocean:    #1f2a5c;     /* deep flag navy */
+  --ocean-2:  #14204a;
+  --acid:     #f7d24c;     /* keep — reads as flag gold */
+  /* sand / cream / ink unchanged so the sun-bleached base stays */
+}
+
+/* ---------- Announce bar — flag gradient ---------- */
+.theme-usa .announce {
+  background: linear-gradient(90deg,
+    #c41e3a 0%,
+    #c41e3a 33%,
+    #fbf6e9 33%,
+    #fbf6e9 66%,
+    #1f2a5c 66%,
+    #1f2a5c 100%);
+  color: var(--ink);
+  font-weight: 700;
+}
+.theme-usa .announce strong { color: #c41e3a; }
+.theme-usa .announce a { color: var(--ink); text-decoration: underline; }
+
+/* ---------- Hero — patriot wash + star field ---------- */
+.theme-usa .hero--video::before {
+  background:
+    radial-gradient(60% 50% at 50% 110%, #1f2a5cdd 0%, transparent 60%),
+    radial-gradient(60% 40% at 50% 0%, #c41e3acc 0%, transparent 70%),
+    linear-gradient(180deg, #1f2a5c40 0%, transparent 50%, #c41e3a30 100%) !important;
+}
+.theme-usa .hero--video::after {
+  background:
+    radial-gradient(2px 2px at 13% 18%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 27% 31%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 41% 12%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 55% 26%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 68% 9%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 82% 19%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 91% 34%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 7% 41%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 19% 51%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 34% 47%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 48% 62%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 62% 53%, #ffffff 50%, transparent 51%),
+    repeating-linear-gradient(0deg, #00000040 0 1px, transparent 1px 3px) !important;
+  mix-blend-mode: screen !important;
+  opacity: .5 !important;
+  animation: usa-twinkle 4s ease-in-out infinite !important;
+}
+@keyframes usa-twinkle {
+  0%, 100% { opacity: .5; }
+  50%      { opacity: .75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-usa .hero--video::after { animation: none !important; }
+}
+
+/* ---------- Hero title — flag accent ---------- */
+.theme-usa .hero-title { color: #fbf6e9; }
+.theme-usa .hero-title em {
+  color: var(--acid);
+  text-shadow:
+    -2px 2px 0 #c41e3a,
+     2px -2px 0 #1f2a5c,
+    0 4px 0 #00000040;
+}
+.theme-usa .hero-eyebrow {
+  color: var(--acid);
+  background: #00000060;
+  padding: .3rem .8rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* ---------- Buttons stay punchy ---------- */
+.theme-usa .btn--primary { background: var(--sunset); }
+.theme-usa .btn--primary:hover { background: var(--sunset-2); }
+.theme-usa .btn--ocean   { background: var(--ocean); }
+
+/* ---------- Value props strip — stripe accent ---------- */
+.theme-usa .values {
+  background: var(--ink);
+  border-top: 4px solid #c41e3a;
+  border-bottom: 4px solid #1f2a5c;
+}
+.theme-usa .values__item span { color: var(--acid); }
+
+/* ---------- Section heading — gold acid + USA mark ---------- */
+.theme-usa .mark-acid {
+  background: linear-gradient(transparent 55%, #c41e3a 55%);
+  color: #fbf6e9;
+  padding-inline: .25em;
+}
+
+/* ---------- Product card — USA badge gets red ---------- */
+.theme-usa .product-card__badge--ocean {
+  background: var(--ocean);
+  color: var(--acid);
+}
+.theme-usa .product-card__badge {
+  background: var(--sunset);
+  color: var(--acid);
+}
+
+/* ---------- Drop card (Hacky Sacks) ---------- */
+.theme-usa .dropcard {
+  background:
+    radial-gradient(60% 60% at 85% 20%, #c41e3a40 0%, transparent 60%),
+    radial-gradient(50% 50% at 15% 90%, #1f2a5c40 0%, transparent 60%),
+    var(--ink);
+  border-block-color: var(--acid);
+}
+.theme-usa .coming-stamp {
+  background: var(--sunset);
+  color: var(--acid);
+}
+
+/* ---------- Newsletter ---------- */
+.theme-usa .newsletter {
+  background: linear-gradient(135deg, #1f2a5c 0%, #c41e3a 100%);
+  color: #fbf6e9;
+}
+
+/* ---------- Footer brand dot becomes red ---------- */
+.theme-usa .site-footer__brand span { color: #c41e3a !important; }
+.theme-usa .site-header__logo .dot { color: #c41e3a; }
+
+/* ---------- Spin-to-win wheel — flag colors ---------- */
+.theme-usa .wheel__rotor {
+  background: conic-gradient(
+    #c41e3a   0deg  60deg,
+    #fbf6e9  60deg 120deg,
+    #1f2a5c 120deg 180deg,
+    #c41e3a 180deg 240deg,
+    #fbf6e9 240deg 300deg,
+    #1f2a5c 300deg 360deg) !important;
+}
+.theme-usa .wheel__label--ink { color: var(--ink); text-shadow: 0 1px 0 #ffffff80; }
+
+/* ---------- 4th of July banner (drop into a Custom HTML section) ---------- */
+.theme-usa .usa-july-banner {
+  background: repeating-linear-gradient(90deg,
+    #c41e3a 0 14px, #fbf6e9 14px 28px,
+    #1f2a5c 28px 42px, #fbf6e9 42px 56px);
+  color: var(--ink);
+  padding: 2.5rem 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+  font-family: "Anton", Impact, sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  position: relative;
+  box-shadow: 0 14px 40px -16px #00000080;
+}
+.theme-usa .usa-july-banner__inner {
+  display: inline-block;
+  background: #fbf6e9;
+  padding: 1.25rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px -8px #00000080;
+}
+.theme-usa .usa-july-banner h2 {
+  font-size: clamp(1.5rem, 1rem + 3vw, 3rem);
+  color: #c41e3a;
+  margin: 0 0 .5rem;
+}
+.theme-usa .usa-july-banner p {
+  font-family: inherit;
+  letter-spacing: .12em;
+  font-size: .95rem;
+  color: var(--ink);
+  margin: 0;
+}
+.theme-usa .usa-july-banner__star {
+  display: inline-block;
+  color: #c41e3a;
+  font-size: 1.4em;
+  margin: 0 .35em;
+  vertical-align: -.1em;
+}

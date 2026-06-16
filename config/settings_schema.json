@@ -18,6 +18,14 @@
     ]
   },
   {
+    "name": "Seasonal",
+    "settings": [
+      { "type": "header",   "content": "USA / 4th of July" },
+      { "type": "paragraph","content": "Swaps brand colors to a sun-faded American palette (red / cream / navy + gold accent), adds a flag-stripe announcement bar, a star-twinkle hero overlay, and patriotic spin-wheel colors. Turn off any time to restore the original Sun Punks theme — non-destructive." },
+      { "type": "checkbox", "id": "usa_theme", "label": "Enable USA theme", "default": false }
+    ]
+  },
+  {
     "name": "Add-ons",
     "settings": [
       { "type": "checkbox", "id": "spin_enabled", "label": "Show Spin-to-Win popup", "default": true,

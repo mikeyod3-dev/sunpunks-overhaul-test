@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/theme.css" />
+  <link rel="stylesheet" href="../assets/usa-theme.css" />
+  <script>
+    // Local preview: ?usa=1 enables the USA theme; ?usa=0 (or no param) disables it.
+    if (new URLSearchParams(location.search).get('usa') === '1') {
+      document.documentElement.dataset.usa = '1';
+      addEventListener('DOMContentLoaded', () => document.body.classList.add('theme-usa'));
+    }
+  </script>
   <!-- /LIQUID -->
 </head>
 <body data-template="index">

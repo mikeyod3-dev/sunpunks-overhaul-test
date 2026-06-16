@@ -23,6 +23,10 @@
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 
+  {%- if settings.usa_theme -%}
+    {{ 'usa-theme.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
   {% comment %} Theme editor color overrides {% endcomment %}
   <style>
     :root {
@@ -44,7 +48,7 @@
     <style id="theme-custom-css">{{ settings.custom_css }}</style>
   {%- endif -%}
 </head>
-<body data-template="{{ template | replace: '.', '-' }}">
+<body data-template="{{ template | replace: '.', '-' }}" class="{% if settings.usa_theme %}theme-usa{% endif %}">
 
   <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
 
