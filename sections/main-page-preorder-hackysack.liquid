@@ -111,17 +111,26 @@
             </div>
 
             <div id="qty-wrap"
-                 style="background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.85rem 1rem; opacity:.45;">
-              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.5rem;">
-                <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.8rem;">How many?</span>
-                <div>
-                  <strong id="qty-display" style="font-family: 'Anton', sans-serif; font-size:1.8rem; line-height:1; color: var(--sunset);">1</strong>
-                  <span style="font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; font-size:.8rem; opacity:.6;">of <span id="qty-max">–</span></span>
-                </div>
+                 style="background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.85rem 1rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.6rem;">
+                <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem;">How many?</span>
+                <span style="font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; font-size:.75rem; opacity:.6;">Max <span id="qty-max">45</span></span>
               </div>
-              <input type="range" id="qty-slider" min="1" max="1" value="1" step="1" disabled
-                     style="width:100%; accent-color: var(--sunset);">
+              <div style="display:flex; align-items:stretch; gap:.5rem;">
+                <button type="button" id="qty-minus" aria-label="Decrease quantity"
+                        style="flex:0 0 auto; width:48px; background: var(--ink); color: var(--cream); border:none; border-radius:10px; font-family: 'Anton', sans-serif; font-size:1.5rem; line-height:1; cursor:pointer;">−</button>
+                <input type="number" id="qty-input" min="1" max="45" value="1" step="1" inputmode="numeric"
+                       style="flex:1 1 auto; width:100%; padding:.6rem .5rem; border:2px solid var(--ink); border-radius:10px; font-family: 'Anton', sans-serif; font-size:1.5rem; text-align:center; background:#fff; color: var(--ink); -moz-appearance:textfield;">
+                <button type="button" id="qty-plus" aria-label="Increase quantity"
+                        style="flex:0 0 auto; width:48px; background: var(--sunset); color: var(--cream); border:none; border-radius:10px; font-family: 'Anton', sans-serif; font-size:1.5rem; line-height:1; cursor:pointer;">+</button>
+              </div>
+              <input type="range" id="qty-slider" min="1" max="45" value="1" step="1"
+                     style="width:100%; margin-top:.75rem; accent-color: var(--sunset);">
             </div>
+            <style>
+              #qty-input::-webkit-outer-spin-button,
+              #qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+            </style>
 
             <div style="padding:.7rem 1rem; background: var(--ink); color: var(--cream); border-radius: 10px; display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase;">
               <span><span id="total-qty">0</span> sacks</span>
@@ -174,8 +183,9 @@
   const pick8  = document.getElementById('pick-8');
   const pick32 = document.getElementById('pick-32');
   const slider = document.getElementById('qty-slider');
-  const qtyWrap = document.getElementById('qty-wrap');
-  const qtyDisplay = document.getElementById('qty-display');
+  const qtyInput = document.getElementById('qty-input');
+  const qtyMinus = document.getElementById('qty-minus');
+  const qtyPlus  = document.getElementById('qty-plus');
   const qtyMax = document.getElementById('qty-max');
   const totalQty = document.getElementById('total-qty');
   const totalPrice = document.getElementById('total-price');
@@ -188,6 +198,53 @@
   const liveMax32  = document.getElementById('live-max-32');
 
   let chosenStyle = null;
+  let currentCap = Math.max(left8, left32, 1);
+
+  function setCap(cap) {
+    currentCap = Math.max(1, cap);
+    if (qtyMax) qtyMax.textContent = currentCap;
+    if (slider) slider.max = String(currentCap);
+    if (qtyInput) qtyInput.max = String(currentCap);
+    const cur = getQty();
+    if (cur > currentCap) setQty(currentCap);
+    else updateTotals();
+  }
+
+  function getQty() {
+    const v = parseInt((qtyInput && qtyInput.value) || '1', 10);
+    if (isNaN(v) || v < 1) return 1;
+    if (v > currentCap) return currentCap;
+    return v;
+  }
+
+  function setQty(n) {
+    let v = parseInt(n, 10);
+    if (isNaN(v) || v < 1) v = 1;
+    if (v > currentCap) v = currentCap;
+    if (qtyInput) qtyInput.value = String(v);
+    if (slider)   slider.value   = String(v);
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const qty = getQty();
+    if (totalQty)   totalQty.textContent   = qty;
+    if (totalPrice) totalPrice.textContent = '$' + (qty * priceNum).toFixed(2);
+
+    const tagList = ['hackysack-preorder', 'newsletter'];
+    if (chosenStyle === '8panel')  tagList.push('hackysack-8panel');
+    if (chosenStyle === '32panel') tagList.push('hackysack-32panel');
+    if (tagsEl) tagsEl.value = tagList.join(', ');
+
+    if (noteEl) {
+      if (chosenStyle) {
+        const label = chosenStyle === '8panel' ? '8-panel' : '32-panel';
+        noteEl.value = 'Preorder: ' + qty + 'x ' + label + ' (' + priceText + ' each · $' + (qty * priceNum).toFixed(2) + ' total)';
+      } else {
+        noteEl.value = '';
+      }
+    }
+  }
 
   function applyLiveCounts(left_8, left_32, max_8, max_32) {
     left8  = left_8;
@@ -197,7 +254,6 @@
     if (typeof max_8  === 'number' && liveMax8)  liveMax8.textContent  = max_8;
     if (typeof max_32 === 'number' && liveMax32) liveMax32.textContent = max_32;
 
-    // Disable picker buttons when their style is sold out
     if (left_8 <= 0 && pick8) {
       pick8.disabled = true;
       pick8.style.opacity = '.45';
@@ -213,17 +269,12 @@
       if (chosenStyle === '32panel') chosenStyle = null;
     }
 
-    // Update slider max if a style is currently selected
-    if (chosenStyle && slider) {
-      const cap = chosenStyle === '8panel' ? left_8 : left_32;
-      slider.max = String(cap);
-      if (parseInt(slider.value, 10) > cap) slider.value = String(cap);
-      if (qtyMax) qtyMax.textContent = cap;
-      updateTotals();
-    }
+    // Resize cap based on selection state
+    if (chosenStyle === '8panel')  setCap(left_8);
+    else if (chosenStyle === '32panel') setCap(left_32);
+    else setCap(Math.max(left_8, left_32, 1));
   }
 
-  // Fetch live counts from the Worker on load
   if (workerUrl) {
     fetch(workerUrl + '/', { method: 'GET' })
       .then(r => r.ok ? r.json() : null)
@@ -248,44 +299,19 @@
     setPickedVisual(pick8,  style === '8panel');
     setPickedVisual(pick32, style === '32panel');
     if (pickError) pickError.style.display = 'none';
-
-    const cap = style === '8panel' ? left8 : left32;
-    if (slider) {
-      slider.disabled = false;
-      slider.max = String(cap);
-      slider.min = '1';
-      if (parseInt(slider.value, 10) > cap) slider.value = String(cap);
-      if (parseInt(slider.value, 10) < 1)   slider.value = '1';
-    }
-    if (qtyMax) qtyMax.textContent = cap;
-    if (qtyWrap) qtyWrap.style.opacity = '1';
-    updateTotals();
-  }
-
-  function updateTotals() {
-    const qty = chosenStyle ? (parseInt(slider.value, 10) || 1) : 0;
-    if (qtyDisplay) qtyDisplay.textContent = qty;
-    if (totalQty)   totalQty.textContent   = qty;
-    if (totalPrice) totalPrice.textContent = '$' + (qty * priceNum).toFixed(2);
-
-    const tagList = ['hackysack-preorder', 'newsletter'];
-    if (chosenStyle === '8panel')  tagList.push('hackysack-8panel');
-    if (chosenStyle === '32panel') tagList.push('hackysack-32panel');
-    if (tagsEl) tagsEl.value = tagList.join(', ');
-
-    if (noteEl) {
-      if (chosenStyle) {
-        const label = chosenStyle === '8panel' ? '8-panel' : '32-panel';
-        noteEl.value = 'Preorder: ' + qty + 'x ' + label + ' (' + priceText + ' each · $' + (qty * priceNum).toFixed(2) + ' total)';
-      } else {
-        noteEl.value = '';
-      }
-    }
+    setCap(style === '8panel' ? left8 : left32);
   }
 
   if (pick8)  pick8.addEventListener('click',  () => pickStyle('8panel'));
   if (pick32) pick32.addEventListener('click', () => pickStyle('32panel'));
-  if (slider) slider.addEventListener('input', updateTotals);
+
+  if (qtyMinus) qtyMinus.addEventListener('click', () => setQty(getQty() - 1));
+  if (qtyPlus)  qtyPlus.addEventListener('click',  () => setQty(getQty() + 1));
+  if (qtyInput) {
+    qtyInput.addEventListener('input',  () => { if (slider) slider.value = qtyInput.value; updateTotals(); });
+    qtyInput.addEventListener('blur',   () => setQty(qtyInput.value));
+  }
+  if (slider)   slider.addEventListener('input',   () => setQty(slider.value));
 
   function fireEmailMirror(qty) {
     try {
