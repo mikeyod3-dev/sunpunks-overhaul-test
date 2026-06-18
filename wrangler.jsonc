@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sack-counter",
+  "main": "cloudflare-worker/worker.js",
+  "compatibility_date": "2024-12-01",
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "HACKYSACK_KV",
+      "id": "f9075141cc8e4ff8b068facb2b718fac"
+    }
+  ]
+}
