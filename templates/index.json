@@ -58,6 +58,27 @@
       ],
       "settings": {}
     },
+    "main_page_preorder_hackysack_4iVUnQ": {
+      "type": "main-page-preorder-hackysack",
+      "name": "Preorder — Hacky Sack",
+      "settings": {
+        "max_8panel": 45,
+        "max_32panel": 45,
+        "taken_8panel": 0,
+        "taken_32panel": 0,
+        "price": "$14.99",
+        "stamp_text": "First 90 only",
+        "eyebrow": "Sun Punks · Summer ’26 drop",
+        "heading": "Hacky Sacks. Punks circle up.",
+        "lede": "Made for 30A. Hand-stitched, sand-tested footbags. First run is 90 total — 45 of each style. Save your spot.",
+        "button_text": "Save my spot →",
+        "trust_microcopy": "No payment now. You’ll be added to the Sun Punks list so we can ping you when the drop goes live. Unsubscribe whenever.",
+        "soldout_heading": "All 90 spots claimed.",
+        "soldout_body": "We sold through the first run. DM @sunpunksclothing on Instagram to land on the waitlist — we’ll reach out if any spots open up or when we line up a second run.",
+        "soldout_cta_text": "DM us on Instagram",
+        "soldout_cta_url": ""
+      }
+    },
     "featured": {
       "type": "featured-collection",
       "settings": {
@@ -72,6 +93,7 @@
     },
     "dropcard": {
       "type": "coming-soon-dropcard",
+      "disabled": true,
       "settings": {
         "aria_label": "Hacky sacks coming soon",
         "stamp_text": "Coming Soon",
@@ -166,6 +188,7 @@
   "order": [
     "hero",
     "values",
+    "main_page_preorder_hackysack_4iVUnQ",
     "featured",
     "dropcard",
     "ugc",
