@@ -198,10 +198,11 @@
   const liveMax32  = document.getElementById('live-max-32');
 
   let chosenStyle = null;
-  let currentCap = Math.max(left8, left32, 1);
+  const ABSOLUTE_MAX = 45;
+  let currentCap = Math.min(ABSOLUTE_MAX, Math.max(left8, left32, 1));
 
   function setCap(cap) {
-    currentCap = Math.max(1, cap);
+    currentCap = Math.min(ABSOLUTE_MAX, Math.max(1, cap));
     if (qtyMax) qtyMax.textContent = currentCap;
     if (slider) slider.max = String(currentCap);
     if (qtyInput) qtyInput.max = String(currentCap);
