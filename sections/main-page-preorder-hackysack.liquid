@@ -153,6 +153,32 @@
         {% endform %}
       {%- endif -%}
     </div>
+
+    {%- assign feature_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'feature' -%}{%- assign feature_count = feature_count | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if feature_count > 0 -%}
+      <div style="margin-top: 2.5rem; display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature' -%}
+            <div data-anim
+                 style="background: var(--cream); border: 2px solid var(--ink); border-radius: 14px; padding: 1.1rem 1.1rem 1.25rem;"
+                 {{ block.shopify_attributes }}>
+              {%- if block.settings.icon_emoji != blank -%}
+                <div style="font-size:1.6rem; line-height:1;">{{ block.settings.icon_emoji }}</div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3 style="font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing:.04em; margin-top:.5rem;">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="muted" style="margin-top:.35rem; font-size:.9rem;">{{ block.settings.body }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -308,6 +334,17 @@
       "default": "We sold through the first run. DM @sunpunksclothing on Instagram to land on the waitlist — we’ll reach out if any spots open up or when we line up a second run." },
     { "type": "text",     "id": "soldout_cta_text", "label": "Sold-out CTA text", "default": "DM us on Instagram" },
     { "type": "url",      "id": "soldout_cta_url",  "label": "Sold-out CTA URL" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature card (optional, below form)",
+      "settings": [
+        { "type": "text",     "id": "icon_emoji", "label": "Emoji / icon" },
+        { "type": "text",     "id": "title",      "label": "Title" },
+        { "type": "textarea", "id": "body",       "label": "Body" }
+      ]
+    }
   ],
   "presets": [
     { "name": "Preorder — Hacky Sack" }
