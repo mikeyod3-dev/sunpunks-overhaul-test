@@ -14,8 +14,6 @@
 
 <section class="preorder-page"
          id="preorder-section"
-         data-max-8="{{ max_8 }}"
-         data-max-32="{{ max_32 }}"
          data-server-left-8="{{ left_8 }}"
          data-server-left-32="{{ left_32 }}"
          data-price="{{ section.settings.price }}"
@@ -93,27 +91,38 @@
             </label>
 
             <div>
-              <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.4rem;">How many of each?</span>
-              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:.6rem;">
-                <label id="qty-card-8" style="display:block; background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.65rem .8rem;">
-                  <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; font-size:.75rem; color: var(--ink);">8-panel · classic</span>
-                  <input type="number" id="qty_8" min="0" max="{{ left_8 }}" value="0" inputmode="numeric"
-                         {% if sold_8 %}disabled{% endif %}
-                         style="width:100%; margin-top:.25rem; padding:.4rem .25rem; border:none; outline:none; font-size:1.4rem; font-family: 'Anton', sans-serif; background:transparent; color: var(--ink);">
-                  <small id="qty-hint-8" style="display:block; color: var(--ink); opacity:.6; font-size:.7rem; margin-top:.15rem;">
-                    {%- if sold_8 -%}Sold out{%- else -%}<span id="qty-left-8">{{ left_8 }}</span> left at {{ section.settings.price }}{%- endif -%}
-                  </small>
-                </label>
-                <label id="qty-card-32" style="display:block; background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.65rem .8rem;">
-                  <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; font-size:.75rem; color: var(--ink);">32-panel · pro</span>
-                  <input type="number" id="qty_32" min="0" max="{{ left_32 }}" value="0" inputmode="numeric"
-                         {% if sold_32 %}disabled{% endif %}
-                         style="width:100%; margin-top:.25rem; padding:.4rem .25rem; border:none; outline:none; font-size:1.4rem; font-family: 'Anton', sans-serif; background:transparent; color: var(--ink);">
-                  <small id="qty-hint-32" style="display:block; color: var(--ink); opacity:.6; font-size:.7rem; margin-top:.15rem;">
-                    {%- if sold_32 -%}Sold out{%- else -%}<span id="qty-left-32">{{ left_32 }}</span> left at {{ section.settings.price }}{%- endif -%}
-                  </small>
-                </label>
+              <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.4rem;">Pick your sack</span>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:.6rem;">
+                <button type="button" id="pick-8" data-style="8panel"
+                        {% if sold_8 %}disabled{% endif %}
+                        style="background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.85rem .6rem; cursor:pointer; text-align:center; font-family: 'Anton', sans-serif; transition: background .15s, color .15s; {% if sold_8 %}opacity:.45; cursor:not-allowed;{% endif %}">
+                  <span style="display:block; letter-spacing:.04em; text-transform: uppercase; font-size:.95rem; color: var(--ink);">8-panel</span>
+                  <span style="display:block; font-family: 'Pacifico', cursive; font-size:.85rem; margin-top:.2rem; color: var(--ink); opacity:.7;">classic</span>
+                </button>
+                <button type="button" id="pick-32" data-style="32panel"
+                        {% if sold_32 %}disabled{% endif %}
+                        style="background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.85rem .6rem; cursor:pointer; text-align:center; font-family: 'Anton', sans-serif; transition: background .15s, color .15s; {% if sold_32 %}opacity:.45; cursor:not-allowed;{% endif %}">
+                  <span style="display:block; letter-spacing:.04em; text-transform: uppercase; font-size:.95rem; color: var(--ink);">32-panel</span>
+                  <span style="display:block; font-family: 'Pacifico', cursive; font-size:.85rem; margin-top:.2rem; color: var(--ink); opacity:.7;">pro</span>
+                </button>
               </div>
+              <p id="pick-error"
+                 style="display:none; margin-top:.5rem; color: var(--sunset); font-size:.85rem;">
+                Pick 8-panel or 32-panel first.
+              </p>
+            </div>
+
+            <div id="qty-wrap"
+                 style="background:#fff; border:2px solid var(--ink); border-radius:10px; padding:.85rem 1rem; opacity:.45;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.5rem;">
+                <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.8rem;">How many?</span>
+                <div>
+                  <strong id="qty-display" style="font-family: 'Anton', sans-serif; font-size:1.8rem; line-height:1; color: var(--sunset);">1</strong>
+                  <span style="font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; font-size:.8rem; opacity:.6;">of <span id="qty-max">–</span></span>
+                </div>
+              </div>
+              <input type="range" id="qty-slider" min="1" max="1" value="1" step="1" disabled
+                     style="width:100%; accent-color: var(--sunset);">
             </div>
 
             <div id="preorder-total"
@@ -121,11 +130,6 @@
               <span><span id="total-qty">0</span> sacks</span>
               <strong style="color: var(--acid); font-size:1.2rem;"><span id="total-price">$0.00</span></strong>
             </div>
-
-            <p id="preorder-error"
-               style="display:none; padding:.6rem .9rem; background:#ffe1d6; color: var(--ink); border-radius: 10px; font-size:.9rem;">
-              Pick at least one hacky sack before saving your spot.
-            </p>
 
             <input type="hidden" name="contact[tags]" id="preorder-tags" value="hackysack-preorder, newsletter">
             <input type="hidden" name="contact[note]" id="preorder-note" value="">
@@ -162,31 +166,36 @@
   const root = document.getElementById('preorder-section');
   if (!root) return;
 
-  const KEY_8  = 'sunpunks-hs-mine-8';
-  const KEY_32 = 'sunpunks-hs-mine-32';
-  const KEY_PENDING = 'sunpunks-hs-pending';
+  // v2 keys — invalidates any prior test data stuck in localStorage
+  const KEY_8       = 'sunpunks-hs-mine-8-v2';
+  const KEY_32      = 'sunpunks-hs-mine-32-v2';
+  const KEY_PENDING = 'sunpunks-hs-pending-v2';
+
+  // Clean up old-version keys if present
+  ['sunpunks-hs-mine-8','sunpunks-hs-mine-32','sunpunks-hs-pending'].forEach(k => {
+    try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch(e){}
+  });
 
   const serverLeft8  = parseInt(root.dataset.serverLeft8,  10) || 0;
   const serverLeft32 = parseInt(root.dataset.serverLeft32, 10) || 0;
   const priceNum     = parseFloat((root.dataset.price || '').replace(/[^0-9.]/g, '')) || 0;
   const priceText    = root.dataset.price || '';
 
-  // Apply any pending quantities from a successful submit that hasn't been re-rendered yet
+  // Apply any pending from a just-completed submit
   const success = document.getElementById('preorder-success');
   if (success) {
     const pending = JSON.parse(sessionStorage.getItem(KEY_PENDING) || 'null');
     if (pending) {
-      const mine8  = (parseInt(localStorage.getItem(KEY_8),  10) || 0) + (pending.q8  || 0);
-      const mine32 = (parseInt(localStorage.getItem(KEY_32), 10) || 0) + (pending.q32 || 0);
-      localStorage.setItem(KEY_8,  String(mine8));
-      localStorage.setItem(KEY_32, String(mine32));
+      const m8  = (parseInt(localStorage.getItem(KEY_8),  10) || 0) + (pending.q8  || 0);
+      const m32 = (parseInt(localStorage.getItem(KEY_32), 10) || 0) + (pending.q32 || 0);
+      localStorage.setItem(KEY_8,  String(m8));
+      localStorage.setItem(KEY_32, String(m32));
       sessionStorage.removeItem(KEY_PENDING);
     }
   }
 
   const mine8  = parseInt(localStorage.getItem(KEY_8)  || '0', 10) || 0;
   const mine32 = parseInt(localStorage.getItem(KEY_32) || '0', 10) || 0;
-
   const adjLeft8  = Math.max(0, serverLeft8  - mine8);
   const adjLeft32 = Math.max(0, serverLeft32 - mine32);
 
@@ -196,31 +205,22 @@
   }
   setText('live-left-8',  adjLeft8);
   setText('live-left-32', adjLeft32);
-  setText('qty-left-8',   adjLeft8);
-  setText('qty-left-32',  adjLeft32);
-
-  const q8  = document.getElementById('qty_8');
-  const q32 = document.getElementById('qty_32');
-  if (q8)  q8.max  = adjLeft8;
-  if (q32) q32.max = adjLeft32;
 
   const liveStrong8  = document.getElementById('live-left-8');
   const liveStrong32 = document.getElementById('live-left-32');
-  const hint8 = document.getElementById('qty-hint-8');
-  const hint32 = document.getElementById('qty-hint-32');
+  const pick8  = document.getElementById('pick-8');
+  const pick32 = document.getElementById('pick-32');
 
   if (adjLeft8 <= 0) {
     if (liveStrong8) liveStrong8.style.color = 'var(--sunset)';
-    if (q8) { q8.disabled = true; q8.value = '0'; }
-    if (hint8) hint8.textContent = 'Sold out';
+    if (pick8) { pick8.disabled = true; pick8.style.opacity = '.45'; pick8.style.cursor = 'not-allowed'; }
   }
   if (adjLeft32 <= 0) {
     if (liveStrong32) liveStrong32.style.color = 'var(--sunset)';
-    if (q32) { q32.disabled = true; q32.value = '0'; }
-    if (hint32) hint32.textContent = 'Sold out';
+    if (pick32) { pick32.disabled = true; pick32.style.opacity = '.45'; pick32.style.cursor = 'not-allowed'; }
   }
 
-  // If both are sold out client-side, swap to the sold-out panel
+  // Both sold out → swap to sold-out panel
   if (adjLeft8 <= 0 && adjLeft32 <= 0) {
     const live = document.getElementById('preorder-live');
     const so   = document.getElementById('preorder-soldout');
@@ -231,63 +231,93 @@
     return;
   }
 
-  function clamp(n, max) {
-    if (isNaN(n) || n < 0) return 0;
-    if (n > max) return max;
-    return n;
+  const slider = document.getElementById('qty-slider');
+  const qtyWrap = document.getElementById('qty-wrap');
+  const qtyDisplay = document.getElementById('qty-display');
+  const qtyMax = document.getElementById('qty-max');
+  const totalQty = document.getElementById('total-qty');
+  const totalPrice = document.getElementById('total-price');
+  const pickError = document.getElementById('pick-error');
+  const tagsEl = document.getElementById('preorder-tags');
+  const noteEl = document.getElementById('preorder-note');
+
+  let chosenStyle = null; // '8panel' | '32panel'
+
+  function setPickedVisual(btn, picked) {
+    if (!btn) return;
+    if (picked) {
+      btn.style.background = 'var(--sunset)';
+      btn.style.color = 'var(--cream)';
+      btn.querySelectorAll('span').forEach(s => s.style.color = 'var(--cream)');
+    } else {
+      btn.style.background = '#fff';
+      btn.style.color = 'var(--ink)';
+      btn.querySelectorAll('span').forEach(s => s.style.color = 'var(--ink)');
+    }
   }
 
-  function update() {
-    if (!q8 || !q32) return;
-    let a = clamp(parseInt(q8.value, 10),  adjLeft8);
-    let b = clamp(parseInt(q32.value, 10), adjLeft32);
-    if (q8.value  !== '' && String(a) !== q8.value)  q8.value  = a;
-    if (q32.value !== '' && String(b) !== q32.value) q32.value = b;
+  function pickStyle(style) {
+    chosenStyle = style;
+    setPickedVisual(pick8,  style === '8panel');
+    setPickedVisual(pick32, style === '32panel');
+    if (pickError) pickError.style.display = 'none';
 
-    const total = a + b;
-    setText('total-qty',   total);
-    setText('total-price', '$' + (total * priceNum).toFixed(2));
+    const cap = style === '8panel' ? adjLeft8 : adjLeft32;
+    if (slider) {
+      slider.disabled = false;
+      slider.min = '1';
+      slider.max = String(cap);
+      if (parseInt(slider.value, 10) > cap) slider.value = String(cap);
+      if (parseInt(slider.value, 10) < 1)   slider.value = '1';
+    }
+    if (qtyMax) qtyMax.textContent = cap;
+    if (qtyWrap) qtyWrap.style.opacity = '1';
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const qty = chosenStyle ? (parseInt(slider.value, 10) || 1) : 0;
+    if (qtyDisplay) qtyDisplay.textContent = qty;
+    if (totalQty) totalQty.textContent = qty;
+    if (totalPrice) totalPrice.textContent = '$' + (qty * priceNum).toFixed(2);
 
     const tagList = ['hackysack-preorder', 'newsletter'];
-    if (a > 0) tagList.push('hackysack-8panel');
-    if (b > 0) tagList.push('hackysack-32panel');
-    const tagsEl = document.getElementById('preorder-tags');
+    if (chosenStyle === '8panel')  tagList.push('hackysack-8panel');
+    if (chosenStyle === '32panel') tagList.push('hackysack-32panel');
     if (tagsEl) tagsEl.value = tagList.join(', ');
 
-    const noteParts = [];
-    if (a > 0) noteParts.push(a + 'x 8-panel');
-    if (b > 0) noteParts.push(b + 'x 32-panel');
-    const noteEl = document.getElementById('preorder-note');
     if (noteEl) {
-      noteEl.value = noteParts.length
-        ? 'Preorder: ' + noteParts.join(', ') + ' (' + total + ' total · ' + priceText + ' each · $' + (total * priceNum).toFixed(2) + ' total)'
-        : '';
+      if (chosenStyle) {
+        const label = chosenStyle === '8panel' ? '8-panel' : '32-panel';
+        noteEl.value = 'Preorder: ' + qty + 'x ' + label + ' (' + priceText + ' each · $' + (qty * priceNum).toFixed(2) + ' total)';
+      } else {
+        noteEl.value = '';
+      }
     }
-
-    const err = document.getElementById('preorder-error');
-    if (err && total > 0) err.style.display = 'none';
   }
 
-  if (q8)  q8.addEventListener('input',  update);
-  if (q32) q32.addEventListener('input', update);
+  if (pick8)  pick8.addEventListener('click',  () => pickStyle('8panel'));
+  if (pick32) pick32.addEventListener('click', () => pickStyle('32panel'));
+  if (slider) slider.addEventListener('input', updateTotals);
 
   const form = document.querySelector('.preorder-form');
   if (form) {
     form.addEventListener('submit', function(e) {
-      const a = clamp(parseInt(q8 ? q8.value : 0, 10), adjLeft8);
-      const b = clamp(parseInt(q32 ? q32.value : 0, 10), adjLeft32);
-      if (a + b < 1) {
+      if (!chosenStyle) {
         e.preventDefault();
-        const err = document.getElementById('preorder-error');
-        if (err) err.style.display = 'block';
+        if (pickError) pickError.style.display = 'block';
+        if (pick8) pick8.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
-      // Stash so the post-redirect page can apply the decrement
-      sessionStorage.setItem(KEY_PENDING, JSON.stringify({ q8: a, q32: b }));
+      const qty = parseInt(slider.value, 10) || 1;
+      const pending = { q8: 0, q32: 0 };
+      if (chosenStyle === '8panel')  pending.q8  = qty;
+      if (chosenStyle === '32panel') pending.q32 = qty;
+      sessionStorage.setItem(KEY_PENDING, JSON.stringify(pending));
     });
   }
 
-  update();
+  updateTotals();
 })();
 </script>
 
@@ -300,7 +330,7 @@
     { "type": "number", "id": "max_32panel",  "label": "Max 32-panel spots",  "default": 45 },
 
     { "type": "header", "content": "Spots taken so far" },
-    { "type": "paragraph", "content": "Update manually as preorders roll in. Shopify admin → Customers → filter by tag hackysack-8panel or hackysack-32panel → sum the quantities from each customer's note → enter total spots here." },
+    { "type": "paragraph", "content": "Update manually as preorders roll in. Shopify admin → Customers → filter by tag hackysack-8panel or hackysack-32panel → open each customer to read the quantity in their note → sum totals → enter here." },
     { "type": "number", "id": "taken_8panel",  "label": "8-panel spots taken",  "default": 0 },
     { "type": "number", "id": "taken_32panel", "label": "32-panel spots taken", "default": 0 },
 
