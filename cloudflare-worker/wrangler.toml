@@ -1,0 +1,14 @@
+name = "hackysack-counter"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+# Workers KV binding — stores the live preorder counts.
+# Replace <KV_NAMESPACE_ID> below with the ID of the `hackysack-state`
+# namespace you already created in Cloudflare (Storage & Databases → KV).
+# It looks like a 32-char hex string.
+[[kv_namespaces]]
+binding = "HACKYSACK_KV"
+id = "f9075141cc8e4ff8b068facb2b718fac"
+
+# RESET_SECRET is set as a Secret in the Cloudflare dashboard
+# (Settings → Variables and Secrets), not committed here.
