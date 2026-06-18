@@ -199,17 +199,17 @@
 
   let chosenStyle = null;
   const ABSOLUTE_MAX = 45;
-  let currentCap = Math.min(ABSOLUTE_MAX, Math.max(left8, left32, 1));
+  // The qty controls always span 1..45 in the UI regardless of per-style
+  // remaining. Server-side / Worker validates on submit and returns 409
+  // if the picked style can't fulfill the requested quantity.
+  let currentCap = ABSOLUTE_MAX;
 
-  function setCap(cap) {
-    currentCap = Math.min(ABSOLUTE_MAX, Math.max(1, cap));
-    if (qtyMax) qtyMax.textContent = currentCap;
-    if (slider) slider.max = String(currentCap);
-    if (qtyInput) qtyInput.max = String(currentCap);
-    const cur = getQty();
-    if (cur > currentCap) setQty(currentCap);
-    else updateTotals();
+  function setCap() {
+    if (qtyMax) qtyMax.textContent = ABSOLUTE_MAX;
+    if (slider) slider.max = String(ABSOLUTE_MAX);
+    if (qtyInput) qtyInput.max = String(ABSOLUTE_MAX);
   }
+  setCap();
 
   function getQty() {
     const v = parseInt((qtyInput && qtyInput.value) || '1', 10);
@@ -269,11 +269,6 @@
       if (liveLeft32) liveLeft32.style.color = 'var(--sunset)';
       if (chosenStyle === '32panel') chosenStyle = null;
     }
-
-    // Resize cap based on selection state
-    if (chosenStyle === '8panel')  setCap(left_8);
-    else if (chosenStyle === '32panel') setCap(left_32);
-    else setCap(Math.max(left_8, left_32, 1));
   }
 
   if (workerUrl) {
@@ -300,7 +295,7 @@
     setPickedVisual(pick8,  style === '8panel');
     setPickedVisual(pick32, style === '32panel');
     if (pickError) pickError.style.display = 'none';
-    setCap(style === '8panel' ? left8 : left32);
+    updateTotals();
   }
 
   if (pick8)  pick8.addEventListener('click',  () => pickStyle('8panel'));
