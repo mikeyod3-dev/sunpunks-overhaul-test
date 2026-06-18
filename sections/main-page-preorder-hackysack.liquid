@@ -78,6 +78,7 @@
         <p class="muted" style="margin-top:.5rem;">{{ section.settings.form_subtext }}</p>
 
         {% form 'customer', class: 'preorder-form', novalidate: 'novalidate' %}
+          <input type="hidden" name="contact[accepts_marketing]" value="true">
           <div style="display:grid; gap:.9rem; margin-top:1.25rem;">
 
             <label style="display:block;">
@@ -99,13 +100,13 @@
                       style="width:100%; padding:.7rem .85rem; border:2px solid var(--ink); border-radius: 10px; font-size:1rem; background: #fff;">
                 <option value="" disabled selected>Pick one…</option>
                 {%- unless sold_8 -%}
-                  <option value="hackysack-preorder, hackysack-8panel">8-panel (classic) — {{ left_8 }} left</option>
+                  <option value="hackysack-preorder, hackysack-8panel, newsletter">8-panel (classic) — {{ left_8 }} left</option>
                 {%- endunless -%}
                 {%- unless sold_32 -%}
-                  <option value="hackysack-preorder, hackysack-32panel">32-panel (pro) — {{ left_32 }} left</option>
+                  <option value="hackysack-preorder, hackysack-32panel, newsletter">32-panel (pro) — {{ left_32 }} left</option>
                 {%- endunless -%}
                 {%- unless sold_8 or sold_32 -%}
-                  <option value="hackysack-preorder, hackysack-8panel, hackysack-32panel">One of each</option>
+                  <option value="hackysack-preorder, hackysack-8panel, hackysack-32panel, newsletter">One of each</option>
                 {%- endunless -%}
               </select>
             </label>
@@ -200,7 +201,7 @@
       "default": "Drop your email. We’ll DM you when the drop goes live and you get first dibs at one of the 90." },
     { "type": "text",     "id": "button_text",      "label": "Button text",      "default": "Save my spot →" },
     { "type": "textarea", "id": "trust_microcopy",  "label": "Trust microcopy",
-      "default": "No payment now. Just hopping the line. Unsubscribe whenever." },
+      "default": "No payment now. You’ll be added to the Sun Punks list so we can ping you when the drop goes live. Unsubscribe whenever." },
 
     { "type": "header", "content": "Sold-out state (shows when BOTH styles are full)" },
     { "type": "text",     "id": "soldout_heading",  "label": "Sold-out heading",
