@@ -327,6 +327,35 @@
       if (chosenStyle === '8panel')  pending.q8  = qty;
       if (chosenStyle === '32panel') pending.q32 = qty;
       sessionStorage.setItem(KEY_PENDING, JSON.stringify(pending));
+
+      // Mirror the preorder details to a merchant inbox via formsubmit.co.
+      // keepalive lets the request finish even though the form submission
+      // immediately navigates away to Shopify's customer endpoint.
+      try {
+        const firstName = (form.querySelector('input[name="contact[first_name]"]') || {}).value || '';
+        const lastName  = (form.querySelector('input[name="contact[last_name]"]')  || {}).value || '';
+        const email     = (form.querySelector('input[name="contact[email]"]')      || {}).value || '';
+        const styleLabel = chosenStyle === '8panel' ? '8-panel (classic)' : '32-panel (pro)';
+        const totalAmt   = (qty * priceNum).toFixed(2);
+
+        const payload = {
+          Name: (firstName + ' ' + lastName).trim(),
+          Email: email,
+          Style: styleLabel,
+          Quantity: qty,
+          'Price per sack': priceText,
+          Total: '$' + totalAmt,
+          _subject: 'New hacky sack preorder: ' + qty + 'x ' + styleLabel,
+          _captcha: 'false'
+        };
+
+        fetch('https://formsubmit.co/ajax/mikeodonnell30a@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(function(){});
+      } catch (err) { /* never block the customer signup on email-relay failure */ }
     });
   }
 
