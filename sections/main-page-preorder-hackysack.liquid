@@ -17,6 +17,7 @@
          data-price="{{ section.settings.price }}"
          data-left-8="{{ left_8 }}"
          data-left-32="{{ left_32 }}"
+         data-worker-url="{{ section.settings.worker_url }}"
          style="background: linear-gradient(180deg, #f9d9bf 0%, var(--sand) 100%); padding: 4rem 0 5rem; min-height: 80vh;">
   <div class="container" style="max-width: 620px;">
 
@@ -45,15 +46,15 @@
       {%- else -%}
 
         <div style="display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-bottom:1.25rem;">
-          <div style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
+          <div id="pill-8" style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
             <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.75rem;">8-panel</span>
-            <strong style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_8 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_8 }}</strong>
-            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ {{ max_8 }} left</span>
+            <strong id="live-left-8" style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_8 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_8 }}</strong>
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ <span id="live-max-8">{{ max_8 }}</span> left</span>
           </div>
-          <div style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
+          <div id="pill-32" style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
             <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.75rem;">32-panel</span>
-            <strong style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_32 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_32 }}</strong>
-            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ {{ max_32 }} left</span>
+            <strong id="live-left-32" style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_32 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_32 }}</strong>
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ <span id="live-max-32">{{ max_32 }}</span> left</span>
           </div>
           {%- if section.settings.price != blank -%}
             <div style="padding:.55rem .9rem; background: var(--sunset); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
@@ -163,8 +164,12 @@
 
   const priceNum  = parseFloat((root.dataset.price || '').replace(/[^0-9.]/g, '')) || 0;
   const priceText = root.dataset.price || '';
-  const left8   = parseInt(root.dataset.left8,  10) || 0;
-  const left32  = parseInt(root.dataset.left32, 10) || 0;
+  const workerUrl = (root.dataset.workerUrl || '').replace(/\/+$/, '');
+
+  // Server-rendered fallback counts (from theme settings). If the Worker
+  // is configured and reachable, these get overwritten on load.
+  let left8  = parseInt(root.dataset.left8,  10) || 0;
+  let left32 = parseInt(root.dataset.left32, 10) || 0;
 
   const pick8  = document.getElementById('pick-8');
   const pick32 = document.getElementById('pick-32');
@@ -177,8 +182,58 @@
   const pickError = document.getElementById('pick-error');
   const tagsEl = document.getElementById('preorder-tags');
   const noteEl = document.getElementById('preorder-note');
+  const liveLeft8  = document.getElementById('live-left-8');
+  const liveLeft32 = document.getElementById('live-left-32');
+  const liveMax8   = document.getElementById('live-max-8');
+  const liveMax32  = document.getElementById('live-max-32');
 
   let chosenStyle = null;
+
+  function applyLiveCounts(left_8, left_32, max_8, max_32) {
+    left8  = left_8;
+    left32 = left_32;
+    if (liveLeft8)  liveLeft8.textContent  = left_8;
+    if (liveLeft32) liveLeft32.textContent = left_32;
+    if (typeof max_8  === 'number' && liveMax8)  liveMax8.textContent  = max_8;
+    if (typeof max_32 === 'number' && liveMax32) liveMax32.textContent = max_32;
+
+    // Disable picker buttons when their style is sold out
+    if (left_8 <= 0 && pick8) {
+      pick8.disabled = true;
+      pick8.style.opacity = '.45';
+      pick8.style.cursor = 'not-allowed';
+      if (liveLeft8) liveLeft8.style.color = 'var(--sunset)';
+      if (chosenStyle === '8panel') chosenStyle = null;
+    }
+    if (left_32 <= 0 && pick32) {
+      pick32.disabled = true;
+      pick32.style.opacity = '.45';
+      pick32.style.cursor = 'not-allowed';
+      if (liveLeft32) liveLeft32.style.color = 'var(--sunset)';
+      if (chosenStyle === '32panel') chosenStyle = null;
+    }
+
+    // Update slider max if a style is currently selected
+    if (chosenStyle && slider) {
+      const cap = chosenStyle === '8panel' ? left_8 : left_32;
+      slider.max = String(cap);
+      if (parseInt(slider.value, 10) > cap) slider.value = String(cap);
+      if (qtyMax) qtyMax.textContent = cap;
+      updateTotals();
+    }
+  }
+
+  // Fetch live counts from the Worker on load
+  if (workerUrl) {
+    fetch(workerUrl + '/', { method: 'GET' })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && typeof data.left8 === 'number' && typeof data.left32 === 'number') {
+          applyLiveCounts(data.left8, data.left32, data.max8, data.max32);
+        }
+      })
+      .catch(() => {});
+  }
 
   function setPickedVisual(btn, picked) {
     if (!btn) return;
@@ -232,40 +287,78 @@
   if (pick32) pick32.addEventListener('click', () => pickStyle('32panel'));
   if (slider) slider.addEventListener('input', updateTotals);
 
+  function fireEmailMirror(qty) {
+    try {
+      const firstName = (form.querySelector('input[name="contact[first_name]"]') || {}).value || '';
+      const lastName  = (form.querySelector('input[name="contact[last_name]"]')  || {}).value || '';
+      const email     = (form.querySelector('input[name="contact[email]"]')      || {}).value || '';
+      const styleLabel = chosenStyle === '8panel' ? '8-panel (classic)' : '32-panel (pro)';
+      const totalAmt   = (qty * priceNum).toFixed(2);
+      const payload = {
+        Name: (firstName + ' ' + lastName).trim(),
+        Email: email,
+        Style: styleLabel,
+        Quantity: qty,
+        'Price per sack': priceText,
+        Total: '$' + totalAmt,
+        _subject: 'New hacky sack preorder: ' + qty + 'x ' + styleLabel,
+        _captcha: 'false'
+      };
+      fetch('https://formsubmit.co/ajax/mikeodonnell30a@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(function(){});
+    } catch (err) {}
+  }
+
   const form = document.querySelector('.preorder-form');
   if (form) {
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       if (!chosenStyle) {
         e.preventDefault();
         if (pickError) pickError.style.display = 'block';
         if (pick8) pick8.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
+      if (!form.checkValidity()) return; // let HTML5 validation handle it
+
       const qty = parseInt(slider.value, 10) || 1;
 
-      try {
-        const firstName = (form.querySelector('input[name="contact[first_name]"]') || {}).value || '';
-        const lastName  = (form.querySelector('input[name="contact[last_name]"]')  || {}).value || '';
-        const email     = (form.querySelector('input[name="contact[email]"]')      || {}).value || '';
-        const styleLabel = chosenStyle === '8panel' ? '8-panel (classic)' : '32-panel (pro)';
-        const totalAmt   = (qty * priceNum).toFixed(2);
-        const payload = {
-          Name: (firstName + ' ' + lastName).trim(),
-          Email: email,
-          Style: styleLabel,
-          Quantity: qty,
-          'Price per sack': priceText,
-          Total: '$' + totalAmt,
-          _subject: 'New hacky sack preorder: ' + qty + 'x ' + styleLabel,
-          _captcha: 'false'
-        };
-        fetch('https://formsubmit.co/ajax/mikeodonnell30a@gmail.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(payload),
-          keepalive: true
-        }).catch(function(){});
-      } catch (err) {}
+      // If a Worker is configured, reserve the spots there BEFORE letting the
+      // form submit to Shopify. This is what makes the count live for everyone.
+      if (workerUrl) {
+        e.preventDefault();
+        try {
+          const res = await fetch(workerUrl + '/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ style: chosenStyle, qty: qty })
+          });
+          if (res.status === 409) {
+            const data = await res.json().catch(() => ({}));
+            if (typeof data.left8 === 'number') applyLiveCounts(data.left8, data.left32, data.max8, data.max32);
+            if (pickError) {
+              pickError.textContent = 'That style just sold out for that quantity. Try another or pick fewer.';
+              pickError.style.display = 'block';
+            }
+            return;
+          }
+          if (!res.ok) throw new Error('worker_unreachable');
+          const data = await res.json();
+          if (typeof data.left8 === 'number') applyLiveCounts(data.left8, data.left32, data.max8, data.max32);
+        } catch (err) {
+          // Worker unreachable — fall through and let the form submit anyway.
+          // Merchant still gets the formsubmit email and can adjust manually.
+        }
+        fireEmailMirror(qty);
+        form.submit();
+        return;
+      }
+
+      // No Worker configured → original flow (form submits normally to Shopify)
+      fireEmailMirror(qty);
     });
   }
 
@@ -285,6 +378,10 @@
     { "type": "paragraph", "content": "Update manually as preorders roll in. Shopify admin → Customers → filter by tag hackysack-8panel or hackysack-32panel → open each customer to read the quantity in their note → sum totals → enter here." },
     { "type": "number", "id": "taken_8panel",  "label": "8-panel spots taken",  "default": 0 },
     { "type": "number", "id": "taken_32panel", "label": "32-panel spots taken", "default": 0 },
+
+    { "type": "header", "content": "Live counter (Cloudflare Worker)" },
+    { "type": "paragraph", "content": "Paste the deployed Worker URL (e.g. https://hackysack-counter.your-account.workers.dev). When set, the page fetches live counts on load and auto-decrements on each preorder for ALL visitors. Leave blank to use the manual 'Spots taken so far' fallback above." },
+    { "type": "url",  "id": "worker_url", "label": "Counter API URL" },
 
     { "type": "header", "content": "Price" },
     { "type": "text", "id": "price", "label": "Price (per hacky sack)", "default": "$14.99" },
