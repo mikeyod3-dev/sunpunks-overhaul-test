@@ -66,6 +66,7 @@
         "max_32panel": 45,
         "taken_8panel": 0,
         "taken_32panel": 0,
+        "worker_url": "https://sack-counter.mikeyod3.workers.dev",
         "price": "$14.99",
         "stamp_text": "First 90 only",
         "eyebrow": "Sun Punks · Summer ’26 drop",
