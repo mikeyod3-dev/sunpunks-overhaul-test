@@ -28,8 +28,19 @@
         <h1 class="h1" style="margin-top:.5rem;">{{ section.settings.heading }}</h1>
         <p class="lede" style="margin-top:1rem; max-width: 52ch;">{{ section.settings.lede }}</p>
 
+        {%- if section.settings.price != blank -%}
+          <div class="preorder-price"
+               style="margin-top:1.5rem; display:inline-flex; align-items:baseline; gap:.5rem;
+                      padding:.55rem 1rem; background: var(--sunset); color: var(--cream);
+                      border-radius: 8px; transform: rotate(-1.5deg); box-shadow: 0 4px 0 var(--ink);">
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.8rem;">{{ section.settings.price_label }}</span>
+            <strong style="font-family: 'Anton', sans-serif; font-size: 1.5rem; line-height:1;">{{ section.settings.price }}</strong>
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.75rem; opacity:.85;">per sack</span>
+          </div>
+        {%- endif -%}
+
         <div class="preorder-counters"
-             style="margin-top:1.75rem; display:flex; flex-wrap:wrap; gap:.75rem;">
+             style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:.75rem;">
           {%- if sold_out -%}
             <div style="padding:.85rem 1.2rem; background: var(--ink); color: var(--cream); border-radius: 999px; box-shadow: 0 6px 0 var(--acid);">
               <strong style="font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing:.04em;">ALL {{ max_total }} SPOTS CLAIMED</strong>
@@ -111,6 +122,13 @@
               </select>
             </label>
 
+            {%- if section.settings.price != blank -%}
+              <div style="margin-top:.25rem; padding:.6rem .85rem; background: var(--sand); border: 2px dashed var(--ink); border-radius: 10px; display:flex; align-items:baseline; justify-content:space-between; gap:.5rem;">
+                <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem;">Your sack runs</span>
+                <strong style="font-family: 'Anton', sans-serif; font-size: 1.25rem; line-height:1; color: var(--sunset);">{{ section.settings.price }}</strong>
+              </div>
+            {%- endif -%}
+
             <button class="btn btn--primary" type="submit" style="margin-top:.5rem;">
               {{ section.settings.button_text }}
             </button>
@@ -186,6 +204,10 @@
     { "type": "paragraph", "content": "Update manually as signups roll in. Shopify admin → Customers → filter by tag hackysack-8panel or hackysack-32panel → see count → enter here." },
     { "type": "number", "id": "taken_8panel",  "label": "8-panel signups so far",  "default": 0 },
     { "type": "number", "id": "taken_32panel", "label": "32-panel signups so far", "default": 0 },
+
+    { "type": "header", "content": "Price" },
+    { "type": "text", "id": "price_label", "label": "Price label", "default": "Preorder price" },
+    { "type": "text", "id": "price",       "label": "Price (per hacky sack)", "default": "$14.99" },
 
     { "type": "header", "content": "Hero" },
     { "type": "text",     "id": "stamp_text", "label": "Stamp text", "default": "First 90 only" },
