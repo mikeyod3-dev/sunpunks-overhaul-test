@@ -149,19 +149,6 @@
         "heading": "Pick your weapon"
       }
     },
-    "custom_html": {
-      "type": "custom-html",
-      "settings": {
-        "eyebrow": "Drop anything here",
-        "heading": "Custom HTML block",
-        "html": "<p style=\"text-align:center; max-width:640px; margin:0 auto;\">Edit this section in the theme editor — drop in an iframe, video embed, mailing list signup, banner, anything that takes HTML.</p>",
-        "full_width": false,
-        "tight": true,
-        "bg_color": "",
-        "text_color": "",
-        "eyebrow_color": ""
-      }
-    },
     "newsletter": {
       "type": "newsletter",
       "settings": {
@@ -170,16 +157,70 @@
         "subtext": "No spam. Just sunsets and 10% off your first order.",
         "button_text": "Sign me up"
       }
+    },
+    "main_page_preorder_hackysack_9Cw9qF": {
+      "type": "main-page-preorder-hackysack",
+      "blocks": {
+        "feature_6qbWje": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🌅",
+            "title": "Made on 30A",
+            "body": "Stitched by hand on the panhandle. Salt-tested before they ship."
+          }
+        },
+        "feature_RiVjTB": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🟠",
+            "title": "8 or 32 panel",
+            "body": "Classic 8-panel for chill circles. 32-panel for the pros stalling at sunset."
+          }
+        },
+        "feature_E9XXYY": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🔥",
+            "title": "First 90 only",
+            "body": "When the 90 are claimed, we close the list. No restock guaranteed."
+          }
+        }
+      },
+      "block_order": [
+        "feature_6qbWje",
+        "feature_RiVjTB",
+        "feature_E9XXYY"
+      ],
+      "name": "Preorder — Hacky Sack",
+      "settings": {
+        "max_8panel": 45,
+        "max_32panel": 45,
+        "taken_8panel": 0,
+        "taken_32panel": 0,
+        "stamp_text": "First 90 only",
+        "eyebrow": "Sun Punks · Summer ’26 drop",
+        "heading": "Hacky Sacks. Punks circle up.",
+        "lede": "Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is 90 total — 45 of each style. Claim yours.",
+        "form_eyebrow": "Reserve your spot",
+        "form_heading": "Save my hacky sack.",
+        "form_subtext": "Drop your email. We’ll DM you when the drop goes live and you get first dibs at one of the 90.",
+        "button_text": "Save my spot →",
+        "trust_microcopy": "No payment now. You’ll be added to the Sun Punks list so we can ping you when the drop goes live. Unsubscribe whenever.",
+        "soldout_heading": "All 90 spots claimed.",
+        "soldout_body": "We sold through the first run. DM @sunpunksclothing on Instagram to land on the waitlist — we’ll reach out if any spots open up or when we line up a second run.",
+        "soldout_cta_text": "DM us on Instagram",
+        "soldout_cta_url": ""
+      }
     }
   },
   "order": [
     "hero",
     "values",
+    "main_page_preorder_hackysack_9Cw9qF",
     "featured",
     "dropcard",
     "ugc",
     "tiles",
-    "custom_html",
     "newsletter"
   ]
 }

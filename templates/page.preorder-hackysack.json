@@ -1,14 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-page-preorder-hackysack",
       "blocks": {
-        "f1": { "type": "feature", "settings": { "icon_emoji": "🌅", "title": "Made on 30A",   "body": "Stitched by hand on the panhandle. Salt-tested before they ship." } },
-        "f2": { "type": "feature", "settings": { "icon_emoji": "🟠", "title": "8 or 32 panel", "body": "Classic 8-panel for chill circles. 32-panel for the pros stalling at sunset." } },
-        "f3": { "type": "feature", "settings": { "icon_emoji": "🔥", "title": "First 90 only", "body": "When the 90 are claimed, we close the list. No restock guaranteed." } }
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🌅",
+            "title": "Made on 30A",
+            "body": "Stitched by hand on the panhandle. Salt-tested before they ship."
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🟠",
+            "title": "8 or 32 panel",
+            "body": "Classic 8-panel for chill circles. 32-panel for the pros stalling at sunset."
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🔥",
+            "title": "First 90 only",
+            "body": "When the 90 are claimed, we close the list. No restock guaranteed."
+          }
+        }
       },
-      "block_order": ["f1", "f2", "f3"]
+      "block_order": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
