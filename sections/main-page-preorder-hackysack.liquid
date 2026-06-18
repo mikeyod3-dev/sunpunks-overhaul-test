@@ -166,15 +166,28 @@
   const root = document.getElementById('preorder-section');
   if (!root) return;
 
-  // v2 keys — invalidates any prior test data stuck in localStorage
   const KEY_8       = 'sunpunks-hs-mine-8-v2';
   const KEY_32      = 'sunpunks-hs-mine-32-v2';
   const KEY_PENDING = 'sunpunks-hs-pending-v2';
 
-  // Clean up old-version keys if present
+  // Always wipe legacy v1 keys
   ['sunpunks-hs-mine-8','sunpunks-hs-mine-32','sunpunks-hs-pending'].forEach(k => {
     try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch(e){}
   });
+
+  // ?reset=1 (or ?reset) wipes ALL preorder localStorage and reloads clean
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('reset')) {
+      [KEY_8, KEY_32, KEY_PENDING].forEach(k => {
+        try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch(e){}
+      });
+      params.delete('reset');
+      const clean = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.location.replace(clean);
+      return;
+    }
+  } catch(e) {}
 
   const serverLeft8  = parseInt(root.dataset.serverLeft8,  10) || 0;
   const serverLeft32 = parseInt(root.dataset.serverLeft32, 10) || 0;
