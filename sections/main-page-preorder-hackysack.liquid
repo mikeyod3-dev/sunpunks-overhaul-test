@@ -15,63 +15,21 @@
 {%- assign sold_32 = false -%}{%- if left_32 <= 0 -%}{%- assign sold_32 = true -%}{%- endif -%}
 {%- assign sold_out = false -%}{%- if sold_8 and sold_32 -%}{%- assign sold_out = true -%}{%- endif -%}
 
-<section class="preorder-hero"
-         style="background: linear-gradient(180deg, #f9d9bf 0%, var(--sand) 100%); border-bottom: 4px solid var(--acid); padding: 4rem 0 3rem;">
-  <div class="container">
-    <div class="preorder-hero__grid"
-         style="display:grid; gap:3rem; align-items:center; grid-template-columns: 1.2fr .8fr;">
-      <div data-anim="left">
-        <span class="coming-stamp">
-          {%- if sold_out -%}Sold out{%- else -%}{{ section.settings.stamp_text }}{%- endif -%}
-        </span>
-        <p class="eyebrow" style="color: var(--sunset); margin-top:.75rem;">{{ section.settings.eyebrow }}</p>
-        <h1 class="h1" style="margin-top:.5rem;">{{ section.settings.heading }}</h1>
-        <p class="lede" style="margin-top:1rem; max-width: 52ch;">{{ section.settings.lede }}</p>
+<section class="preorder-page"
+         style="background: linear-gradient(180deg, #f9d9bf 0%, var(--sand) 100%); padding: 4rem 0 5rem; min-height: 80vh;">
+  <div class="container" style="max-width: 620px;">
 
-        {%- if section.settings.price != blank -%}
-          <div class="preorder-price"
-               style="margin-top:1.5rem; display:inline-flex; align-items:baseline; gap:.5rem;
-                      padding:.55rem 1rem; background: var(--sunset); color: var(--cream);
-                      border-radius: 8px; transform: rotate(-1.5deg); box-shadow: 0 4px 0 var(--ink);">
-            <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.8rem;">{{ section.settings.price_label }}</span>
-            <strong style="font-family: 'Anton', sans-serif; font-size: 1.5rem; line-height:1;">{{ section.settings.price }}</strong>
-            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.75rem; opacity:.85;">per sack</span>
-          </div>
-        {%- endif -%}
-
-        <div class="preorder-counters"
-             style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:.75rem;">
-          {%- if sold_out -%}
-            <div style="padding:.85rem 1.2rem; background: var(--ink); color: var(--cream); border-radius: 999px; box-shadow: 0 6px 0 var(--acid);">
-              <strong style="font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing:.04em;">ALL {{ max_total }} SPOTS CLAIMED</strong>
-            </div>
-          {%- else -%}
-            <div style="padding:.7rem 1.1rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.5rem;">
-              <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.85rem;">8-panel</span>
-              <strong style="font-family: 'Anton', sans-serif; font-size: 1.4rem; line-height:1; color: {% if sold_8 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_8 }}</strong>
-              <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.8rem;">/ {{ max_8 }} left</span>
-            </div>
-            <div style="padding:.7rem 1.1rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.5rem;">
-              <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.85rem;">32-panel</span>
-              <strong style="font-family: 'Anton', sans-serif; font-size: 1.4rem; line-height:1; color: {% if sold_32 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_32 }}</strong>
-              <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.8rem;">/ {{ max_32 }} left</span>
-            </div>
-          {%- endif -%}
-        </div>
-      </div>
-
-      <div class="preorder-hero__visual" aria-hidden="true" data-anim="scale"
-           style="display:flex; justify-content:center;">
-        <div class="hacky-sack" style="transform: scale(1.15);"></div>
-      </div>
+    <div style="text-align:center;" data-anim>
+      <span class="coming-stamp">
+        {%- if sold_out -%}Sold out{%- else -%}{{ section.settings.stamp_text }}{%- endif -%}
+      </span>
+      <p class="eyebrow" style="color: var(--sunset); margin-top:.75rem;">{{ section.settings.eyebrow }}</p>
+      <h1 class="h1" style="margin-top:.5rem;">{{ section.settings.heading }}</h1>
+      <p class="lede" style="margin-top:1rem;">{{ section.settings.lede }}</p>
     </div>
-  </div>
-</section>
 
-<section class="section" id="reserve" style="padding: 3rem 0;">
-  <div class="container">
     <div class="preorder-form-wrap"
-         style="max-width: 560px; margin: 0 auto; background: var(--cream);
+         style="margin: 2rem auto 0; background: var(--cream);
                 border: 3px solid var(--ink); border-radius: 18px; padding: 2rem 1.75rem;
                 box-shadow: 8px 8px 0 var(--ink);">
 
@@ -84,19 +42,42 @@
              href="{{ section.settings.soldout_cta_url }}">{{ section.settings.soldout_cta_text }}</a>
         {%- endif -%}
       {%- else -%}
-        <p class="eyebrow" style="color: var(--sunset);">{{ section.settings.form_eyebrow }}</p>
-        <h2 class="h2" style="margin-top:.25rem;">{{ section.settings.form_heading }}</h2>
-        <p class="muted" style="margin-top:.5rem;">{{ section.settings.form_subtext }}</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-bottom:1.25rem;">
+          <div style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.75rem;">8-panel</span>
+            <strong style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_8 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_8 }}</strong>
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ {{ max_8 }} left</span>
+          </div>
+          <div style="padding:.55rem .9rem; background: var(--ink); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.06em; text-transform: uppercase; font-size:.75rem;">32-panel</span>
+            <strong style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1; color: {% if sold_32 %}var(--sunset){% else %}var(--acid){% endif %};">{{ left_32 }}</strong>
+            <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">/ {{ max_32 }} left</span>
+          </div>
+          {%- if section.settings.price != blank -%}
+            <div style="padding:.55rem .9rem; background: var(--sunset); color: var(--cream); border-radius: 999px; display:inline-flex; align-items:baseline; gap:.4rem;">
+              <strong style="font-family: 'Anton', sans-serif; font-size: 1.15rem; line-height:1;">{{ section.settings.price }}</strong>
+              <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.7rem;">per sack</span>
+            </div>
+          {%- endif -%}
+        </div>
 
         {% form 'customer', class: 'preorder-form', novalidate: 'novalidate' %}
           <input type="hidden" name="contact[accepts_marketing]" value="true">
-          <div style="display:grid; gap:.9rem; margin-top:1.25rem;">
+          <div style="display:grid; gap:.9rem;">
 
-            <label style="display:block;">
-              <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.3rem;">First name</span>
-              <input type="text" name="contact[first_name]" required autocomplete="given-name"
-                     style="width:100%; padding:.7rem .85rem; border:2px solid var(--ink); border-radius: 10px; font-size:1rem; background: #fff;">
-            </label>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:.6rem;">
+              <label style="display:block;">
+                <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.3rem;">First name</span>
+                <input type="text" name="contact[first_name]" required autocomplete="given-name"
+                       style="width:100%; padding:.7rem .85rem; border:2px solid var(--ink); border-radius: 10px; font-size:1rem; background: #fff;">
+              </label>
+              <label style="display:block;">
+                <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.3rem;">Last name</span>
+                <input type="text" name="contact[last_name]" required autocomplete="family-name"
+                       style="width:100%; padding:.7rem .85rem; border:2px solid var(--ink); border-radius: 10px; font-size:1rem; background: #fff;">
+              </label>
+            </div>
 
             <label style="display:block;">
               <span style="display:block; font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem; margin-bottom:.3rem;">Email</span>
@@ -122,23 +103,16 @@
               </select>
             </label>
 
-            {%- if section.settings.price != blank -%}
-              <div style="margin-top:.25rem; padding:.6rem .85rem; background: var(--sand); border: 2px dashed var(--ink); border-radius: 10px; display:flex; align-items:baseline; justify-content:space-between; gap:.5rem;">
-                <span style="font-family: 'Anton', sans-serif; letter-spacing:.05em; text-transform: uppercase; font-size:.85rem;">Your sack runs</span>
-                <strong style="font-family: 'Anton', sans-serif; font-size: 1.25rem; line-height:1; color: var(--sunset);">{{ section.settings.price }}</strong>
-              </div>
-            {%- endif -%}
-
             <button class="btn btn--primary" type="submit" style="margin-top:.5rem;">
               {{ section.settings.button_text }}
             </button>
 
-            <p class="muted" style="font-size:.85rem; margin-top:.25rem;">
+            <p class="muted" style="font-size:.85rem; margin-top:.25rem; text-align:center;">
               {{ section.settings.trust_microcopy }}
             </p>
 
             {%- if form.posted_successfully? -%}
-              <p style="margin-top:.5rem; padding:.75rem 1rem; background: var(--acid); color: var(--ink); border-radius: 10px; font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase;">
+              <p style="margin-top:.5rem; padding:.75rem 1rem; background: var(--acid); color: var(--ink); border-radius: 10px; font-family: 'Anton', sans-serif; letter-spacing:.04em; text-transform: uppercase; text-align:center;">
                 You're in. We'll email you when the drop goes live.
               </p>
             {%- endif -%}
@@ -150,47 +124,10 @@
             {%- endif -%}
           </div>
         {% endform %}
-
-        {%- if sold_8 or sold_32 -%}
-          <p class="muted" style="margin-top: 1rem; font-size:.85rem;">
-            {%- if sold_8 -%}Heads up: 8-panel is sold out — only 32-panel spots remain.{%- endif -%}
-            {%- if sold_32 -%}Heads up: 32-panel is sold out — only 8-panel spots remain.{%- endif -%}
-          </p>
-        {%- endif -%}
       {%- endif -%}
     </div>
   </div>
 </section>
-
-{%- if section.blocks.size > 0 -%}
-  <section class="section section--tight" style="padding: 2rem 0 4rem;">
-    <div class="container">
-      <div class="preorder-features"
-           style="display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'feature' -%}
-            <div data-anim
-                 style="background: var(--cream); border: 2px solid var(--ink); border-radius: 14px; padding: 1.25rem 1.25rem 1.5rem;"
-                 {{ block.shopify_attributes }}>
-              {%- if block.settings.icon_emoji != blank -%}
-                <div style="font-size:1.75rem; line-height:1;">{{ block.settings.icon_emoji }}</div>
-              {%- endif -%}
-              <h3 style="font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing:.04em; margin-top:.5rem;">{{ block.settings.title }}</h3>
-              <p class="muted" style="margin-top:.4rem;">{{ block.settings.body }}</p>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </div>
-  </section>
-{%- endif -%}
-
-<style>
-  @media (max-width: 740px) {
-    .preorder-hero__grid { grid-template-columns: 1fr !important; }
-    .preorder-hero__visual { order: -1; }
-  }
-</style>
 
 {% schema %}
 {
@@ -206,21 +143,16 @@
     { "type": "number", "id": "taken_32panel", "label": "32-panel signups so far", "default": 0 },
 
     { "type": "header", "content": "Price" },
-    { "type": "text", "id": "price_label", "label": "Price label", "default": "Preorder price" },
-    { "type": "text", "id": "price",       "label": "Price (per hacky sack)", "default": "$14.99" },
+    { "type": "text", "id": "price", "label": "Price (per hacky sack)", "default": "$14.99" },
 
     { "type": "header", "content": "Hero" },
     { "type": "text",     "id": "stamp_text", "label": "Stamp text", "default": "First 90 only" },
     { "type": "text",     "id": "eyebrow",    "label": "Eyebrow",    "default": "Sun Punks · Summer ’26 drop" },
     { "type": "text",     "id": "heading",    "label": "Heading",    "default": "Hacky Sacks. Punks circle up." },
     { "type": "textarea", "id": "lede",       "label": "Lede",
-      "default": "Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is 90 total — 45 of each style. Claim yours." },
+      "default": "Made for 30A. Hand-stitched, sand-tested footbags. First run is 90 total — 45 of each style. Save your spot." },
 
     { "type": "header", "content": "Signup form" },
-    { "type": "text",     "id": "form_eyebrow",     "label": "Form eyebrow",     "default": "Reserve your spot" },
-    { "type": "text",     "id": "form_heading",     "label": "Form heading",     "default": "Save my hacky sack." },
-    { "type": "textarea", "id": "form_subtext",     "label": "Form subtext",
-      "default": "Drop your email. We’ll DM you when the drop goes live and you get first dibs at one of the 90." },
     { "type": "text",     "id": "button_text",      "label": "Button text",      "default": "Save my spot →" },
     { "type": "textarea", "id": "trust_microcopy",  "label": "Trust microcopy",
       "default": "No payment now. You’ll be added to the Sun Punks list so we can ping you when the drop goes live. Unsubscribe whenever." },
@@ -233,27 +165,8 @@
     { "type": "text",     "id": "soldout_cta_text", "label": "Sold-out CTA text", "default": "DM us on Instagram" },
     { "type": "url",      "id": "soldout_cta_url",  "label": "Sold-out CTA URL" }
   ],
-  "blocks": [
-    {
-      "type": "feature",
-      "name": "Feature card",
-      "settings": [
-        { "type": "text",     "id": "icon_emoji", "label": "Emoji / icon", "default": "🌅" },
-        { "type": "text",     "id": "title",      "label": "Title",        "default": "Made on 30A" },
-        { "type": "textarea", "id": "body",       "label": "Body",
-          "default": "Stitched by hand on the panhandle. Salt-tested before they ship." }
-      ]
-    }
-  ],
   "presets": [
-    {
-      "name": "Preorder — Hacky Sack",
-      "blocks": [
-        { "type": "feature", "settings": { "icon_emoji": "🌅", "title": "Made on 30A",      "body": "Stitched by hand on the panhandle. Salt-tested before they ship." } },
-        { "type": "feature", "settings": { "icon_emoji": "🟠", "title": "8 or 32 panel",    "body": "Classic 8-panel for chill circles. 32-panel for the pros stalling at sunset." } },
-        { "type": "feature", "settings": { "icon_emoji": "🔥", "title": "First 90 only",    "body": "When the 90 are claimed, we close the list. No restock guaranteed." } }
-      ]
-    }
+    { "name": "Preorder — Hacky Sack" }
   ]
 }
 {% endschema %}
