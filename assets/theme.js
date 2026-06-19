@@ -719,23 +719,30 @@
     }
 
     function filterGalleryByColor(color) {
-      // Show ONLY 3 thumbnails per color — front, back, folded.
-      //
-      // Anchor: when a merchant accidentally uploads the front shot twice,
-      // the duplicate gets a UUID suffix on the filename but the same base.
-      // The back + folded shots are uploaded immediately before that
-      // duplicate. So: find the duplicate of each color's front by base
-      // filename, then back = (dup position - 2), folded = (dup position - 1).
-      //
-      // Fallbacks if the duplicate pattern isn't present:
-      //   1. Alt-text match — "Bay back", "Bay folded", "Bay flat lay"
-      //   2. If nothing matches, only the front shows.
+      // Primary: filter thumbs by image.variant_ids — show every image the
+      // merchant linked to the selected color's variants.
+      // Fallback (legacy uploads without variant linking): duplicate-anchor
+      // by filename, then alt-text containing color + "back" / "folded".
 
       thumbs.forEach(t => { t.hidden = true; });
       if (!color) return;
       const colorLower = color.toLowerCase();
 
-      const variantForColor = variants.find(v => v.option1 === color);
+      const variantsForColor = variants.filter(v => v.option1 === color);
+      const variantIdSet = new Set(variantsForColor.map(v => String(v.id)));
+
+      const allThumbs = Array.from(thumbs);
+      let matchedAny = false;
+      allThumbs.forEach(t => {
+        const vids = (t.dataset.variantIds || '').split(',').filter(Boolean);
+        if (vids.some(id => variantIdSet.has(id))) {
+          t.hidden = false;
+          matchedAny = true;
+        }
+      });
+      if (matchedAny) return;
+
+      const variantForColor = variantsForColor[0];
       const frontImage = variantForColor && variantForColor.featured_image;
       if (!frontImage) return;
 
@@ -746,7 +753,6 @@
       // ---- duplicate-anchor strategy ----
       const frontBase = imageBaseName(frontImage.src);
       let dupPos = null;
-      const allThumbs = Array.from(thumbs);
       for (const t of allThumbs) {
         if (Number(t.dataset.imageId) === frontImage.id) continue;
         if (imageBaseName(t.dataset.imageSrc || t.dataset.heroSrc) === frontBase) {

@@ -2,13 +2,43 @@
   Usage: {% render 'product-card', product: product, badge: 'New' %}
 {%- endcomment -%}
 
+{%- assign featured = product.featured_image -%}
 {%- assign back_image = nil -%}
-{%- for img in product.images -%}
-  {%- if img.id != product.featured_image.id -%}
-    {%- assign back_image = img -%}
-    {%- break -%}
+
+{%- if featured and featured.variant_ids.size > 0 -%}
+  {%- assign target_v = featured.variant_ids.first -%}
+  {%- comment -%} Prefer same-variant image whose alt mentions "back" {%- endcomment -%}
+  {%- for img in product.images -%}
+    {%- if img.id != featured.id and img.variant_ids contains target_v -%}
+      {%- assign alt_lower = img.alt | default: '' | downcase -%}
+      {%- if alt_lower contains 'back' -%}
+        {%- assign back_image = img -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- comment -%} Any other same-variant image {%- endcomment -%}
+  {%- if back_image == nil -%}
+    {%- for img in product.images -%}
+      {%- if img.id != featured.id and img.variant_ids contains target_v -%}
+        {%- assign back_image = img -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
   {%- endif -%}
-{%- endfor -%}
+{%- endif -%}
+
+{%- if back_image == nil -%}
+  {%- for img in product.images -%}
+    {%- if img.id != featured.id -%}
+      {%- assign alt_lower = img.alt | default: '' | downcase -%}
+      {%- if alt_lower contains 'back' -%}
+        {%- assign back_image = img -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
 <article class="product-card{% if back_image %} product-card--has-back{% endif %}">
   <a href="{{ product.url }}">
