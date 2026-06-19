@@ -2,7 +2,15 @@
   Usage: {% render 'product-card', product: product, badge: 'New' %}
 {%- endcomment -%}
 
-<article class="product-card">
+{%- assign back_image = nil -%}
+{%- for img in product.images -%}
+  {%- if img.id != product.featured_image.id -%}
+    {%- assign back_image = img -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<article class="product-card{% if back_image %} product-card--has-back{% endif %}">
   <a href="{{ product.url }}">
     <div class="product-card__media">
       {%- if badge != blank -%}
@@ -13,6 +21,7 @@
 
       {%- if product.featured_image -%}
         <img
+          class="product-card__img product-card__img--front"
           src="{{ product.featured_image | image_url: width: 600 }}"
           srcset="{{ product.featured_image | image_url: width: 300 }} 300w,
                   {{ product.featured_image | image_url: width: 600 }} 600w,
@@ -21,6 +30,19 @@
           alt="{{ product.featured_image.alt | escape }}"
           loading="lazy"
           width="600" height="750">
+        {%- if back_image -%}
+          <img
+            class="product-card__img product-card__img--back"
+            src="{{ back_image | image_url: width: 600 }}"
+            srcset="{{ back_image | image_url: width: 300 }} 300w,
+                    {{ back_image | image_url: width: 600 }} 600w,
+                    {{ back_image | image_url: width: 900 }} 900w"
+            sizes="(min-width: 990px) 25vw, 50vw"
+            alt="{{ back_image.alt | escape }}"
+            loading="lazy"
+            aria-hidden="true"
+            width="600" height="750">
+        {%- endif -%}
       {%- else -%}
         <svg viewBox="0 0 4 5" preserveAspectRatio="none" width="100%" height="100%">
           <rect width="4" height="5" fill="#f4ead5"/>
