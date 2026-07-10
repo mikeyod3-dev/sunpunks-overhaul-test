@@ -70,23 +70,6 @@
         "demo_set": "featured"
       }
     },
-    "dropcard": {
-      "type": "coming-soon-dropcard",
-      "disabled": true,
-      "settings": {
-        "aria_label": "Hacky sacks coming soon",
-        "stamp_text": "Coming Soon",
-        "eyebrow": "Next drop · Summer ’26",
-        "heading": "Hacky <em>Sacks.</em><br>Punks circle up.",
-        "lede": "Hand-stitched, sand-tested footbags built for barefoot beach circles, parking-lot kick-arounds, and sunset hangs on the 30A. First run is limited — pack your crew.",
-        "meta_items": "8 panel & 32 panel | Dropping summer ’26",
-        "cta_primary_text": "Get on the list →",
-        "cta_primary_url": "",
-        "cta_secondary_text": "Shop the current drop",
-        "cta_secondary_url": "",
-        "sticker_text": "Soon"
-      }
-    },
     "tiles": {
       "type": "collection-tiles",
       "blocks": {
@@ -162,7 +145,6 @@
     "hero",
     "values",
     "featured",
-    "dropcard",
     "tiles",
     "newsletter",
     "17818132711ee90f4c",
