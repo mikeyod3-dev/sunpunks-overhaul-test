@@ -152,6 +152,10 @@
     "17818132711ee90f4c": {
       "type": "apps",
       "settings": {}
+    },
+    "1783714691e2790baa": {
+      "type": "apps",
+      "settings": {}
     }
   },
   "order": [
@@ -161,6 +165,7 @@
     "dropcard",
     "tiles",
     "newsletter",
-    "17818132711ee90f4c"
+    "17818132711ee90f4c",
+    "1783714691e2790baa"
   ]
 }
